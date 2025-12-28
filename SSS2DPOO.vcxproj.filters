@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{ccac67c0-510e-4866-9b6d-adff56267256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{ae3ea161-61e4-47ab-8da7-3b8eae2eb22c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Configuration">
+      <UniqueIdentifier>{42f458bd-e516-4981-b084-8aea42b5be6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="textures">
+      <UniqueIdentifier>{ff788612-4c6c-488c-ae7e-d5d20871f142}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SSS2DPOO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Comet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuPlanet.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CosmicButton.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AppState.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Comet.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CosmicButton.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuPlanet.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Planet.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile.make">
+      <Filter>Configuration</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>Configuration</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt">
+      <Filter>Configuration</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\SolarSystemSim\textures\venus.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\SolarSystemSim\textures\mercury.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\SolarSystemSim\textures\neptune.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\SolarSystemSim\textures\saturn.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\SolarSystemSim\textures\earth.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\SolarSystemSim\textures\mars.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\uranus .jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\sun.jpg">
+      <Filter>textures</Filter>
+    </Image>
+    <Image Include="..\..\..\Downloads\jupiter.jpg">
+      <Filter>textures</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
