@@ -5,31 +5,764 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <cmath>
+#include <iostream>
+#include <algorithm>
+
+// ===== ÉTOILES FILANTES =====
+struct ShootingStar {
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+    float lifetime;
+    float maxLifetime;
+    sf::VertexArray trail;
+
+    ShootingStar() : trail(sf::LineStrip, 20), lifetime(1.5f), maxLifetime(1.5f) {}
+};
+
+static std::vector<ShootingStar> shootingStars;
+static float shootingStarTimer = 0.f;
+
+// ===== FONCTION MISE À JOUR ÉTOILES FILANTES =====
+void updateShootingStars(float deltaTime, unsigned int width, unsigned int height) {
+    shootingStarTimer += deltaTime;
+
+    // Créer une étoile filante toutes les 4-7 secondes
+    if (shootingStarTimer > 4.f + static_cast<float>(std::rand() % 30) / 10.f) {
+        shootingStarTimer = 0.f;
+
+        ShootingStar star;
+        star.position = sf::Vector2f(
+            static_cast<float>(std::rand() % width),
+            static_cast<float>(std::rand() % (height / 3))
+        );
+        star.velocity = sf::Vector2f(
+            350.f + static_cast<float>(std::rand() % 200),
+            120.f + static_cast<float>(std::rand() % 100)
+        );
+        star.lifetime = star.maxLifetime;
+        shootingStars.push_back(star);
+    }
+
+    // Mettre à jour les étoiles filantes
+    for (auto& star : shootingStars) {
+        star.position += star.velocity * deltaTime;
+        star.lifetime -= deltaTime;
+
+        // Mettre à jour la traînée
+        for (int i = 19; i > 0; --i) {
+            star.trail[i].position = star.trail[i - 1].position;
+            float alpha = 255.f * (1.f - static_cast<float>(i) / 20.f) * (star.lifetime / star.maxLifetime);
+            star.trail[i].color = sf::Color(255, 255, 255, static_cast<sf::Uint8>(std::max(0.f, alpha)));
+        }
+        star.trail[0].position = star.position;
+        float headAlpha = 255.f * (star.lifetime / star.maxLifetime);
+        star.trail[0].color = sf::Color(255, 255, 255, static_cast<sf::Uint8>(std::max(0.f, headAlpha)));
+    }
+
+    // Nettoyer les étoiles mortes
+    shootingStars.erase(
+        std::remove_if(shootingStars.begin(), shootingStars.end(),
+            [](const ShootingStar& s) { return s.lifetime <= 0.f; }),
+        shootingStars.end()
+    );
+}
+
+// ===== FONCTION DESSIN ÉTOILES FILANTES =====
+void drawShootingStars(sf::RenderWindow& window) {
+    for (const auto& star : shootingStars) {
+        window.draw(star.trail);
+
+        // Point lumineux à la tête
+        sf::CircleShape head(2.5f);
+        head.setOrigin(2.5f, 2.5f);
+        head.setPosition(star.position);
+        float alpha = 255.f * (star.lifetime / star.maxLifetime);
+        head.setFillColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(std::max(0.f, alpha))));
+        window.draw(head);
+    }
+}
+// ===== EFFET PARALLAXE =====
+static sf::Vector2f mouseParallaxOffset(0.f, 0.f);
+
+void updateParallaxEffect(const sf::Vector2f& mousePos, const sf::Vector2u& windowSize) {
+    float centerX = static_cast<float>(windowSize.x) / 2.f;
+    float centerY = static_cast<float>(windowSize.y) / 2.f;
+
+    // Calculer le décalage cible basé sur la position de la souris
+    float targetX = (mousePos.x - centerX) / centerX * 20.f;
+    float targetY = (mousePos.y - centerY) / centerY * 15.f;
+
+    // Interpolation douce pour un mouvement fluide (lerp)
+    mouseParallaxOffset.x += (targetX - mouseParallaxOffset.x) * 0.08f;
+    mouseParallaxOffset.y += (targetY - mouseParallaxOffset.y) * 0.08f;
+}
+
+// Getter pour accéder à l'offset depuis d'autres fonctions
+sf::Vector2f getParallaxOffset() {
+    return mouseParallaxOffset;
+}
+// ===== PLANÈTES INTERACTIVES AVEC TOOLTIP =====
+struct PlanetTooltip {
+    std::string name;
+    sf::Vector2f position;
+    float alpha;
+    bool visible;
+    int hoveredIndex;
+
+    PlanetTooltip() : name(""), position(0.f, 0.f), alpha(0.f),
+        visible(false), hoveredIndex(-1) {
+    }
+};
+
+static PlanetTooltip planetTooltip;
+
+// Mise à jour de l'interaction avec les planètes
+// Mise à jour de l'interaction avec les planètes
+void updatePlanetInteraction(std::vector<MenuPlanet>& menuPlanets,
+    const sf::Vector2f& mousePos,
+    float deltaTime) {
+    bool foundHover = false;
+
+    for (size_t i = 0; i < menuPlanets.size(); ++i) {
+        auto& mp = menuPlanets[i];
+        sf::Vector2f planetPos = mp.getPosition();
+
+        // ✅ CORRIGÉ : Utiliser les getters au lieu d'accéder directement aux membres privés
+        float baseRadius = mp.getRadius();
+        float currentScale = mp.getScale().x;
+        float effectiveRadius = baseRadius * currentScale;
+
+        // Calculer la distance entre la souris et le centre de la planète
+        float distance = std::sqrt(
+            std::pow(mousePos.x - planetPos.x, 2) +
+            std::pow(mousePos.y - planetPos.y, 2)
+        );
+
+        // Vérifier si la souris survole la planète
+        if (distance < effectiveRadius + 12.f) {
+            foundHover = true;
+            planetTooltip.hoveredIndex = static_cast<int>(i);
+            planetTooltip.name = mp.getName();
+            planetTooltip.position = planetPos;
+            planetTooltip.visible = true;
+
+            // ✅ CORRIGÉ : Utiliser setScale au lieu d'accéder directement
+            float targetScale = 1.5f;
+            float newScale = currentScale + (targetScale - currentScale) * 0.15f;
+            mp.setScale(newScale, newScale);
+
+            // Augmenter l'alpha du tooltip
+            planetTooltip.alpha = std::min(255.f, planetTooltip.alpha + 800.f * deltaTime);
+        }
+        else {
+            // Réduire progressivement l'échelle si pas survolée
+            float currentScaleVal = mp.getScale().x;
+            if (currentScaleVal > 1.f) {
+                float newScale = currentScaleVal + (1.f - currentScaleVal) * 0.12f;
+                if (newScale < 1.01f) newScale = 1.f;
+                mp.setScale(newScale, newScale);
+            }
+        }
+    }
+
+    // Si aucune planète n'est survolée, faire disparaître le tooltip
+    if (!foundHover) {
+        planetTooltip.alpha = std::max(0.f, planetTooltip.alpha - 600.f * deltaTime);
+        if (planetTooltip.alpha <= 0.f) {
+            planetTooltip.visible = false;
+            planetTooltip.hoveredIndex = -1;
+        }
+    }
+}
+
+// Dessiner le tooltip de la planète
+void drawPlanetTooltip(sf::RenderWindow& window, const sf::Font& font) {
+    if (!planetTooltip.visible || planetTooltip.alpha <= 5.f) return;
+
+    sf::Uint8 alpha = static_cast<sf::Uint8>(std::min(255.f, planetTooltip.alpha));
+
+    // Position du tooltip au-dessus de la planète
+    float tooltipY = planetTooltip.position.y - 50.f;
+
+    // Fond du tooltip avec bordure arrondie (simulée avec rectangle)
+    float textWidth = static_cast<float>(planetTooltip.name.length()) * 10.f + 30.f;
+    sf::RectangleShape tooltipBg(sf::Vector2f(textWidth, 32.f));
+    tooltipBg.setOrigin(textWidth / 2.f, 16.f);
+    tooltipBg.setPosition(planetTooltip.position.x, tooltipY);
+    tooltipBg.setFillColor(sf::Color(15, 20, 40, static_cast<sf::Uint8>(alpha * 0.9f)));
+    tooltipBg.setOutlineThickness(2.f);
+    tooltipBg.setOutlineColor(sf::Color(100, 200, 255, alpha));
+    window.draw(tooltipBg);
+
+    // Texte du nom de la planète
+    sf::Text tooltipText(planetTooltip.name, font, 16);
+    sf::FloatRect textBounds = tooltipText.getLocalBounds();
+    tooltipText.setOrigin(textBounds.width / 2.f, textBounds.height / 2.f);
+    tooltipText.setPosition(planetTooltip.position.x, tooltipY - 2.f);
+    tooltipText.setFillColor(sf::Color(255, 255, 255, alpha));
+    tooltipText.setStyle(sf::Text::Bold);
+    window.draw(tooltipText);
+
+    // Petite flèche pointant vers la planète
+    sf::ConvexShape arrow;
+    arrow.setPointCount(3);
+    arrow.setPoint(0, sf::Vector2f(0.f, 0.f));
+    arrow.setPoint(1, sf::Vector2f(-8.f, -12.f));
+    arrow.setPoint(2, sf::Vector2f(8.f, -12.f));
+    arrow.setPosition(planetTooltip.position.x, tooltipY + 16.f);
+    arrow.setFillColor(sf::Color(100, 200, 255, alpha));
+    window.draw(arrow);
+
+    // Effet de lueur autour de la planète survolée
+    sf::CircleShape hoverGlow(25.f);
+    hoverGlow.setOrigin(25.f, 25.f);
+    hoverGlow.setPosition(planetTooltip.position);
+    hoverGlow.setFillColor(sf::Color(100, 200, 255, static_cast<sf::Uint8>(alpha * 0.15f)));
+    window.draw(hoverGlow);
+}
+
+// Structure pour les particules de couleur
+struct Particle {
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+    sf::Vector2f acceleration;
+    sf::Color color;
+    float lifetime;
+    float maxLifetime;
+    float size;
+    float rotation;
+    float rotationSpeed;
+
+    // Constructeur pour initialiser tous les membres
+    Particle() : position(0.f, 0.f), velocity(0.f, 0.f), acceleration(0.f, 0.f),
+        color(255, 255, 255, 255), lifetime(0.f), maxLifetime(0.f),
+        size(0.f), rotation(0.f), rotationSpeed(0.f) {
+    }
+};
+
+struct LightTrail {
+    sf::VertexArray trail;
+    float lifetime;
+    float maxLifetime;
+    sf::Color color;
+
+    // Constructeur
+    LightTrail() : trail(sf::LineStrip, 2), lifetime(0.f),
+        maxLifetime(0.f), color(255, 255, 255, 255) {
+    }
+};
+
+// Variables globales pour les particules - VARIABLES CRITIQUES DÉCLARÉES ICI
+static std::vector<Particle> menuParticles;
+static std::vector<LightTrail> lightTrails;  // ✅ VARIABLE MANQUANTE AJOUTÉE
+static float particleEmissionTimer = 0.f;
+
+// ===== ASTRONAUTE, VAISSEAU NASA ET MÉTÉORITES =====
+static sf::Texture astronautTexture;
+static sf::Texture spacecraftTexture;
+static sf::Texture meteoriteTexture;
+static bool spaceElementsLoaded = false;
+
+// Structure pour l'astronaute flottant
+struct FloatingAstronaut {
+    sf::Sprite sprite;
+    sf::Vector2f position;
+    float floatPhase;
+    bool loaded;
+
+    FloatingAstronaut() : position(100.f, 550.f), floatPhase(0.f), loaded(false) {}
+
+    void update(float deltaTime) {
+        floatPhase += deltaTime * 1.5f;
+        float floatX = 8.f * std::sin(floatPhase * 0.8f);
+        float floatY = 12.f * std::sin(floatPhase);
+        sprite.setPosition(position.x + floatX, position.y + floatY);
+        sprite.setRotation(5.f * std::sin(floatPhase * 0.5f));
+    }
+
+    void draw(sf::RenderWindow& window) {
+        if (loaded) {
+            window.draw(sprite);
+        }
+    }
+};
+
+// Structure pour le vaisseau NASA
+struct NASASpacecraft {
+    sf::Sprite sprite;
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+    float phase;
+    bool loaded;
+
+    NASASpacecraft() : position(-100.f, 120.f), velocity(50.f, 0.f),
+        phase(0.f), loaded(false) {
+    }
+
+    void update(float deltaTime, unsigned int windowWidth) {
+        phase += deltaTime;
+        position.x += velocity.x * deltaTime;
+
+        if (position.x > static_cast<float>(windowWidth) + 100.f) {
+            position.x = -150.f;
+            position.y = 80.f + static_cast<float>(std::rand() % 150);
+        }
+
+        float waveY = 10.f * std::sin(phase * 2.f);
+        sprite.setPosition(position.x, position.y + waveY);
+        sprite.setRotation(3.f * std::sin(phase * 1.5f));
+    }
+
+    void draw(sf::RenderWindow& window) {
+        if (loaded) {
+            window.draw(sprite);
+        }
+    }
+};
+
+// Structure pour les météorites
+struct Meteorite {
+    sf::Sprite sprite;
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+    float rotation;
+    float rotationSpeed;
+    float scale;
+    bool active;
+    sf::VertexArray trail;
+
+    Meteorite() : position(0.f, 0.f), velocity(0.f, 0.f), rotation(0.f),
+        rotationSpeed(0.f), scale(1.f), active(false),
+        trail(sf::LineStrip, 10) {
+    }
+
+    void spawn(unsigned int windowWidth, unsigned int windowHeight) {
+        int side = std::rand() % 3;
+        if (side == 0) {
+            position.x = static_cast<float>(std::rand() % windowWidth);
+            position.y = -50.f;
+            velocity.x = static_cast<float>(std::rand() % 80 - 40);
+            velocity.y = 100.f + static_cast<float>(std::rand() % 80);
+        }
+        else if (side == 1) {
+            position.x = -50.f;
+            position.y = static_cast<float>(std::rand() % (windowHeight / 2));
+            velocity.x = 80.f + static_cast<float>(std::rand() % 60);
+            velocity.y = 50.f + static_cast<float>(std::rand() % 40);
+        }
+        else {
+            position.x = static_cast<float>(windowWidth) + 50.f;
+            position.y = static_cast<float>(std::rand() % (windowHeight / 2));
+            velocity.x = -(80.f + static_cast<float>(std::rand() % 60));
+            velocity.y = 50.f + static_cast<float>(std::rand() % 40);
+        }
+
+        rotation = static_cast<float>(std::rand() % 360);
+        rotationSpeed = static_cast<float>(std::rand() % 300 - 150);
+
+        // ✅ TAILLE RÉDUITE : entre 0.05 et 0.15 (au lieu de 0.2 à 0.87)
+        scale = 0.05f + static_cast<float>(std::rand() % 100) / 1000.f;
+        active = true;
+
+        for (int i = 0; i < 10; ++i) {
+            trail[i].position = position;
+            trail[i].color = sf::Color(255, 150, 50, 0);
+        }
+    }
+
+    void update(float deltaTime, unsigned int windowWidth, unsigned int windowHeight) {
+        if (!active) return;
+
+        position += velocity * deltaTime;
+        rotation += rotationSpeed * deltaTime;
+
+        sprite.setPosition(position);
+        sprite.setRotation(rotation);
+        sprite.setScale(scale, scale);
+
+        for (int i = 9; i > 0; --i) {
+            trail[i].position = trail[i - 1].position;
+            float alpha = 150.f * (1.f - static_cast<float>(i) / 10.f);
+            trail[i].color = sf::Color(255, 100 + i * 10, 50,
+                static_cast<sf::Uint8>(std::max(0.f, alpha)));
+        }
+        trail[0].position = position;
+        trail[0].color = sf::Color(255, 180, 80, 180);
+
+        if (position.x < -100.f || position.x > windowWidth + 100.f ||
+            position.y > windowHeight + 100.f) {
+            active = false;
+        }
+    }
+
+    void draw(sf::RenderWindow& window, bool textureLoaded) {
+        if (!active) return;
+
+        window.draw(trail);
+
+        if (textureLoaded) {
+            window.draw(sprite);
+        }
+        else {
+            // ✅ Fallback avec taille réduite
+            sf::CircleShape meteor(8.f * scale * 10.f); // Ajusté pour le fallback
+            meteor.setOrigin(8.f * scale * 10.f, 8.f * scale * 10.f);
+            meteor.setPosition(position);
+            meteor.setFillColor(sf::Color(139, 90, 43));
+            meteor.setOutlineThickness(1.f);
+            meteor.setOutlineColor(sf::Color(180, 130, 80));
+            window.draw(meteor);
+        }
+    }
+};
+
+// Instances globales
+static FloatingAstronaut menuAstronaut;
+static NASASpacecraft menuSpacecraft;
+static std::vector<Meteorite> menuMeteorites(5);
+static float meteoriteSpawnTimer = 0.f;
+
+// Fonction d'initialisation des éléments spatiaux
+void initializeSpaceElements() {
+    if (spaceElementsLoaded) return;
+
+    // Charger texture astronaute
+    if (astronautTexture.loadFromFile("textures/astronaut.png")) {
+        astronautTexture.setSmooth(true);
+        menuAstronaut.sprite.setTexture(astronautTexture);
+        sf::FloatRect bounds = menuAstronaut.sprite.getLocalBounds();
+        float scale = 100.f / std::max(bounds.width, bounds.height);
+        menuAstronaut.sprite.setScale(scale, scale);
+        menuAstronaut.sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+        menuAstronaut.position = sf::Vector2f(100.f, 580.f);
+        menuAstronaut.loaded = true;
+        std::cout << "Astronaut texture loaded successfully!" << std::endl;
+    }
+    else {
+        std::cerr << "Failed to load astronaut.png" << std::endl;
+    }
+
+    // Charger texture vaisseau
+    if (spacecraftTexture.loadFromFile("textures/spacecraft.png")) {
+        spacecraftTexture.setSmooth(true);
+        menuSpacecraft.sprite.setTexture(spacecraftTexture);
+        sf::FloatRect bounds = menuSpacecraft.sprite.getLocalBounds();
+        float scale = 70.f / std::max(bounds.width, bounds.height);
+        menuSpacecraft.sprite.setScale(scale, scale);
+        menuSpacecraft.sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+        menuSpacecraft.loaded = true;
+        std::cout << "Spacecraft texture loaded successfully!" << std::endl;
+    }
+    else {
+        std::cerr << "Failed to load spacecraft.png" << std::endl;
+    }
+
+    // Charger texture météorite - ✅ TAILLE RÉDUITE
+    if (meteoriteTexture.loadFromFile("textures/meteorite.png")) {
+        meteoriteTexture.setSmooth(true);
+        for (auto& m : menuMeteorites) {
+            m.sprite.setTexture(meteoriteTexture);
+            sf::FloatRect bounds = m.sprite.getLocalBounds();
+            m.sprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+            // ✅ Échelle initiale petite (sera multipliée par scale dans spawn)
+            m.sprite.setScale(0.1f, 0.1f);
+        }
+        std::cout << "Meteorite texture loaded successfully!" << std::endl;
+    }
+    else {
+        std::cerr << "Failed to load meteorite.png" << std::endl;
+    }
+
+    spaceElementsLoaded = true;
+}
+
+// Fonction de mise à jour des éléments spatiaux
+void updateSpaceElements(float deltaTime, unsigned int windowWidth, unsigned int windowHeight) {
+    initializeSpaceElements();
+
+    menuAstronaut.update(deltaTime);
+    menuSpacecraft.update(deltaTime, windowWidth);
+
+    meteoriteSpawnTimer += deltaTime;
+    if (meteoriteSpawnTimer > 2.5f + static_cast<float>(std::rand() % 30) / 10.f) {
+        meteoriteSpawnTimer = 0.f;
+
+        for (auto& m : menuMeteorites) {
+            if (!m.active) {
+                m.spawn(windowWidth, windowHeight);
+                break;
+            }
+        }
+    }
+
+    for (auto& m : menuMeteorites) {
+        m.update(deltaTime, windowWidth, windowHeight);
+    }
+}
+
+// Fonction de dessin des éléments spatiaux
+void drawSpaceElements(sf::RenderWindow& window) {
+    // Météorites (arrière-plan)
+    bool meteorTextureOK = meteoriteTexture.getSize().x > 0;
+    for (auto& m : menuMeteorites) {
+        m.draw(window, meteorTextureOK);
+    }
+
+    // Vaisseau
+    menuSpacecraft.draw(window);
+
+    // Astronaute (premier plan)
+    menuAstronaut.draw(window);
+}
+// ===== PALETTE DE COULEURS FUTURISTE =====
+
+FuturisticPalette::FuturisticPalette()
+    : deepPurple(8, 15, 35),           // Bleu nuit profond (au lieu de violet)
+    electricBlue(30, 100, 180),        // Bleu spatial réaliste
+    luminousPink(50, 80, 120),         // Bleu-gris pour nébuleuses (au lieu de rose)
+    solarYellow(255, 200, 50),         // Jaune solaire réaliste
+    crispWhite(255, 255, 255)          // Blanc pur pour étoiles
+{
+}
+
+// Variables globales pour le fond futuriste
+static FuturisticPalette cosmoColors;
+static sf::RenderTexture backgroundTexture;
+static bool backgroundInitialized = false;
+
+/**
+ * @brief Génère un dégradé diagonal lisse du violet au bleu
+ */
+void generateGradientBackground(sf::RenderTexture& texture, const FuturisticPalette& palette,
+    unsigned int width, unsigned int height) {
+    texture.clear(palette.deepPurple);
+
+    for (unsigned int y = 0; y < height; ++y) {
+        for (unsigned int x = 0; x < width; ++x) {
+            float t = (static_cast<float>(x) / width + static_cast<float>(y) / height) / 2.f;
+            t = std::max(0.f, std::min(1.f, t));
+
+            sf::Color color(
+                static_cast<sf::Uint8>(palette.deepPurple.r * (1.f - t) + palette.electricBlue.r * t),
+                static_cast<sf::Uint8>(palette.deepPurple.g * (1.f - t) + palette.electricBlue.g * t),
+                static_cast<sf::Uint8>(palette.deepPurple.b * (1.f - t) + palette.electricBlue.b * t)
+            );
+
+            sf::CircleShape pixel(0.5f);
+            pixel.setPosition(static_cast<float>(x), static_cast<float>(y));
+            pixel.setFillColor(color);
+            texture.draw(pixel);
+        }
+    }
+}
+
+/**
+ * @brief Ajoute des nébuleuses vaporeu...ses animées au fond
+ */
+void addNebulasToBackground(sf::RenderTexture& texture, const FuturisticPalette& palette,
+    float phase, unsigned int width, unsigned int height) {
+    sf::CircleShape nebula1(350.f);
+    nebula1.setPosition(-50.f, -100.f);
+    float alpha1 = static_cast<sf::Uint8>(40 + 35 * std::sin(phase));
+    nebula1.setFillColor(sf::Color(palette.deepPurple.r, palette.deepPurple.g,
+        palette.deepPurple.b, alpha1));
+    texture.draw(nebula1);
+
+    sf::CircleShape nebula2(320.f);
+    nebula2.setPosition(static_cast<float>(width) - 200.f, static_cast<float>(height) - 150.f);
+    float alpha2 = static_cast<sf::Uint8>(35 + 30 * std::sin(phase + 1.57f));
+    nebula2.setFillColor(sf::Color(palette.electricBlue.r, palette.electricBlue.g,
+        palette.electricBlue.b, alpha2));
+    texture.draw(nebula2);
+
+    sf::CircleShape nebula3(300.f);
+    nebula3.setPosition(static_cast<float>(width) - 100.f, static_cast<float>(height) / 2.f - 150.f);
+    float alpha3 = static_cast<sf::Uint8>(30 + 25 * std::sin(phase + 3.14f));
+    nebula3.setFillColor(sf::Color(palette.luminousPink.r, palette.luminousPink.g,
+        palette.luminousPink.b, alpha3));
+    texture.draw(nebula3);
+}
+
+/**
+ * @brief Ajoute des points lumineux (étoiles/particules) au fond
+ */
+void addLuminousPointsToBackground(sf::RenderTexture& texture, const FuturisticPalette& palette,
+    unsigned int width, unsigned int height) {
+    std::srand(42);
+
+    for (int i = 0; i < 150; ++i) {
+        float x = static_cast<float>(std::rand() % width);
+        float y = static_cast<float>(std::rand() % height);
+        float size = 0.5f + static_cast<float>(std::rand() % 3);
+
+        sf::CircleShape point(size);
+        point.setPosition(x, y);
+
+        int colorChoice = std::rand() % 100;
+        if (colorChoice < 70) {
+            point.setFillColor(palette.crispWhite);
+        }
+        else if (colorChoice < 90) {
+            point.setFillColor(palette.solarYellow);
+        }
+        else {
+            point.setFillColor(palette.luminousPink);
+        }
+
+        texture.draw(point);
+    }
+}
+
+/**
+ * @brief Ajoute des traînées lumineuses courbes (orbites/flux d'énergie)
+ */
+void addEnergyTracesToBackground(sf::RenderTexture& texture, const FuturisticPalette& palette,
+    unsigned int width, unsigned int height) {
+    sf::VertexArray trace1(sf::LineStrip, 50);
+    for (int i = 0; i < 50; ++i) {
+        float t = static_cast<float>(i) / 50.f;
+        float x = t * width * 0.8f;
+        float y = 100.f + t * height * 0.6f + 50.f * std::sin(t * 6.28f);
+
+        sf::Uint8 alpha = static_cast<sf::Uint8>(150 * (1.f - t));
+        trace1[i].position = sf::Vector2f(x, y);
+        trace1[i].color = sf::Color(palette.luminousPink.r, palette.luminousPink.g,
+            palette.luminousPink.b, alpha);
+    }
+    texture.draw(trace1);
+
+    sf::VertexArray trace2(sf::LineStrip, 50);
+    for (int i = 0; i < 50; ++i) {
+        float t = static_cast<float>(i) / 50.f;
+        float x = width - t * width * 0.7f;
+        float y = height - 100.f - t * height * 0.5f + 40.f * std::cos(t * 6.28f);
+
+        sf::Uint8 alpha = static_cast<sf::Uint8>(120 * (1.f - t));
+        trace2[i].position = sf::Vector2f(x, y);
+        trace2[i].color = sf::Color(palette.electricBlue.r, palette.electricBlue.g,
+            palette.electricBlue.b, alpha);
+    }
+    texture.draw(trace2);
+}
+
+/**
+ * @brief Ajoute un noyau solaire énergétique stylisé au centre
+ */
+void addSolarCoreToBackground(sf::RenderTexture& texture, const FuturisticPalette& palette,
+    unsigned int width, unsigned int height, float phase) {
+    sf::Vector2f center(width / 2.f, height / 2.f);
+
+    sf::CircleShape auraOuter(120.f);
+    auraOuter.setOrigin(120.f, 120.f);
+    auraOuter.setPosition(center);
+    float auraAlpha1 = static_cast<sf::Uint8>(60 + 40 * std::sin(phase));
+    auraOuter.setFillColor(sf::Color(palette.luminousPink.r, palette.luminousPink.g,
+        palette.luminousPink.b, auraAlpha1));
+    texture.draw(auraOuter);
+
+    sf::CircleShape auraMiddle(80.f);
+    auraMiddle.setOrigin(80.f, 80.f);
+    auraMiddle.setPosition(center);
+    float auraAlpha2 = static_cast<sf::Uint8>(40 + 30 * std::sin(phase + 1.57f));
+    auraMiddle.setFillColor(sf::Color(palette.electricBlue.r, palette.electricBlue.g,
+        palette.electricBlue.b, auraAlpha2));
+    texture.draw(auraMiddle);
+
+    sf::CircleShape core(50.f);
+    core.setOrigin(50.f, 50.f);
+    core.setPosition(center);
+    core.setFillColor(palette.solarYellow);
+    texture.draw(core);
+
+    sf::CircleShape brightCore(20.f);
+    brightCore.setOrigin(20.f, 20.f);
+    brightCore.setPosition(center);
+    brightCore.setFillColor(palette.crispWhite);
+    texture.draw(brightCore);
+}
+
+/**
+ * @brief Initialise et génère le fond d'écran futuriste complet
+ */
+void initializeFuturisticBackground(sf::RenderWindow& window) {
+    if (backgroundInitialized) return;
+
+    unsigned int width = window.getSize().x;
+    unsigned int height = window.getSize().y;
+
+    if (!backgroundTexture.create(width, height)) {
+        std::cerr << "Erreur: Impossible de créer la texture de fond." << std::endl;
+        return;
+    }
+
+    static float initPhase = 0.5f;
+
+    generateGradientBackground(backgroundTexture, cosmoColors, width, height);
+    addNebulasToBackground(backgroundTexture, cosmoColors, initPhase, width, height);
+    addLuminousPointsToBackground(backgroundTexture, cosmoColors, width, height);
+    addEnergyTracesToBackground(backgroundTexture, cosmoColors, width, height);
+    addSolarCoreToBackground(backgroundTexture, cosmoColors, width, height, initPhase);
+
+    backgroundTexture.display();
+    backgroundInitialized = true;
+}
+
+/**
+ * @brief Dessine le fond futuriste à l'écran
+ */
+void drawFuturisticBackground(sf::RenderWindow& window, float phase) {
+    if (!backgroundInitialized) {
+        initializeFuturisticBackground(window);
+    }
+
+    sf::Sprite backgroundSprite(backgroundTexture.getTexture());
+    window.draw(backgroundSprite);
+
+    unsigned int width = window.getSize().x;
+    unsigned int height = window.getSize().y;
+    sf::Vector2f center(width / 2.f, height / 2.f);
+
+    float pulseScale = 1.f + 0.1f * std::sin(phase * 2.f);
+
+    sf::CircleShape pulsingCore(50.f * pulseScale);
+    pulsingCore.setOrigin(50.f * pulseScale, 50.f * pulseScale);
+    pulsingCore.setPosition(center);
+    sf::Uint8 pulseAlpha = static_cast<sf::Uint8>(100 + 50 * std::sin(phase * 3.f));
+    pulsingCore.setFillColor(sf::Color(cosmoColors.solarYellow.r, cosmoColors.solarYellow.g,
+        cosmoColors.solarYellow.b, pulseAlpha));
+    window.draw(pulsingCore);
+}
 
 void createStarfield(std::vector<Star>& stars) {
     stars.clear();
     std::srand(static_cast<unsigned>(std::time(nullptr)));
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 1200; ++i) {
         stars.push_back(Star());
     }
 }
 
+// ✅ FONCTION UNIQUE AVEC DONNÉES RÉALISTES DES PLANÈTES
 void createMenuSolarSystem(std::vector<MenuPlanet>& menuPlanets, const sf::Vector2f& center) {
     menuPlanets.clear();
 
-    std::vector<std::pair<float, sf::Color>> planetData = {
-        {80.f, sf::Color(169, 169, 169)},   // Mercure
-        {120.f, sf::Color(255, 198, 73)},   // Venus
-        {160.f, sf::Color(100, 149, 237)},  // Terre
-        {200.f, sf::Color(205, 92, 92)},    // Mars
-        {260.f, sf::Color(222, 184, 135)},  // Jupiter
-        {320.f, sf::Color(238, 232, 170)},  // Saturne
-        {380.f, sf::Color(175, 238, 238)},  // Uranus
-        {440.f, sf::Color(65, 105, 225)}    // Neptune
+    // Données réalistes des planètes : (orbite, couleur, nom, rayon réel, densité)
+    std::vector<std::tuple<float, sf::Color, std::string, float, float>> planetData = {
+        {80.f, sf::Color(169, 169, 169), "Mercure", 0.38f, 5.43f},      // Gris
+        {120.f, sf::Color(255, 198, 73), "Vénus", 0.95f, 5.24f},        // Jaune-orange
+        {160.f, sf::Color(100, 149, 237), "Terre", 1.0f, 5.52f},        // Bleu-cyan
+        {200.f, sf::Color(205, 92, 92), "Mars", 0.53f, 3.93f},          // Rouge
+        {280.f, sf::Color(218, 165, 32), "Jupiter", 11.21f, 1.33f},     // Or-brun
+        {350.f, sf::Color(238, 232, 170), "Saturne", 9.45f, 0.687f},    // Pâle
+        {420.f, sf::Color(175, 238, 238), "Uranus", 4.01f, 1.27f},      // Cyan clair
+        {480.f, sf::Color(65, 105, 225), "Neptune", 3.88f, 1.638f}      // Bleu foncé
     };
 
     for (const auto& data : planetData) {
-        menuPlanets.push_back(MenuPlanet(data.first, data.second, center));
+        menuPlanets.push_back(MenuPlanet(
+            std::get<0>(data), std::get<1>(data), center,
+            std::get<2>(data), std::get<3>(data), std::get<4>(data)
+        ));
     }
 }
 
@@ -40,10 +773,114 @@ void updateStars(std::vector<Star>& stars, float time) {
 }
 
 void updateMenuSolarSystem(std::vector<MenuPlanet>& menuPlanets, float deltaTime, const sf::Vector2f& center) {
+    // ✅ NOUVEAU : Mise à jour des étoiles filantes
+    updateShootingStars(deltaTime, 1200, 800);
+
     for (auto& mp : menuPlanets) {
         mp.update(deltaTime, center);
     }
+
+    // Mise à jour des particules avancées avec accélération
+    particleEmissionTimer += deltaTime;
+
+    // Émission de nouvelles particules autour du soleil - densité augmentée
+    if (particleEmissionTimer > 0.015f) {
+        particleEmissionTimer = 0.f;
+
+        // Deux types de particules
+        for (int pType = 0; pType < 2; ++pType) {
+            float angle = static_cast<float>(std::rand() % 360) * 3.14159f / 180.f;
+            float distance = 65.f + static_cast<float>(std::rand() % 40);
+
+            Particle p;
+            p.position = sf::Vector2f(
+                center.x + distance * std::cos(angle),
+                center.y + distance * std::sin(angle)
+            );
+
+            // Vélocité radiale sortante
+            float velocityMagnitude = 30.f + static_cast<float>(std::rand() % 40);
+            p.velocity = sf::Vector2f(
+                velocityMagnitude * std::cos(angle),
+                velocityMagnitude * std::sin(angle)
+            );
+
+            // Accélération de gravité vers le soleil
+            p.acceleration = sf::Vector2f(
+                -50.f * std::cos(angle),
+                -50.f * std::sin(angle)
+            );
+
+            // Couleurs variées et vibrantes - CONVERSIONS INT→FLOAT CORRIGÉES
+            int colorChoice = std::rand() % 6;
+            switch (colorChoice) {
+            case 0: p.color = sf::Color(255, 255, 100, 220); break;  // Jaune vif
+            case 1: p.color = sf::Color(255, 165, 0, 220); break;    // Orange
+            case 2: p.color = sf::Color(255, 100, 50, 200); break;   // Rouge-orange
+            case 3: p.color = sf::Color(255, 200, 50, 210); break;   // Jaune-or
+            case 4: p.color = sf::Color(255, 150, 0, 200); break;    // Orange foncé
+            case 5: p.color = sf::Color(255, 220, 100, 190); break;  // Jaune pâle
+            }
+
+            p.lifetime = 1.8f;
+            p.maxLifetime = 1.8f;
+            p.size = 1.5f + static_cast<float>(std::rand() % 4);
+            p.rotation = static_cast<float>(std::rand() % 360);
+            p.rotationSpeed = static_cast<float>(std::rand() % 200 - 100) * 2.f;
+
+            menuParticles.push_back(p);
+        }
+    }
+
+    // Mise à jour et nettoyage des particules avec physique réaliste
+    for (auto& particle : menuParticles) {
+        // Application de l'accélération
+        particle.velocity += particle.acceleration * deltaTime * 0.5f;
+        particle.position += particle.velocity * deltaTime;
+        particle.rotation += particle.rotationSpeed * deltaTime;
+        particle.lifetime -= deltaTime;
+
+        // Effet de trainée lumineuse légère
+        float speed = std::sqrt(particle.velocity.x * particle.velocity.x +
+            particle.velocity.y * particle.velocity.y);
+        if (speed > 50.f) {
+            LightTrail trail;
+            trail.trail[0].position = particle.position;
+            trail.trail[1].position = particle.position - particle.velocity * deltaTime * 0.5f;
+            trail.trail[0].color = particle.color;
+            trail.trail[1].color = sf::Color(particle.color.r, particle.color.g,
+                particle.color.b, 50);
+            trail.lifetime = 0.3f;
+            trail.maxLifetime = 0.3f;
+            trail.color = particle.color;
+            lightTrails.push_back(trail);
+        }
+
+        // Fade out graduel
+        float alpha = 220.f * (particle.lifetime / particle.maxLifetime);
+        particle.color.a = static_cast<sf::Uint8>(std::max(0.f, std::min(255.f, alpha)));
+    }
+
+    // Nettoyage des particules mortes
+    menuParticles.erase(
+        std::remove_if(menuParticles.begin(), menuParticles.end(),
+            [](const Particle& p) { return p.lifetime <= 0.f; }),
+        menuParticles.end()
+    );
+
+    // Mise à jour des trainées lumineuses
+    for (auto& trail : lightTrails) {
+        trail.lifetime -= deltaTime;
+    }
+
+    lightTrails.erase(
+        std::remove_if(lightTrails.begin(), lightTrails.end(),
+            [](const LightTrail& t) { return t.lifetime <= 0.f; }),
+        lightTrails.end()
+    );
 }
+
+// ===== FONCTIONS DE DESSIN - RESTE IDENTIQUE =====
 
 void drawMainMenu(sf::RenderWindow& window, const sf::Font& font,
     std::vector<CosmicButton>& menuButtons,
@@ -51,154 +888,379 @@ void drawMainMenu(sf::RenderWindow& window, const sf::Font& font,
     std::vector<MenuPlanet>& menuPlanets,
     const sf::Vector2f& center) {
 
-    // Fond bleu foncé
-    window.clear(sf::Color(0, 0, 50));
+    static float bgAnimation = 0.f;
+    bgAnimation += 0.005f;
 
+    // Récupérer la position de la souris et mettre à jour le parallaxe
+    sf::Vector2i mousePixelPos = sf::Mouse::getPosition(window);
+    sf::Vector2f mousePos = window.mapPixelToCoords(mousePixelPos);
+    updateParallaxEffect(mousePos, window.getSize());
+    sf::Vector2f parallax = getParallaxOffset();
 
+    // ✅ NOUVEAU : Mettre à jour l'interaction avec les planètes
+    static float lastDeltaTime = 0.016f; // Approximation ~60 FPS
+    updatePlanetInteraction(menuPlanets, mousePos, lastDeltaTime);
 
-   
+    drawFuturisticBackground(window, bgAnimation);
 
-    // Fond étoilé
+    // Appliquer le parallaxe via une vue temporaire
+    sf::View originalView = window.getView();
+    sf::View parallaxView = originalView;
+    parallaxView.move(-parallax.x * 0.3f, -parallax.y * 0.3f);
+    window.setView(parallaxView);
+
+    // Fond étoilé (dessiné avec la vue décalée)
     for (auto& s : stars) {
         s.draw(window);
     }
 
-    // Nébuleuses colorées
-    sf::CircleShape nebula1(300.f);
-    nebula1.setPosition(150.f, 100.f);
-    nebula1.setFillColor(sf::Color(138, 43, 226, 30));
-    window.draw(nebula1);
+    // Restaurer la vue originale
+    window.setView(originalView);
 
-    sf::CircleShape nebula2(250.f);
-    nebula2.setPosition(750.f, 400.f);
-    nebula2.setFillColor(sf::Color(30, 144, 255, 25));
-    window.draw(nebula2);
+    // Dessiner les étoiles filantes
+    drawShootingStars(window);
+
+    // Afficher les orbites AVANT les planètes
+    for (auto& mp : menuPlanets) {
+        mp.drawOrbit(window, center);
+    }
 
     // Système solaire du menu
     for (auto& mp : menuPlanets) {
         mp.draw(window);
     }
 
-    // Soleil amélioré
-    sf::CircleShape sunGlowOuter(65.f);
-    sunGlowOuter.setOrigin(65.f, 65.f);
-    sunGlowOuter.setPosition(center);
-    sunGlowOuter.setFillColor(sf::Color(255, 165, 0, 60));
-    window.draw(sunGlowOuter);
+    // ✅ NOUVEAU : Dessiner le tooltip de la planète survolée
+    drawPlanetTooltip(window, font);
 
-    sf::CircleShape sunGlowMiddle(55.f);
-    sunGlowMiddle.setOrigin(55.f, 55.f);
-    sunGlowMiddle.setPosition(center);
-    sunGlowMiddle.setFillColor(sf::Color(255, 215, 0, 120));
-    window.draw(sunGlowMiddle);
+    // Nébuleuses animées avec parallaxe (couche moyenne)
+    static float nebulaPhase = 0.f;
+    nebulaPhase += 0.002f;
 
-    sf::CircleShape sun(45.f);
-    sun.setOrigin(45.f, 45.f);
-    sun.setPosition(center);
-    sun.setFillColor(sf::Color(255, 255, 100));
-    sun.setOutlineThickness(4);
-    sun.setOutlineColor(sf::Color(255, 100, 0));
-    window.draw(sun);
+    // Nébuleuse 1 - Bleu spatial profond
+    sf::CircleShape nebula1(350.f);
+    nebula1.setPosition(100.f - parallax.x * 0.5f, 50.f - parallax.y * 0.5f);
+    float alpha1 = 20.f + 15.f * std::sin(nebulaPhase);
+    nebula1.setFillColor(sf::Color(20, 50, 100,
+        static_cast<sf::Uint8>(std::max(0.f, std::min(255.f, alpha1)))));
+    window.draw(nebula1);
 
-    // Éruptions solaires animées
-    static float solarFlareAngle = 0.f;
-    solarFlareAngle += 0.015f;
+    // Nébuleuse 2 - Cyan doux
+    sf::CircleShape nebula2(300.f);
+    nebula2.setPosition(700.f - parallax.x * 0.4f, 450.f - parallax.y * 0.4f);
+    float alpha2 = 15.f + 10.f * std::sin(nebulaPhase + 1.57f);
+    nebula2.setFillColor(sf::Color(30, 80, 130,
+        static_cast<sf::Uint8>(std::max(0.f, std::min(255.f, alpha2)))));
+    window.draw(nebula2);
 
-    for (int i = 0; i < 8; ++i) {
-        float angle = solarFlareAngle + i * 3.14159f / 4.f;
-        sf::ConvexShape flare;
-        flare.setPointCount(4);
-        flare.setPoint(0, sf::Vector2f(0, -4));
-        flare.setPoint(1, sf::Vector2f(70, -2));
-        flare.setPoint(2, sf::Vector2f(70, 2));
-        flare.setPoint(3, sf::Vector2f(0, 4));
-        flare.setFillColor(sf::Color(255, 80, 0, 150));
-        flare.setPosition(center);
-        flare.setRotation(angle * 180.f / 3.14159f);
-        window.draw(flare);
+    // Nébuleuse 3 - Bleu-gris subtil (au lieu de rose)
+    sf::CircleShape nebula3(280.f);
+    nebula3.setPosition(900.f - parallax.x * 0.6f, 100.f - parallax.y * 0.6f);
+    float alpha3 = 12.f + 8.f * std::sin(nebulaPhase + 3.14f);
+    nebula3.setFillColor(sf::Color(40, 60, 100,
+        static_cast<sf::Uint8>(std::max(0.f, std::min(255.f, alpha3)))));
+    window.draw(nebula3);
+
+    // Grille de fond animée avec parallaxe
+    for (int i = -5; i <= 15; ++i) {
+        for (int j = -5; j <= 10; ++j) {
+            float gridX = static_cast<float>(i * 200) - parallax.x * 0.8f;
+            float gridY = static_cast<float>(j * 200) - parallax.y * 0.8f;
+
+            sf::CircleShape gridPoint(1.5f);
+            gridPoint.setPosition(gridX, gridY);
+            float gridAlpha = 20.f + 10.f * std::sin(nebulaPhase + i * 0.5f + j * 0.3f);
+            gridPoint.setFillColor(sf::Color(0, 255, 255, static_cast<sf::Uint8>(std::max(0.f, std::min(255.f, gridAlpha)))));
+            window.draw(gridPoint);
+        }
     }
 
-    // Titre principal
-    sf::Text titleShadow("COSMO UIT", font, 72);
-    titleShadow.setPosition(604.f, 204.f);
-    titleShadow.setOrigin(titleShadow.getLocalBounds().width / 2, titleShadow.getLocalBounds().height / 2);
-    titleShadow.setFillColor(sf::Color(0, 0, 0, 150));
+
+    // Particules de couleur
+    for (const auto& particle : menuParticles) {
+        sf::CircleShape particleShape(particle.size);
+        particleShape.setOrigin(particle.size, particle.size);
+        particleShape.setPosition(particle.position);
+        particleShape.setFillColor(particle.color);
+        window.draw(particleShape);
+    }
+
+    // Traînées lumineuses
+    for (const auto& trail : lightTrails) {
+        window.draw(trail.trail);
+    }
+
+    
+    // ===== SOLEIL AVEC EFFET SPHÉRIQUE 3D =====
+    static float sunPulse = 0.f;
+    sunPulse += 0.015f;
+
+    // Ombre pour donner de la profondeur (derrière le soleil)
+    sf::CircleShape sunShadow(52.f);
+    sunShadow.setOrigin(52.f, 52.f);
+    sunShadow.setPosition(center.x + 3.f, center.y + 3.f);
+    sunShadow.setFillColor(sf::Color(100, 50, 0, 80));
+    window.draw(sunShadow);
+
+    // Halo externe
+    sf::CircleShape outerGlow(90.f);
+    outerGlow.setOrigin(90.f, 90.f);
+    outerGlow.setPosition(center);
+    outerGlow.setFillColor(sf::Color(255, 180, 50, 30));
+    window.draw(outerGlow);
+
+    // Halo moyen
+    sf::CircleShape midGlow(70.f);
+    midGlow.setOrigin(70.f, 70.f);
+    midGlow.setPosition(center);
+    midGlow.setFillColor(sf::Color(255, 200, 80, 50));
+    window.draw(midGlow);
+
+    // Corps principal (base)
+    sf::CircleShape sunBase(50.f);
+    sunBase.setOrigin(50.f, 50.f);
+    sunBase.setPosition(center);
+    sunBase.setFillColor(sf::Color(255, 180, 50)); // Orange-jaune
+    window.draw(sunBase);
+
+    // Zone claire (effet 3D - partie éclairée)
+    sf::CircleShape sunLight(45.f);
+    sunLight.setOrigin(45.f, 45.f);
+    sunLight.setPosition(center.x - 5.f, center.y - 5.f);
+    sunLight.setFillColor(sf::Color(255, 220, 100));
+    window.draw(sunLight);
+
+    // Zone très claire
+    sf::CircleShape sunBright(35.f);
+    sunBright.setOrigin(35.f, 35.f);
+    sunBright.setPosition(center.x - 8.f, center.y - 8.f);
+    sunBright.setFillColor(sf::Color(255, 245, 180));
+    window.draw(sunBright);
+
+    // Point de lumière (reflet)
+    sf::CircleShape sunHighlight(12.f);
+    sunHighlight.setOrigin(12.f, 12.f);
+    sunHighlight.setPosition(center.x - 20.f, center.y - 20.f);
+    sunHighlight.setFillColor(sf::Color(255, 255, 255, 200));
+    window.draw(sunHighlight);
+
+    // Petit reflet secondaire
+    sf::CircleShape sunHighlight2(5.f);
+    sunHighlight2.setOrigin(5.f, 5.f);
+    sunHighlight2.setPosition(center.x - 10.f, center.y - 25.f);
+    sunHighlight2.setFillColor(sf::Color(255, 255, 255, 150));
+    window.draw(sunHighlight2);
+
+    // ===== TITRE PRINCIPAL - STYLE MODERNE ULTRA LUMINEUX =====
+    static float titlePulse = 0.f;
+    titlePulse += 0.03f;
+
+    // Effet de lueur derrière le titre
+    sf::Text titleGlow("COSMO UIT", font, 85);
+    titleGlow.setPosition(600.f, 80.f);
+    titleGlow.setOrigin(titleGlow.getLocalBounds().width / 2.f, titleGlow.getLocalBounds().height / 2.f);
+    float glowAlpha = 80.f + 40.f * std::sin(titlePulse * 0.8f);
+    titleGlow.setFillColor(sf::Color(255, 255, 255, static_cast<sf::Uint8>(glowAlpha)));
+    titleGlow.setStyle(sf::Text::Bold);
+    window.draw(titleGlow);
+
+    // Ombre du titre
+    sf::Text titleShadow("COSMO UIT", font, 80);
+    titleShadow.setPosition(604.f, 84.f);
+    titleShadow.setOrigin(titleShadow.getLocalBounds().width / 2.f, titleShadow.getLocalBounds().height / 2.f);
+    titleShadow.setFillColor(sf::Color(0, 0, 0, 120));
     titleShadow.setStyle(sf::Text::Bold);
     window.draw(titleShadow);
 
-    sf::Text title("COSMO UIT", font, 72);
-    title.setPosition(600.f, 200.f);
-    title.setOrigin(title.getLocalBounds().width / 2, title.getLocalBounds().height / 2);
-    title.setFillColor(sf::Color(0, 255, 255));
+    // Titre principal avec dégradé animé (blanc → cyan → blanc)
+    sf::Text title("COSMO UIT", font, 80);
+    title.setPosition(600.f, 80.f);
+    title.setOrigin(title.getLocalBounds().width / 2.f, title.getLocalBounds().height / 2.f);
+
+    // ✅ COULEUR ULTRA CLAIRE : Blanc lumineux avec reflet cyan
+    float colorShift = std::sin(titlePulse);
+    sf::Uint8 r = static_cast<sf::Uint8>(220 + 35 * colorShift);
+    sf::Uint8 g = static_cast<sf::Uint8>(250 + 5 * std::abs(colorShift));
+    sf::Uint8 b = 255;
+    title.setFillColor(sf::Color(r, g, b, 255));
     title.setStyle(sf::Text::Bold);
-    title.setOutlineThickness(4);
-    title.setOutlineColor(sf::Color(0, 150, 255));
+
+    // Contour lumineux animé
+    title.setOutlineThickness(4.f);
+    float outlineR = 100.f + 155.f * (0.5f + 0.5f * std::sin(titlePulse + 1.f));
+    float outlineG = 200.f + 55.f * (0.5f + 0.5f * std::sin(titlePulse + 2.f));
+    title.setOutlineColor(sf::Color(
+        static_cast<sf::Uint8>(outlineR),
+        static_cast<sf::Uint8>(outlineG),
+        255, 200
+    ));
     window.draw(title);
 
-    // Sous-titre animé
+    // ===== SOUS-TITRE - STYLE ÉLÉGANT ULTRA LUMINEUX =====
     static float subtitlePulse = 0.f;
-    subtitlePulse += 0.04f;
-    float alpha = 150 + 105 * std::sin(subtitlePulse);
+    subtitlePulse += 0.025f;
 
-    sf::Text subtitle("SIMULATEUR SOLAIRE 2D", font, 36);
-    subtitle.setPosition(600.f, 290.f);
-    subtitle.setOrigin(subtitle.getLocalBounds().width / 2, subtitle.getLocalBounds().height / 2);
-    subtitle.setFillColor(sf::Color(255, 255, 0, static_cast<sf::Uint8>(alpha)));
-    subtitle.setStyle(sf::Text::Bold);
+    // Ombre du sous-titre
+    sf::Text subtitleShadow("- SIMULATEUR SOLAIRE 2D -", font, 28);
+    subtitleShadow.setPosition(602.f, 162.f);
+    subtitleShadow.setOrigin(subtitleShadow.getLocalBounds().width / 2.f, subtitleShadow.getLocalBounds().height / 2.f);
+    subtitleShadow.setFillColor(sf::Color(0, 0, 0, 100));
+    subtitleShadow.setStyle(sf::Text::Italic);
+    window.draw(subtitleShadow);
+
+    // Sous-titre principal
+    sf::Text subtitle("- SIMULATEUR SOLAIRE 2D -", font, 28);
+    subtitle.setPosition(600.f, 160.f);
+    subtitle.setOrigin(subtitle.getLocalBounds().width / 2.f, subtitle.getLocalBounds().height / 2.f);
+
+    // ✅ COULEUR ULTRA CLAIRE : Dégradé Or → Blanc → Or
+    float subColorShift = std::sin(subtitlePulse * 1.5f);
+    sf::Uint8 subR = 255;
+    sf::Uint8 subG = static_cast<sf::Uint8>(220 + 35 * std::abs(subColorShift));
+    sf::Uint8 subB = static_cast<sf::Uint8>(150 + 105 * std::abs(subColorShift));
+    subtitle.setFillColor(sf::Color(subR, subG, subB, 255));
+    subtitle.setStyle(sf::Text::Italic | sf::Text::Bold);
+
+    // Contour doré lumineux
+    subtitle.setOutlineThickness(2.f);
+    float subOutlineAlpha = 150.f + 100.f * std::sin(subtitlePulse);
+    subtitle.setOutlineColor(sf::Color(255, 200, 100, static_cast<sf::Uint8>(subOutlineAlpha)));
     window.draw(subtitle);
 
-    // Informations institutionnelles
-    sf::Text university("UNIVERSITE IBN TOFAIL", font, 24);
-    university.setPosition(600.f, 350.f);
-    university.setOrigin(university.getLocalBounds().width / 2, university.getLocalBounds().height / 2);
-    university.setFillColor(sf::Color(200, 200, 255));
-    university.setStyle(sf::Text::Bold);
-    window.draw(university);
-
-    sf::Text faculty("Faculte des Sciences - Departement d'Informatique", font, 20);
-    faculty.setPosition(600.f, 385.f);
-    faculty.setOrigin(faculty.getLocalBounds().width / 2, faculty.getLocalBounds().height / 2);
-    faculty.setFillColor(sf::Color(180, 180, 220));
-    window.draw(faculty);
+    // ===== LIGNE DÉCORATIVE SOUS LE SOUS-TITRE =====
+    float lineWidth = 300.f + 50.f * std::sin(subtitlePulse * 2.f);
+    sf::RectangleShape decorLine(sf::Vector2f(lineWidth, 2.f));
+    decorLine.setOrigin(lineWidth / 2.f, 1.f);
+    decorLine.setPosition(600.f, 195.f);
+    float lineAlpha = 150.f + 100.f * std::sin(subtitlePulse * 1.5f);
+    decorLine.setFillColor(sf::Color(200, 230, 255, static_cast<sf::Uint8>(lineAlpha)));
+    window.draw(decorLine);
 
 
+    
 
-    // Boutons avec ombres
-    for (auto& b : menuButtons) {
+    // Version et année avec animation
+    static float versionPulse = 0.f;
+    versionPulse += 0.015f;
+    float versionAlpha = 100 + 50 * std::sin(versionPulse);
+
+  
+    // ✅ BOUTONS AVEC COULEURS FUTURISTES ET INTERACTIONS
+    for (size_t i = 0; i < menuButtons.size(); ++i) {
+        auto& b = menuButtons[i];
+
+        // Animation d'échelle au clic
+        float scaleAnimation = 1.f;
+        if (b.clicked) {
+            scaleAnimation = 0.95f;
+        }
+        else if (b.hover) {
+            scaleAnimation = 1.05f;
+        }
+
+        sf::Vector2f originalPos = b.base.getPosition();
+        sf::Vector2f originalSize = b.base.getSize();
+
+        sf::Vector2f btnCenter = sf::Vector2f(
+            originalPos.x + originalSize.x / 2.f,
+            originalPos.y + originalSize.y / 2.f
+        );
+
+        if (b.hover || b.clicked) {
+            sf::CircleShape shadowGlow(originalSize.x / 2.f + 20.f);
+            shadowGlow.setOrigin(shadowGlow.getRadius(), shadowGlow.getRadius());
+            shadowGlow.setPosition(btnCenter);
+
+            if (b.clicked) {
+                shadowGlow.setFillColor(sf::Color(255, 94, 98, 80));
+            }
+            else {
+                shadowGlow.setFillColor(sf::Color(37, 117, 252, 60));
+            }
+            window.draw(shadowGlow);
+        }
+
         sf::RectangleShape shadow = b.base;
-        shadow.move(5, 5);
-        shadow.setFillColor(sf::Color(0, 0, 0, 100));
+        shadow.move(4, 4);
+        shadow.setFillColor(sf::Color(0, 0, 0, 150));
         window.draw(shadow);
 
         b.draw(window);
+
+        if (b.clicked) {
+            for (int spark = 0; spark < 4; ++spark) {
+                float angle = (spark / 4.f) * 6.28f;
+                float distance = 15.f;
+                sf::CircleShape sparkle(2.f);
+                sparkle.setPosition(
+                    btnCenter.x + distance * std::cos(angle) - 2.f,
+                    btnCenter.y + distance * std::sin(angle) - 2.f
+                );
+                sparkle.setFillColor(sf::Color(255, 209, 102, 200));
+                window.draw(sparkle);
+            }
+        }
     }
+
+    // ===== ASTRONAUTE, VAISSEAU NASA ET MÉTÉORITES =====
+    updateSpaceElements(lastDeltaTime, window.getSize().x, window.getSize().y);
+    drawSpaceElements(window);
+
+
+    // Indicateur de haut vers le bas (pulsant)
+    static float indicatorPulse = 0.f;
+    indicatorPulse += 0.05f;
+    float indicatorAlpha = 100 + 80 * std::sin(indicatorPulse);
+
+
 }
+
 
 void drawPresentation(sf::RenderWindow& window, const sf::Font& font,
     std::vector<CosmicButton>& backButtons,
     std::vector<Star>& stars, float time) {
 
-    // Fond spatial professionnel
-    window.clear(sf::Color(8, 12, 30));
+    // Fond spatial professionnel animé
+    static float presentationBg = 0.f;
+    presentationBg += 0.003f;
+    int bgShade = static_cast<int>(10 + 5 * std::sin(presentationBg));
+    window.clear(sf::Color(bgShade, bgShade + 2, 30 + static_cast<int>(10 * std::sin(presentationBg * 0.5f))));
 
     // Fond étoilé
     for (auto& s : stars) {
         s.draw(window);
     }
 
+    // Nébuleuses de décoration
+    sf::CircleShape nebulaBg(400.f);
+    nebulaBg.setPosition(100.f, 50.f);
+    nebulaBg.setFillColor(sf::Color(100, 50, 200, 15));
+    window.draw(nebulaBg);
+
     // Panneau principal avec effet moderne
     sf::RectangleShape mainPanel(sf::Vector2f(1100.f, 650.f));
     mainPanel.setPosition(50.f, 70.f);
-    mainPanel.setFillColor(sf::Color(15, 25, 45, 230));
+    mainPanel.setFillColor(sf::Color(15, 25, 45, 240));
     mainPanel.setOutlineThickness(4);
-    mainPanel.setOutlineColor(sf::Color(0, 180, 255));
+    mainPanel.setOutlineColor(sf::Color(0, 200, 255));
     window.draw(mainPanel);
 
-    // En-tête dégradé
+    // En-tête dégradé avec animation
+    static float headerGlow = 0.f;
+    headerGlow += 0.02f;
+
     sf::RectangleShape header(sf::Vector2f(1100.f, 90.f));
     header.setPosition(50.f, 70.f);
-    header.setFillColor(sf::Color(0, 80, 160, 180));
+    float headerAlpha = 150 + 50 * std::sin(headerGlow);
+    header.setFillColor(sf::Color(0, 80, 160, static_cast<sf::Uint8>(headerAlpha)));
     window.draw(header);
+
+    // Ligne supérieure brillante
+    sf::RectangleShape headerGlowLine(sf::Vector2f(1100.f, 3.f));
+    headerGlowLine.setPosition(50.f, 70.f);
+    float glowLineAlpha = 100 + 100 * std::sin(headerGlow + 1.57f);
+    headerGlowLine.setFillColor(sf::Color(0, 255, 255, static_cast<sf::Uint8>(glowLineAlpha)));
+    window.draw(headerGlowLine);
 
     // Titre principal avec effet
     sf::Text title("PRESENTATION DU PROJET COSMOUIT", font, 38);
@@ -207,7 +1269,7 @@ void drawPresentation(sf::RenderWindow& window, const sf::Font& font,
     title.setFillColor(sf::Color::White);
     title.setStyle(sf::Text::Bold);
     title.setOutlineThickness(3);
-    title.setOutlineColor(sf::Color(0, 120, 255));
+    title.setOutlineColor(sf::Color(0, 150, 255));
     window.draw(title);
 
     // Sous-titre
@@ -346,7 +1408,6 @@ void drawPresentation(sf::RenderWindow& window, const sf::Font& font,
         currentY += 22.f;
     }
 
-
     // Pied de page informatif
     sf::Text footer("Developpe avec C++17 | SFML 2.5 | CMake | OpenGL | Universite Ibn Tofail 2025", font, 14);
     footer.setPosition(600.f, 690.f);
@@ -357,10 +1418,12 @@ void drawPresentation(sf::RenderWindow& window, const sf::Font& font,
     // Bouton retour avec effet
     for (auto& b : backButtons) {
         if (b.hover) {
-            sf::RectangleShape glow(sf::Vector2f(b.base.getSize().x + 12, b.base.getSize().y + 12));
-            glow.setPosition(b.base.getPosition().x - 6, b.base.getPosition().y - 6);
-            glow.setFillColor(sf::Color(255, 50, 50, 40));
-            window.draw(glow);
+            sf::RectangleShape hoverGlow(sf::Vector2f(b.base.getSize().x + 20, b.base.getSize().y + 20));
+            hoverGlow.setOrigin(10, 10);
+            hoverGlow.setPosition(b.base.getPosition().x + b.base.getSize().x / 2,
+                b.base.getPosition().y + b.base.getSize().y / 2);
+            hoverGlow.setFillColor(sf::Color(255, 100, 100, 60));
+            window.draw(hoverGlow);
         }
         b.draw(window);
     }
@@ -370,8 +1433,11 @@ void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
     std::vector<CosmicButton>& backButtons,
     std::vector<Star>& stars, float time) {
 
-    // Fond spatial élégant
-    window.clear(sf::Color(12, 8, 35));
+    // Fond spatial élégant animé
+    static float teamBg = 0.f;
+    teamBg += 0.004f;
+    int teamBgShade = static_cast<int>(12 + 6 * std::sin(teamBg));
+    window.clear(sf::Color(teamBgShade, teamBgShade - 4, 35 + static_cast<int>(8 * std::sin(teamBg * 0.6f))));
 
     // Fond étoilé
     for (auto& s : stars) {
@@ -381,16 +1447,27 @@ void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
     // Panneau principal avec style professionnel
     sf::RectangleShape mainPanel(sf::Vector2f(1100.f, 650.f));
     mainPanel.setPosition(50.f, 70.f);
-    mainPanel.setFillColor(sf::Color(25, 15, 50, 230));
+    mainPanel.setFillColor(sf::Color(25, 15, 50, 240));
     mainPanel.setOutlineThickness(4);
-    mainPanel.setOutlineColor(sf::Color(180, 0, 255));
+    mainPanel.setOutlineColor(sf::Color(200, 0, 255));
     window.draw(mainPanel);
 
     // En-tête dégradé
+    static float teamHeaderGlow = 0.f;
+    teamHeaderGlow += 0.025f;
+
     sf::RectangleShape header(sf::Vector2f(1100.f, 90.f));
     header.setPosition(50.f, 70.f);
-    header.setFillColor(sf::Color(100, 0, 180, 180));
+    float teamHeaderAlpha = 160 + 40 * std::sin(teamHeaderGlow);
+    header.setFillColor(sf::Color(120, 0, 180, static_cast<sf::Uint8>(teamHeaderAlpha)));
     window.draw(header);
+
+    // Ligne brillante
+    sf::RectangleShape headerBrightLine(sf::Vector2f(1100.f, 2.f));
+    headerBrightLine.setPosition(50.f, 70.f);
+    float brightLineAlpha = 150 + 100 * std::sin(teamHeaderGlow + 1.57f);
+    headerBrightLine.setFillColor(sf::Color(255, 100, 255, static_cast<sf::Uint8>(brightLineAlpha)));
+    window.draw(headerBrightLine);
 
     // Titre principal
     sf::Text title("EQUIPE DE DEVELOPPEMENT COSMOUIT", font, 36);
@@ -399,7 +1476,7 @@ void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
     title.setFillColor(sf::Color::White);
     title.setStyle(sf::Text::Bold);
     title.setOutlineThickness(3);
-    title.setOutlineColor(sf::Color(200, 0, 255));
+    title.setOutlineColor(sf::Color(200, 50, 255));
     window.draw(title);
 
     // Sous-titre
@@ -434,25 +1511,30 @@ void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
         {"MIDINI HAFSA", "Responsable Qualite", "Documentation, Tests, Validation"}
     };
 
-    for (const auto& member : teamMembers) {
+    for (size_t i = 0; i < teamMembers.size(); ++i) {
+        const auto& member = teamMembers[i];
+
+        // Fond pour chaque membre
+        sf::RectangleShape memberBox(sf::Vector2f(450.f, 60.f));
+        memberBox.setPosition(leftColumnX, currentY);
+        memberBox.setFillColor(sf::Color(40, 20, 60, 150));
+        memberBox.setOutlineThickness(2);
+        float boxOutlineAlpha = 100 + 50 * std::sin(teamBg + i);
+        memberBox.setOutlineColor(sf::Color(200, 100, 255, static_cast<sf::Uint8>(boxOutlineAlpha)));
+        window.draw(memberBox);
+
         // Nom
         sf::Text name(std::get<0>(member), font, 17);
-        name.setPosition(leftColumnX, currentY);
+        name.setPosition(leftColumnX + 10.f, currentY + 5.f);
         name.setFillColor(sf::Color(100, 255, 255));
         name.setStyle(sf::Text::Bold);
         window.draw(name);
 
         // Rôle principal
         sf::Text role(std::get<1>(member), font, 14);
-        role.setPosition(leftColumnX, currentY + 22.f);
+        role.setPosition(leftColumnX + 10.f, currentY + 25.f);
         role.setFillColor(sf::Color(255, 255, 150));
         window.draw(role);
-
-        // Responsabilités
-        sf::Text responsibilities(std::get<2>(member), font, 12);
-        responsibilities.setPosition(leftColumnX, currentY + 40.f);
-        responsibilities.setFillColor(sf::Color(180, 255, 180));
-        window.draw(responsibilities);
 
         currentY += 70.f;
     }
@@ -469,30 +1551,33 @@ void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
 
     currentY += 45.f;
 
+    // Boîte d'encadrement
+    sf::RectangleShape encadrementBox(sf::Vector2f(480.f, 90.f));
+    encadrementBox.setPosition(rightColumnX, currentY);
+    encadrementBox.setFillColor(sf::Color(20, 40, 60, 200));
+    encadrementBox.setOutlineThickness(2);
+    encadrementBox.setOutlineColor(sf::Color(0, 200, 255));
+    window.draw(encadrementBox);
+
     // Encadrant principal
     sf::Text supervisorName("Pr. MOHAMED DAOUDI", font, 20);
-    supervisorName.setPosition(rightColumnX, currentY);
+    supervisorName.setPosition(rightColumnX + 15.f, currentY + 10.f);
     supervisorName.setFillColor(sf::Color(255, 255, 100));
     supervisorName.setStyle(sf::Text::Bold);
     window.draw(supervisorName);
 
-    currentY += 30.f;
-
     sf::Text supervisorRole("Professeur Encadrant Principal", font, 16);
-    supervisorRole.setPosition(rightColumnX, currentY);
+    supervisorRole.setPosition(rightColumnX + 15.f, currentY + 35.f);
     supervisorRole.setFillColor(sf::Color(200, 230, 255));
     window.draw(supervisorRole);
 
-    currentY += 25.f;
-
     sf::Text supervisorDept("Departement d'Informatique", font, 15);
-    supervisorDept.setPosition(rightColumnX, currentY);
+    supervisorDept.setPosition(rightColumnX + 15.f, currentY + 60.f);
     supervisorDept.setFillColor(sf::Color(180, 200, 255));
     window.draw(supervisorDept);
 
-
     // Section Informations Projet
-    currentY += 35.f;
+    currentY += 120.f;
     sf::Text projectTitle("INFORMATIONS DU PROJET", font, 22);
     projectTitle.setPosition(rightColumnX, currentY);
     projectTitle.setFillColor(sf::Color(255, 150, 50));
@@ -549,10 +1634,12 @@ void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
     // Bouton retour avec effet
     for (auto& b : backButtons) {
         if (b.hover) {
-            sf::RectangleShape glow(sf::Vector2f(b.base.getSize().x + 12, b.base.getSize().y + 12));
-            glow.setPosition(b.base.getPosition().x - 6, b.base.getPosition().y - 6);
-            glow.setFillColor(sf::Color(255, 50, 50, 40));
-            window.draw(glow);
+            sf::CircleShape hoverGlow(b.base.getSize().x / 2 + 15.f);
+            hoverGlow.setOrigin(hoverGlow.getRadius(), hoverGlow.getRadius());
+            hoverGlow.setPosition(b.base.getPosition().x + b.base.getSize().x / 2,
+                b.base.getPosition().y + b.base.getSize().y / 2);
+            hoverGlow.setFillColor(sf::Color(255, 100, 100, 50));
+            window.draw(hoverGlow);
         }
         b.draw(window);
     }
@@ -628,18 +1715,15 @@ void drawPlanetDetails(sf::RenderWindow& window, const sf::Font& font,
 
     // Représentation visuelle avec texture
     if (planet.hasTexture()) {
-        // Utiliser un sprite avec la texture de la planète
         sf::Sprite planetSprite;
         planetSprite.setTexture(*planet.getTexture());
 
-        // Ajuster la taille pour qu'elle rentre dans le cercle
         sf::FloatRect bounds = planetSprite.getLocalBounds();
         float scale = 140.f / std::max(bounds.width, bounds.height);
         planetSprite.setScale(scale, scale);
         planetSprite.setOrigin(bounds.width / 2, bounds.height / 2);
         planetSprite.setPosition(250.f, 350.f);
 
-        // Effet de rotation lent
         planetSprite.setRotation(time * 20.f);
 
         window.draw(planetSprite);
@@ -689,7 +1773,6 @@ void drawPlanetDetails(sf::RenderWindow& window, const sf::Font& font,
     // Texte du fait avec ajustement automatique
     std::string factText = planet.fact;
     if (factText.length() > 40) {
-        // Trouver un espace pour couper le texte
         size_t spacePos = factText.find(' ', 35);
         if (spacePos != std::string::npos) {
             factText.insert(spacePos + 1, "\n");
@@ -916,4 +1999,7 @@ void drawSimulation(sf::RenderWindow& window, const sf::Font& font,
             yPos += 58.f;
         }
     }
+
 }
+
+
