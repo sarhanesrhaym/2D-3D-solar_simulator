@@ -47,3 +47,25 @@ void drawSimulation(sf::RenderWindow& window, const sf::Font& font,
     const sf::RectangleShape& statsPanel,
     const sf::Text& statsTitle,
     const sf::Texture& saturnRingTexture);
+// ===== NOUVELLES DÉCLARATIONS POUR LE FOND FUTURISTE =====
+
+/**
+ * @brief Structure contenant la palette de couleurs futuriste
+ */
+struct FuturisticPalette {
+    sf::Color deepPurple;      // #6a11cb
+    sf::Color electricBlue;    // #2575fc
+    sf::Color luminousPink;    // #ff5e62
+    sf::Color solarYellow;     // #ffd166
+    sf::Color crispWhite;      // #f8f9fa
+
+    FuturisticPalette();
+};
+
+// Fonctions pour générer et afficher le fond futuriste
+void initializeFuturisticBackground(sf::RenderWindow& window);
+void drawFuturisticBackground(sf::RenderWindow& window, float phase);
+// Ajouter cette déclaration avec les autres fonctions
+void drawPlanetStructure(sf::RenderWindow& window, const sf::Font& font,
+    std::vector<CosmicButton>& backButtons,
+    std::vector<Star>& stars, float time);

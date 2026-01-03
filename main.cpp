@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+ï»¿#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -18,7 +18,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1200, 800), "CosmoUIT - Simulateur Solaire 2D");
     window.setFramerateLimit(60);
 
-    // État initial
+    // Ã‰tat initial
     AppState currentState = AppState::MAIN_MENU;
     Planet* selectedPlanet = nullptr;
 
@@ -38,7 +38,7 @@ int main() {
         return 1;
     }
 
-    // Création des étoiles et du syst?me solaire du menu
+    // CrÃ©ation des Ã©toiles et du syst?me solaire du menu
     std::vector<Star> stars;
     std::vector<MenuPlanet> menuPlanets;
     createStarfield(stars);
@@ -74,57 +74,57 @@ int main() {
     sunGlow.setPosition(Constants::SUN_CENTER);
     sunGlow.setFillColor(sf::Color(255, 200, 50, 50));
 
-    // Création des plan?tes
+    // CrÃ©ation des plan?tes
     std::vector<Planet> planets;
 
-    // Dans la section création des planètes, utilisez des caractéristiques plus courtes :
+    // Dans la section crÃ©ation des planÃ¨tes, utilisez des caractÃ©ristiques plus courtes :
 
-    planets.push_back(Planet(60.f, 0.2f, "Mercure", 0.33f, 0, 4879, "Journée plus longue que son année",
-        sf::Color(169, 169, 169), 0, 0.f, "Exosphère ténue: oxygène, sodium, hydrogène",
-        167.f, 3.7f, "Antiquité (Babyloniens)",
-        { "Plus proche du Soleil", "Aucun satellite", "Surface cratérisée", "Amplitude thermique forte" },
+    planets.push_back(Planet(60.f, 0.2f, "Mercure", 0.33f, 0, 4879, "JournÃ©e plus longue que son annÃ©e",
+        sf::Color(169, 169, 169), 0, 0.f, "ExosphÃ¨re tÃ©nue: oxygÃ¨ne, sodium, hydrogÃ¨ne",
+        167.f, 3.7f, "AntiquitÃ© (Babyloniens)",
+        { "Plus proche du Soleil", "Aucun satellite", "Surface cratÃ©risÃ©e", "Amplitude thermique forte" },
         font, &planetTextures[0]));
 
-    planets.push_back(Planet(120.f, 0.01f, "Vénus", 4.87f, 1, 12104, "Rotation rétrograde unique",
+    planets.push_back(Planet(120.f, 0.01f, "VÃ©nus", 4.87f, 1, 12104, "Rotation rÃ©trograde unique",
         sf::Color(255, 198, 73), 0, 0.f, "96.5% CO?, 3.5% azote, traces de SO?",
-        464.f, 8.87f, "Antiquité",
-        { "Atmosphère épaisse", "Effet de serre extrême", "Journée = 243 jours" },
+        464.f, 8.87f, "AntiquitÃ©",
+        { "AtmosphÃ¨re Ã©paisse", "Effet de serre extrÃªme", "JournÃ©e = 243 jours" },
         font, &planetTextures[1]));
 
-    planets.push_back(Planet(150.f, 0.017f, "Terre", 5.97f, 2, 12756, "Seule planète habitée connue",
-        sf::Color(100, 149, 237), 1, 0.f, "78% azote, 21% oxygène, 1% argon",
+    planets.push_back(Planet(150.f, 0.017f, "Terre", 5.97f, 2, 12756, "Seule planÃ¨te habitÃ©e connue",
+        sf::Color(100, 149, 237), 1, 0.f, "78% azote, 21% oxygÃ¨ne, 1% argon",
         15.f, 9.8f, "Formation naturelle",
-        { "71% surface océanique", "Champ magnétique", "Activité tectonique" },
+        { "71% surface ocÃ©anique", "Champ magnÃ©tique", "ActivitÃ© tectonique" },
         font, &planetTextures[2]));
 
-    planets.push_back(Planet(220.f, 0.09f, "Mars", 0.642f, 3, 6792, "Plus hauts volcans du système",
+    planets.push_back(Planet(220.f, 0.09f, "Mars", 0.642f, 3, 6792, "Plus hauts volcans du systÃ¨me",
         sf::Color(205, 92, 92), 2, 0.f, "95% CO?, 2.7% azote, 1.6% argon",
-        -65.f, 3.7f, "Antiquité",
-        { "Saisons similaires Terre", "Calottes polaires", "Possibilité vie passée" },
+        -65.f, 3.7f, "AntiquitÃ©",
+        { "Saisons similaires Terre", "Calottes polaires", "PossibilitÃ© vie passÃ©e" },
         font, &planetTextures[3]));
 
-    planets.push_back(Planet(350.f, 0.05f, "Jupiter", 1898.f, 4, 142984, "Plus grande planète du système",
-        sf::Color(222, 184, 135), 79, 0.f, "90% hydrogène, 10% hélium, traces",
-        -108.f, 24.8f, "Antiquité",
-        { "Grande Tache Rouge", "Champ magnétique puissant", "Anneaux ténus" },
+    planets.push_back(Planet(350.f, 0.05f, "Jupiter", 1898.f, 4, 142984, "Plus grande planÃ¨te du systÃ¨me",
+        sf::Color(222, 184, 135), 79, 0.f, "90% hydrogÃ¨ne, 10% hÃ©lium, traces",
+        -108.f, 24.8f, "AntiquitÃ©",
+        { "Grande Tache Rouge", "Champ magnÃ©tique puissant", "Anneaux tÃ©nus" },
         font, &planetTextures[4]));
 
     planets.push_back(Planet(450.f, 0.05f, "Saturne", 568.f, 5, 120536, "Anneaux spectaculaires visibles",
-        sf::Color(238, 232, 170), 82, 26.7f, "96% hydrogène, 3% hélium, 1% autres",
-        -139.f, 10.4f, "Antiquité",
-        { "Densité < eau", "Anneaux complexes", "Lune Titan importante" },
+        sf::Color(238, 232, 170), 82, 26.7f, "96% hydrogÃ¨ne, 3% hÃ©lium, 1% autres",
+        -139.f, 10.4f, "AntiquitÃ©",
+        { "DensitÃ© < eau", "Anneaux complexes", "Lune Titan importante" },
         font, &planetTextures[5]));
 
-    planets.push_back(Planet(550.f, 0.04f, "Uranus", 86.8f, 6, 51118, "Rotation inclinée à 98°",
-        sf::Color(175, 238, 238), 27, 0.f, "83% hydrogène, 15% hélium, 2% méthane",
+    planets.push_back(Planet(550.f, 0.04f, "Uranus", 86.8f, 6, 51118, "Rotation inclinÃ©e Ã  98Â°",
+        sf::Color(175, 238, 238), 27, 0.f, "83% hydrogÃ¨ne, 15% hÃ©lium, 2% mÃ©thane",
         -197.f, 8.9f, "William Herschel (1781)",
-        { "Axe rotation unique", "Saisons extrêmes", "Anneaux verticaux" },
+        { "Axe rotation unique", "Saisons extrÃªmes", "Anneaux verticaux" },
         font, &planetTextures[6]));
 
     planets.push_back(Planet(650.f, 0.01f, "Neptune", 102.f, 7, 49528, "Vents les plus rapides (2100 km/h)",
-        sf::Color(65, 105, 225), 14, 0.f, "80% hydrogène, 19% hélium, 1% méthane",
+        sf::Color(65, 105, 225), 14, 0.f, "80% hydrogÃ¨ne, 19% hÃ©lium, 1% mÃ©thane",
         -201.f, 11.2f, "Urbain Le Verrier (1846)",
-        { "Découverte mathématique", "Grande Tache Sombre", "Anneaux incomplets" },
+        { "DÃ©couverte mathÃ©matique", "Grande Tache Sombre", "Anneaux incomplets" },
         font, &planetTextures[7]));
     // Com?tes
     std::vector<Comet> comets;
@@ -136,42 +136,75 @@ int main() {
     int focusedPlanet = -1;
     float elapsedSimulationTime = 0.f;
 
-    // Boutons du menu principal
+    // Boutons du menu principal - DISPOSITION EN LOSANGE
     std::vector<CosmicButton> menuButtons;
-    float menuBtnY = 500.f;
-    float menuBtnX = (1200.f - Constants::MENU_BTN_WIDTH) / 2.f;
 
-    menuButtons.push_back(CosmicButton(
-        sf::Vector2f(menuBtnX, menuBtnY),
-        sf::Vector2f(Constants::MENU_BTN_WIDTH, Constants::MENU_BTN_HEIGHT),
-        "PRESENTATION DU PROJET",
-        sf::Color(25, 118, 210, 200),
-        sf::Color(30, 136, 229, 200),
-        font,
-        [&]() { currentState = AppState::PRESENTATION; }
-    ));
+    // âœ… COULEURS LUMINEUSES : BLEU NUIT + BLEU CIEL BRILLANT
+    sf::Color btnNormalColor = sf::Color(20, 40, 70, 240);
+    sf::Color btnHoverColor = sf::Color(100, 180, 230, 255);
+    sf::Color btnClickColor = sf::Color(173, 216, 230, 255);
 
+    // âœ… NOUVELLES POSITIONS EN LOSANGE (4 boutons)
+    //              [SIMULATION]           <- Haut
+    //   [PRESENTATION]    [STRUCTURE]     <- Milieu
+    //              [EQUIPE]               <- Bas
+
+    float btnWidth = 250.f;
+    float btnHeight = 45.f;
+    float screenCenterX = 600.f;
+    float topY = 580.f;
+    float middleY = 640.f;
+    float bottomY = 700.f;
+    float horizontalOffset = 280.f;
+
+    // Bouton 1 - LANCER SIMULATION (en haut, centrÃ©)
     menuButtons.push_back(CosmicButton(
-        sf::Vector2f(menuBtnX, menuBtnY + Constants::MENU_BTN_SPACING),
-        sf::Vector2f(Constants::MENU_BTN_WIDTH, Constants::MENU_BTN_HEIGHT),
-        "LANCER LA SIMULATION",
-        sf::Color(56, 142, 60, 200),
-        sf::Color(67, 160, 71, 200),
+        sf::Vector2f(screenCenterX - btnWidth / 2.f, topY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "LANCER SIMULATION",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
         font,
         [&]() { currentState = AppState::SIMULATION; }
     ));
 
+    // Bouton 2 - PRESENTATION (milieu gauche)
     menuButtons.push_back(CosmicButton(
-        sf::Vector2f(menuBtnX, menuBtnY + 2 * Constants::MENU_BTN_SPACING),
-        sf::Vector2f(Constants::MENU_BTN_WIDTH, Constants::MENU_BTN_HEIGHT),
-        "INFORMATIONS DE L'EQUIPE",
-        sf::Color(123, 31, 162, 200),
-        sf::Color(142, 36, 170, 200),
+        sf::Vector2f(screenCenterX - horizontalOffset - btnWidth / 2.f, middleY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "PRESENTATION",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
+        font,
+        [&]() { currentState = AppState::PRESENTATION; }
+    ));
+
+    // Bouton 3 - STRUCTURE INTERNE (milieu droite) âœ… NOUVEAU
+    menuButtons.push_back(CosmicButton(
+        sf::Vector2f(screenCenterX + horizontalOffset - btnWidth / 2.f, middleY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "STRUCTURE INTERNE",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
+        font,
+        [&]() { currentState = AppState::PLANET_STRUCTURE; }
+    ));
+
+    // Bouton 4 - EQUIPE (en bas, centrÃ©)
+    menuButtons.push_back(CosmicButton(
+        sf::Vector2f(screenCenterX - btnWidth / 2.f, bottomY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "EQUIPE",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
         font,
         [&]() { currentState = AppState::TEAM_INFO; }
     ));
-
-    // Bouton retour
+    // Bouton retour (APRÃˆS les menuButtons)
     std::vector<CosmicButton> backButtons;
     backButtons.push_back(CosmicButton(
         sf::Vector2f(50.f, 700.f),
@@ -179,6 +212,7 @@ int main() {
         "RETOUR",
         sf::Color(183, 28, 28, 200),
         sf::Color(198, 40, 40, 200),
+        sf::Color(255, 94, 98, 200),
         font,
         [&]() {
             if (currentState == AppState::PLANET_DETAILS) {
@@ -195,15 +229,18 @@ int main() {
     std::vector<CosmicButton> simButtons;
     float x = 20.f;
 
-    auto addButton = [&](const std::string& icon, const std::string& label,
-        sf::Color normalCol, sf::Color hoverCol, auto&& func, float yPos) {
-            simButtons.push_back(CosmicButton(
-                sf::Vector2f(x, yPos),
-                sf::Vector2f(Constants::BTN_WIDTH, Constants::BTN_HEIGHT),
-                icon, label, normalCol, hoverCol, font, func
-            ));
-            x += Constants::BTN_WIDTH + Constants::BTN_SPACING;
-        };
+   // âœ… APRÃˆS - Avec clickCol
+auto addButton = [&](const std::string& icon, const std::string& label,
+    sf::Color normalCol, sf::Color hoverCol, auto&& func, float yPos) {
+        simButtons.push_back(CosmicButton(
+            sf::Vector2f(x, yPos),
+            sf::Vector2f(Constants::BTN_WIDTH, Constants::BTN_HEIGHT),
+            icon, label, normalCol, hoverCol,
+            sf::Color(255, 94, 98, 200),  // âœ… NOUVEAU clickCol (rose)
+            font, func
+        ));
+        x += Constants::BTN_WIDTH + Constants::BTN_SPACING;
+    };
 
     addButton(">>", "Accelerer", sf::Color(46, 125, 50), sf::Color(56, 142, 60),
         [&]() { speedFactor = std::min(64.f, speedFactor * 2.f); }, Constants::BTN_Y);
@@ -217,15 +254,11 @@ int main() {
         [&]() { if (worldView.getSize().x < 5000.f) worldView.zoom(1.1f); }, Constants::BTN_Y);
     addButton("O", "Orbites", sf::Color(66, 66, 66), sf::Color(97, 97, 97),
         [&]() { showOrbits = !showOrbits; }, Constants::BTN_Y);
-    addButton("~", "Trainees", sf::Color(0, 137, 123), sf::Color(0, 150, 136),
-        [&]() { showTrails = !showTrails; }, Constants::BTN_Y);
-    addButton("T", "Labels", sf::Color(103, 58, 183), sf::Color(123, 31, 162),
-        [&]() { showLabels = !showLabels; }, Constants::BTN_Y);
+   
 
     // Deuxi?me ligne
     x = 20.f;
-    addButton("i", "Stats", sf::Color(13, 71, 161), sf::Color(21, 101, 192),
-        [&]() { showStats = !showStats; }, Constants::BTN_Y2);
+  
     addButton("#", "Grille", sf::Color(69, 90, 100), sf::Color(84, 110, 122),
         [&]() { showGrid = !showGrid; }, Constants::BTN_Y2);
     addButton("C", "Effacer", sf::Color(191, 54, 12), sf::Color(216, 67, 21),
@@ -241,6 +274,10 @@ int main() {
         }, Constants::BTN_Y2);
     addButton("M", "Menu", sf::Color(123, 31, 162), sf::Color(142, 36, 170),
         [&]() { currentState = AppState::MAIN_MENU; }, Constants::BTN_Y2);
+     addButton("~", "Trainees", sf::Color(0, 137, 123), sf::Color(0, 150, 136),
+        [&]() { showTrails = !showTrails; }, Constants::BTN_Y2);
+    addButton("T", "Labels", sf::Color(103, 58, 183), sf::Color(123, 31, 162),
+        [&]() { showLabels = !showLabels; }, Constants::BTN_Y2);
 
     // Textes d'information
     sf::Text infoText, speedText;
@@ -291,7 +328,8 @@ int main() {
                 }
                 else if (currentState == AppState::PRESENTATION ||
                     currentState == AppState::TEAM_INFO ||
-                    currentState == AppState::PLANET_DETAILS) {
+                    currentState == AppState::PLANET_DETAILS ||
+                    currentState == AppState::PLANET_STRUCTURE) {  // âœ… AJOUTÃ‰
                     for (auto& b : backButtons) {
                         if (b.isClicked(uiPos)) {
                             b.executeAction();
@@ -373,7 +411,7 @@ int main() {
         sf::Vector2i mouse = sf::Mouse::getPosition(window);
         sf::Vector2f mouseUI = window.mapPixelToCoords(mouse, uiView);
 
-        // Mise ? jour des étoiles
+        // Mise ? jour des Ã©toiles
         updateStars(stars, time);
 
         if (currentState == AppState::MAIN_MENU) {
@@ -384,7 +422,8 @@ int main() {
         }
         else if (currentState == AppState::PRESENTATION ||
             currentState == AppState::TEAM_INFO ||
-            currentState == AppState::PLANET_DETAILS) {
+            currentState == AppState::PLANET_DETAILS ||
+            currentState == AppState::PLANET_STRUCTURE) {  // âœ… AJOUTÃ‰
             for (auto& b : backButtons) {
                 b.update(mouseUI);
             }
@@ -395,7 +434,7 @@ int main() {
                 b.update(mouseUI);
             }
 
-            // Déplacement caméra
+            // DÃ©placement camÃ©ra
             sf::Vector2f move(0, 0);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
                 move.x -= Constants::PAN_SPEED * dt;
@@ -441,14 +480,7 @@ int main() {
                     << " u/s | Diam: " << p.realDiameterKm << " km | " << p.fact;
                 infoText.setString(oss.str());
             }
-            else {
-                worldView.setCenter(Constants::SUN_CENTER);
-                infoText.setString("Clic sur une planete pour les details | Touche R pour reset camera");
-            }
-
-            std::ostringstream oss2;
-            oss2 << "Vitesse: x" << speedFactor << (paused ? " [PAUSE]" : "");
-            speedText.setString(oss2.str());
+           
         }
 
         // RENDER
@@ -466,6 +498,10 @@ int main() {
 
         case AppState::TEAM_INFO:
             drawTeamInfo(window, font, backButtons, stars, time);
+            break;
+
+        case AppState::PLANET_STRUCTURE:  // âœ… NOUVEAU
+            drawPlanetStructure(window, font, backButtons, stars, time);
             break;
 
         case AppState::PLANET_DETAILS:
