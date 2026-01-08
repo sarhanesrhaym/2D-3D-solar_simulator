@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
+#include "Moon.h"
 
 class Planet {
 public:
@@ -17,7 +18,14 @@ public:
     void update(float deltaTime, const sf::Vector2f& sunCenter, float G, float massSun, bool showTrails);
     void draw(sf::RenderWindow& window, bool showTrails, bool showLabels);
     void drawRings(sf::RenderWindow& window, const sf::Texture& ringTexture);
+    void drawMoons(sf::RenderWindow& window, bool showLabels);
     void clearTrail();
+    
+    // Gestion des lunes
+    void initializeMoons();
+    void updateMoons(float deltaTime);
+    const std::vector<Moon>& getMoons() const { return moons; }
+    bool hasMoons() const { return !moons.empty(); }
 
     // Getters
     const sf::Vector2f& getPosition() const;
@@ -60,7 +68,11 @@ public:
     float density;
     float rotationPeriod;
     std::string planetType;
+    
+    // Système de lunes
+    std::vector<Moon> moons;
+ bool moonsInitialized;
 
 private:
-    sf::Texture* planetTexture;
+  sf::Texture* planetTexture;
 };

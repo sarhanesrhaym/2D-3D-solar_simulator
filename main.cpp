@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+﻿#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -13,14 +13,26 @@
 #include "MenuPlanet.h"
 #include "CosmicButton.h"
 #include "UI.h"
+#include "SpaceMission.h"  // ✅ NOUVEAU
+#include "EducationalMode.h"  // ✅ AJOUTER
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1200, 800), "CosmoUIT - Simulateur Solaire 2D");
     window.setFramerateLimit(60);
 
-    // �tat initial
+    // ✅ CORRECTION : Déplacer la déclaration du font AVANT son utilisation
+    sf::Font font;
+    if (!font.loadFromFile(Constants::FONT_PATH)) {
+        std::cerr << "Erreur: Police non trouvee." << std::endl;
+        return 1;
+    }
+
+    // État initial
     AppState currentState = AppState::MAIN_MENU;
     Planet* selectedPlanet = nullptr;
+
+  // ✅ CORRECTION : Mode Éducatif (après la déclaration du font)
+    EducationalMode educationalMode(font);
 
     // Views
     sf::View worldView;
@@ -31,14 +43,7 @@ int main() {
     uiView.reset(sf::FloatRect(0.f, 0.f, 1200.f, 800.f));
     uiView.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
 
-    // Chargement de la police
-    sf::Font font;
-    if (!font.loadFromFile(Constants::FONT_PATH)) {
-        std::cerr << "Erreur: Police non trouvee." << std::endl;
-        return 1;
-    }
-
-    // Cr�ation des �toiles et du syst?me solaire du menu
+    // Création des étoiles et du système solaire du menu
     std::vector<Star> stars;
     std::vector<MenuPlanet> menuPlanets;
     createStarfield(stars);
@@ -58,7 +63,7 @@ int main() {
     }
 
     sf::Texture sunTexture, saturnRingTexture;
-    if (!sunTexture.loadFromFile("textures/sun.jpg"))
+    if (!sunTexture.loadFromFile("textures/sun.png"))
         std::cerr << "Soleil manquant." << std::endl;
     if (!saturnRingTexture.loadFromFile("textures/saturn_ring.png"))
         std::cerr << "Anneau manquant." << std::endl;
@@ -74,104 +79,151 @@ int main() {
     sunGlow.setPosition(Constants::SUN_CENTER);
     sunGlow.setFillColor(sf::Color(255, 200, 50, 50));
 
-    // Cr�ation des plan?tes
+    // Création des plan?tes
     std::vector<Planet> planets;
 
-    // Dans la section cr�ation des plan�tes, utilisez des caract�ristiques plus courtes :
+   
 
-    planets.push_back(Planet(60.f, 0.2f, "Mercure", 0.33f, 0, 4879, "Journ�e plus longue que son ann�e",
-        sf::Color(169, 169, 169), 0, 0.f, "Exosph�re t�nue: oxyg�ne, sodium, hydrog�ne",
-        167.f, 3.7f, "Antiquit� (Babyloniens)",
-        { "Plus proche du Soleil", "Aucun satellite", "Surface crat�ris�e", "Amplitude thermique forte" },
+    planets.push_back(Planet(60.f, 0.2f, "Mercure", 0.33f, 0, 4879, "Journée plus longue que son année",
+        sf::Color(169, 169, 169), 0, 0.f, "Exosphère ténue: oxygène, sodium, hydrogène",
+        167.f, 3.7f, "Antiquité (Babyloniens)",
+        { "Plus proche du Soleil", "Aucun satellite", "Surface cratérisée", "Amplitude thermique forte" },
         font, &planetTextures[0]));
 
-    planets.push_back(Planet(120.f, 0.01f, "V�nus", 4.87f, 1, 12104, "Rotation r�trograde unique",
+    planets.push_back(Planet(120.f, 0.01f, "Vénus", 4.87f, 1, 12104, "Rotation rétrograde unique",
         sf::Color(255, 198, 73), 0, 0.f, "96.5% CO?, 3.5% azote, traces de SO?",
-        464.f, 8.87f, "Antiquit�",
-        { "Atmosph�re �paisse", "Effet de serre extr�me", "Journ�e = 243 jours" },
+        464.f, 8.87f, "Antiquité",
+        { "Atmosphère épaisse", "Effet de serre extrême", "Journée = 243 jours" },
         font, &planetTextures[1]));
 
-    planets.push_back(Planet(150.f, 0.017f, "Terre", 5.97f, 2, 12756, "Seule plan�te habit�e connue",
-        sf::Color(100, 149, 237), 1, 0.f, "78% azote, 21% oxyg�ne, 1% argon",
+    planets.push_back(Planet(150.f, 0.017f, "Terre", 5.97f, 2, 12756, "Seule planète habitée connue",
+        sf::Color(100, 149, 237), 1, 0.f, "78% azote, 21% oxygène, 1% argon",
         15.f, 9.8f, "Formation naturelle",
-        { "71% surface oc�anique", "Champ magn�tique", "Activit� tectonique" },
+        { "71% surface océanique", "Champ magnétique", "Activité tectonique" },
         font, &planetTextures[2]));
 
-    planets.push_back(Planet(220.f, 0.09f, "Mars", 0.642f, 3, 6792, "Plus hauts volcans du syst�me",
+    planets.push_back(Planet(220.f, 0.09f, "Mars", 0.642f, 3, 6792, "Plus hauts volcans du système",
         sf::Color(205, 92, 92), 2, 0.f, "95% CO?, 2.7% azote, 1.6% argon",
-        -65.f, 3.7f, "Antiquit�",
-        { "Saisons similaires Terre", "Calottes polaires", "Possibilit� vie pass�e" },
+        -65.f, 3.7f, "Antiquité",
+        { "Saisons similaires Terre", "Calottes polaires", "Possibilité vie passée" },
         font, &planetTextures[3]));
 
-    planets.push_back(Planet(350.f, 0.05f, "Jupiter", 1898.f, 4, 142984, "Plus grande plan�te du syst�me",
-        sf::Color(222, 184, 135), 79, 0.f, "90% hydrog�ne, 10% h�lium, traces",
-        -108.f, 24.8f, "Antiquit�",
-        { "Grande Tache Rouge", "Champ magn�tique puissant", "Anneaux t�nus" },
+    planets.push_back(Planet(350.f, 0.05f, "Jupiter", 1898.f, 4, 142984, "Plus grande planète du système",
+        sf::Color(222, 184, 135), 79, 0.f, "90% hydrogène, 10% hélium, traces",
+        -108.f, 24.8f, "Antiquité",
+        { "Grande Tache Rouge", "Champ magnétique puissant", "Anneaux ténus" },
         font, &planetTextures[4]));
 
     planets.push_back(Planet(450.f, 0.05f, "Saturne", 568.f, 5, 120536, "Anneaux spectaculaires visibles",
-        sf::Color(238, 232, 170), 82, 26.7f, "96% hydrog�ne, 3% h�lium, 1% autres",
-        -139.f, 10.4f, "Antiquit�",
-        { "Densit� < eau", "Anneaux complexes", "Lune Titan importante" },
+        sf::Color(238, 232, 170), 82, 26.7f, "96% hydrogène, 3% hélium, 1% autres",
+        -139.f, 10.4f, "Antiquité",
+        { "Densité < eau", "Anneaux complexes", "Lune Titan importante" },
         font, &planetTextures[5]));
 
-    planets.push_back(Planet(550.f, 0.04f, "Uranus", 86.8f, 6, 51118, "Rotation inclin�e � 98�",
-        sf::Color(175, 238, 238), 27, 0.f, "83% hydrog�ne, 15% h�lium, 2% m�thane",
+    planets.push_back(Planet(550.f, 0.04f, "Uranus", 86.8f, 6, 51118, "Rotation inclinée à 98°",
+        sf::Color(175, 238, 238), 27, 0.f, "83% hydrogène, 15% hélium, 2% méthane",
         -197.f, 8.9f, "William Herschel (1781)",
-        { "Axe rotation unique", "Saisons extr�mes", "Anneaux verticaux" },
+        { "Axe rotation unique", "Saisons extrêmes", "Anneaux verticaux" },
         font, &planetTextures[6]));
 
     planets.push_back(Planet(650.f, 0.01f, "Neptune", 102.f, 7, 49528, "Vents les plus rapides (2100 km/h)",
-        sf::Color(65, 105, 225), 14, 0.f, "80% hydrog�ne, 19% h�lium, 1% m�thane",
+        sf::Color(65, 105, 225), 14, 0.f, "80% hydrogène, 19% hélium, 1% méthane",
         -201.f, 11.2f, "Urbain Le Verrier (1846)",
-        { "D�couverte math�matique", "Grande Tache Sombre", "Anneaux incomplets" },
+        { "Découverte mathématique", "Grande Tache Sombre", "Anneaux incomplets" },
         font, &planetTextures[7]));
-    // Com?tes
+    // Cometes
     std::vector<Comet> comets;
 
     // Variables de simulation
     float speedFactor = 1.f;
     bool paused = false, showOrbits = true, showTrails = true;
-    bool showLabels = true, showStats = false, showGrid = false;
+  bool showLabels = true, showStats = false, showGrid = false;
     int focusedPlanet = -1;
     float elapsedSimulationTime = 0.f;
 
-    // Boutons du menu principal
+    // ✅ Timeline des Missions Spatiales
+    MissionTimeline missionTimeline;
+  const SpaceMission* hoveredMission = nullptr;
+    bool showMissionTimeline = true;
+    bool showMissionPanel = true;  // ✅ Afficher les missions par défaut
+
+  // ✅ Menu déroulant pour les boutons
+    bool toolMenuOpen = false;
+    float toolMenuAnimation = 0.f;
+
+  // ✅ Mode Suivi Planétiaire
+    // ✅ Mode Suivi Planétiaire
+    bool cameraFollowMode = false;
+    int followedPlanetIndex = -1;
+    float smoothCameraLerp = 0.08f;  // Vitesse de suivi (plus petit = plus fluide)
+
+    // Boutons du menu principal - DISPOSITION EN LOSANGE
     std::vector<CosmicButton> menuButtons;
-    float menuBtnY = 500.f;
-    float menuBtnX = (1200.f - Constants::MENU_BTN_WIDTH) / 2.f;
 
-    menuButtons.push_back(CosmicButton(
-        sf::Vector2f(menuBtnX, menuBtnY),
-        sf::Vector2f(Constants::MENU_BTN_WIDTH, Constants::MENU_BTN_HEIGHT),
-        "PRESENTATION DU PROJET",
-        sf::Color(25, 118, 210, 200),
-        sf::Color(30, 136, 229, 200),
-        font,
-        [&]() { currentState = AppState::PRESENTATION; }
-    ));
+    // COULEURS LUMINEUSES : BLEU NUIT + BLEU CIEL BRILLANT
+    sf::Color btnNormalColor = sf::Color(20, 40, 70, 240);
+    sf::Color btnHoverColor = sf::Color(100, 180, 230, 255);
+    sf::Color btnClickColor = sf::Color(173, 216, 230, 255);
 
+    //  NOUVELLES POSITIONS EN LOSANGE (4 boutons)
+   
+
+    float btnWidth = 250.f;
+    float btnHeight = 45.f;
+    float screenCenterX = 600.f;
+    float topY = 580.f;
+    float middleY = 640.f;
+    float bottomY = 700.f;
+    float horizontalOffset = 280.f;
+
+    // Bouton 1 - LANCER SIMULATION (en haut, centré)
     menuButtons.push_back(CosmicButton(
-        sf::Vector2f(menuBtnX, menuBtnY + Constants::MENU_BTN_SPACING),
-        sf::Vector2f(Constants::MENU_BTN_WIDTH, Constants::MENU_BTN_HEIGHT),
-        "LANCER LA SIMULATION",
-        sf::Color(56, 142, 60, 200),
-        sf::Color(67, 160, 71, 200),
+        sf::Vector2f(screenCenterX - btnWidth / 2.f, topY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "ACCÈS SIMULATEUR",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
         font,
         [&]() { currentState = AppState::SIMULATION; }
     ));
 
+    // Bouton 2 - PRESENTATION (milieu gauche)
     menuButtons.push_back(CosmicButton(
-        sf::Vector2f(menuBtnX, menuBtnY + 2 * Constants::MENU_BTN_SPACING),
-        sf::Vector2f(Constants::MENU_BTN_WIDTH, Constants::MENU_BTN_HEIGHT),
-        "INFORMATIONS DE L'EQUIPE",
-        sf::Color(123, 31, 162, 200),
-        sf::Color(142, 36, 170, 200),
+        sf::Vector2f(screenCenterX - horizontalOffset - btnWidth / 2.f, middleY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "CADRE DU PROJET",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
+        font,
+        [&]() { currentState = AppState::PRESENTATION; }
+    ));
+
+    // Bouton 3 - STRUCTURE INTERNE (milieu droite) 
+    menuButtons.push_back(CosmicButton(
+        sf::Vector2f(screenCenterX + horizontalOffset - btnWidth / 2.f, middleY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "STRUCTURE INTERNE",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
+        font,
+        [&]() { currentState = AppState::PLANET_STRUCTURE; }
+    ));
+
+    // Bouton 4 - EQUIPE (en bas, centré)
+    menuButtons.push_back(CosmicButton(
+        sf::Vector2f(screenCenterX - btnWidth / 2.f, bottomY),
+        sf::Vector2f(btnWidth, btnHeight),
+        "ÉQUIPE PÉDAGOGIQUE",
+        btnNormalColor,
+        btnHoverColor,
+        btnClickColor,
         font,
         [&]() { currentState = AppState::TEAM_INFO; }
     ));
-
-    // Bouton retour
+    // Bouton retour (APRÈS les menuButtons)
     std::vector<CosmicButton> backButtons;
     backButtons.push_back(CosmicButton(
         sf::Vector2f(50.f, 700.f),
@@ -179,6 +231,7 @@ int main() {
         "RETOUR",
         sf::Color(183, 28, 28, 200),
         sf::Color(198, 40, 40, 200),
+        sf::Color(255, 94, 98, 200),
         font,
         [&]() {
             if (currentState == AppState::PLANET_DETAILS) {
@@ -191,56 +244,169 @@ int main() {
         }
     ));
 
-    // Boutons de simulation
+    // ===== MENU DÉROULANT DES OUTILS =====
     std::vector<CosmicButton> simButtons;
-    float x = 20.f;
-
-    auto addButton = [&](const std::string& icon, const std::string& label,
-        sf::Color normalCol, sf::Color hoverCol, auto&& func, float yPos) {
-            simButtons.push_back(CosmicButton(
-                sf::Vector2f(x, yPos),
-                sf::Vector2f(Constants::BTN_WIDTH, Constants::BTN_HEIGHT),
-                icon, label, normalCol, hoverCol, font, func
+    
+    // Position du menu (en haut à droite)
+    float menuX = 1070.f;
+    float menuY = 160.f;
+    float menuBtnW = 120.f;
+    float menuBtnH = 35.f;
+    float menuSpacing = 5.f;
+    
+    // ===== PALETTE COSMIQUE RÉALISTE =====
+    // Inspirée des couleurs du système solaire et de l'espace
+    struct CosmicPalette {
+   // Couleurs principales
+        sf::Color solarCorona{255, 180, 50, 230};      // Jaune solaire
+        sf::Color solarFlare{255, 120, 30, 230};   // Orange éruption
+  sf::Color marsRust{180, 80, 60, 230};          // Rouge Mars
+        sf::Color neptuneBlue{60, 100, 180, 230};      // Bleu Neptune
+        sf::Color uranusAqua{80, 180, 200, 230};       // Cyan Uranus
+        sf::Color saturnGold{200, 170, 100, 230};    // Or Saturne
+ sf::Color jupiterBrown{180, 140, 100, 230};    // Brun Jupiter
+    sf::Color venusAmber{220, 180, 80, 230};     // Ambre Vénus
+        sf::Color mercuryGray{140, 140, 150, 230};     // Gris Mercure
+        sf::Color deepSpace{30, 40, 80, 230};          // Bleu espace profond
+        sf::Color nebulaViolet{120, 80, 160, 230};     // Violet nébuleuse
+        sf::Color starWhite{220, 230, 255, 230};       // Blanc étoile
+   
+   // Couleurs hover (plus lumineuses)
+      sf::Color solarCoronaHover{255, 200, 80, 255};
+        sf::Color solarFlareHover{255, 150, 60, 255};
+        sf::Color marsRustHover{210, 100, 80, 255};
+        sf::Color neptuneBlueHover{80, 130, 220, 255};
+      sf::Color uranusAquaHover{100, 210, 230, 255};
+   sf::Color saturnGoldHover{230, 200, 130, 255};
+      sf::Color jupiterBrownHover{210, 170, 130, 255};
+        sf::Color venusAmberHover{250, 210, 110, 255};
+     sf::Color mercuryGrayHover{170, 170, 180, 255};
+        sf::Color deepSpaceHover{50, 70, 120, 255};
+        sf::Color nebulaVioletHover{150, 110, 200, 255};
+   sf::Color starWhiteHover{255, 255, 255, 255};
+  } cosmic;
+    
+    // Bouton principal "OUTILS" (style nébuleuse)
+    CosmicButton toolsMainButton(
+ sf::Vector2f(menuX, menuY - 50.f),
+      sf::Vector2f(menuBtnW, 40.f),
+  "OUTILS",
+      cosmic.deepSpace,
+   cosmic.deepSpaceHover,
+        sf::Color(100, 150, 255, 255),
+        font,
+        [&]() { 
+            toolMenuOpen = !toolMenuOpen; 
+            toolMenuAnimation = 0.f;
+  }
+    );
+    
+    // Fonction helper pour ajouter un bouton au menu
+    float currentY = menuY;
+    auto addToolButton = [&](const std::string& icon, const std::string& label,
+   sf::Color normalCol, sf::Color hoverCol, sf::Color clickCol, auto&& func) {
+   simButtons.push_back(CosmicButton(
+   sf::Vector2f(menuX, currentY),
+      sf::Vector2f(menuBtnW, menuBtnH),
+     icon, label, normalCol, hoverCol,
+          clickCol,
+      font, func
             ));
-            x += Constants::BTN_WIDTH + Constants::BTN_SPACING;
+currentY += menuBtnH + menuSpacing;
         };
-
-    addButton(">>", "Accelerer", sf::Color(46, 125, 50), sf::Color(56, 142, 60),
-        [&]() { speedFactor = std::min(64.f, speedFactor * 2.f); }, Constants::BTN_Y);
-    addButton("<<", "Ralentir", sf::Color(198, 40, 40), sf::Color(211, 47, 47),
-        [&]() { speedFactor = std::max(0.125f, speedFactor * 0.5f); }, Constants::BTN_Y);
-    addButton("||", "Pause", sf::Color(245, 124, 0), sf::Color(251, 140, 0),
-        [&]() { paused = !paused; }, Constants::BTN_Y);
-    addButton("+", "Zoom +", sf::Color(25, 118, 210), sf::Color(30, 136, 229),
-        [&]() { if (worldView.getSize().x > 200.f) worldView.zoom(0.9f); }, Constants::BTN_Y);
-    addButton("-", "Zoom -", sf::Color(94, 53, 177), sf::Color(106, 27, 154),
-        [&]() { if (worldView.getSize().x < 5000.f) worldView.zoom(1.1f); }, Constants::BTN_Y);
-    addButton("O", "Orbites", sf::Color(66, 66, 66), sf::Color(97, 97, 97),
-        [&]() { showOrbits = !showOrbits; }, Constants::BTN_Y);
-    addButton("~", "Trainees", sf::Color(0, 137, 123), sf::Color(0, 150, 136),
-        [&]() { showTrails = !showTrails; }, Constants::BTN_Y);
-    addButton("T", "Labels", sf::Color(103, 58, 183), sf::Color(123, 31, 162),
-        [&]() { showLabels = !showLabels; }, Constants::BTN_Y);
-
-    // Deuxi?me ligne
-    x = 20.f;
-    addButton("i", "Stats", sf::Color(13, 71, 161), sf::Color(21, 101, 192),
-        [&]() { showStats = !showStats; }, Constants::BTN_Y2);
-    addButton("#", "Grille", sf::Color(69, 90, 100), sf::Color(84, 110, 122),
-        [&]() { showGrid = !showGrid; }, Constants::BTN_Y2);
-    addButton("C", "Effacer", sf::Color(191, 54, 12), sf::Color(216, 67, 21),
+    
+    // ===== BOUTONS DU MENU AVEC PALETTE COSMIQUE =====
+    
+    // Contrôle vitesse - Couleurs solaires (jaune/orange)
+    addToolButton(">>", "Accelerer", 
+cosmic.solarCorona, cosmic.solarCoronaHover, cosmic.starWhite,
+        [&]() { speedFactor = std::min(64.f, speedFactor * 2.f); });
+    
+    addToolButton("<<", "Ralentir", 
+      cosmic.solarFlare, cosmic.solarFlareHover, cosmic.starWhite,
+        [&]() { speedFactor = std::max(0.125f, speedFactor * 0.5f); });
+    
+ // Pause - Couleur Mars (rouge profond)
+    addToolButton("||", "Pause", 
+        cosmic.marsRust, cosmic.marsRustHover, cosmic.starWhite,
+        [&]() { paused = !paused; });
+    
+    // Zoom - Couleurs Neptune/Uranus (bleus)
+    addToolButton("+", "Zoom +", 
+        cosmic.neptuneBlue, cosmic.neptuneBlueHover, cosmic.starWhite,
+  [&]() { if (worldView.getSize().x > 200.f) worldView.zoom(0.9f); });
+    
+    addToolButton("-", "Zoom -", 
+        cosmic.uranusAqua, cosmic.uranusAquaHover, cosmic.starWhite,
+   [&]() { if (worldView.getSize().x < 5000.f) worldView.zoom(1.1f); });
+    
+    // Affichage - Couleurs Saturne/Jupiter (or/brun)
+    addToolButton("O", "Orbites", 
+ cosmic.saturnGold, cosmic.saturnGoldHover, cosmic.starWhite,
+[&]() { showOrbits = !showOrbits; });
+    
+    addToolButton("~", "Trainees", 
+        cosmic.jupiterBrown, cosmic.jupiterBrownHover, cosmic.starWhite,
+        [&]() { showTrails = !showTrails; });
+    
+    addToolButton("T", "Labels", 
+        cosmic.venusAmber, cosmic.venusAmberHover, cosmic.starWhite,
+        [&]() { showLabels = !showLabels; });
+    
+    // Grille - Couleur Mercure (gris métallique)
+    addToolButton("#", "Grille", 
+        cosmic.mercuryGray, cosmic.mercuryGrayHover, cosmic.starWhite,
+        [&]() { showGrid = !showGrid; });
+  
+    // Actions - Couleurs nébuleuse (violet/profond)
+    addToolButton("C", "Effacer", 
+        cosmic.nebulaViolet, cosmic.nebulaVioletHover, cosmic.starWhite,
         [&]() {
-            for (auto& p : planets) p.clearTrail();
+   for (auto& p : planets) p.clearTrail();
             comets.clear();
-        }, Constants::BTN_Y2);
-    addButton("R", "Reset", sf::Color(183, 28, 28), sf::Color(198, 40, 40),
-        [&]() {
+        });
+    
+    addToolButton("R", "Reset", 
+   sf::Color(160, 60, 80, 230), sf::Color(200, 80, 100, 255), cosmic.starWhite,
+    [&]() {
             worldView.setCenter(0.f, 0.f);
-            worldView.setSize(1200.f, 800.f);
-            focusedPlanet = -1;
-        }, Constants::BTN_Y2);
-    addButton("M", "Menu", sf::Color(123, 31, 162), sf::Color(142, 36, 170),
-        [&]() { currentState = AppState::MAIN_MENU; }, Constants::BTN_Y2);
+   worldView.setSize(1200.f, 800.f);
+    focusedPlanet = -1;
+     });
+    
+    addToolButton("M", "Menu", 
+        cosmic.deepSpace, cosmic.deepSpaceHover, cosmic.starWhite,
+        [&]() { currentState = AppState::MAIN_MENU; });
+    
+    //  NOUVEAU : Bouton Suivi Planétaire
+    addToolButton("@", "Suivre", 
+   sf::Color(100, 200, 150, 230), sf::Color(130, 230, 180, 255), cosmic.starWhite,
+        [&]() {
+  if (focusedPlanet >= 0) {
+   cameraFollowMode = !cameraFollowMode;
+    if (cameraFollowMode) {
+    followedPlanetIndex = focusedPlanet;
+        } else {
+      followedPlanetIndex = -1;
+ }
+  }
+        });
+    
+    // ✅ MODIFIÉ : Bouton Timeline Missions
+    addToolButton("H", "Missions",
+        sf::Color(200, 100, 200, 230), sf::Color(230, 130, 230, 255), cosmic.starWhite,
+        [&]() {
+            showMissionPanel = !showMissionPanel;  // Toggle le panneau
+            if (!showMissionPanel) {
+                hoveredMission = nullptr;  // Réinitialiser la mission survolée
+            }
+        });
+    // ✅ NOUVEAU : Bouton Quiz Éducatif
+    addToolButton("?", "Quiz",
+        sf::Color(255, 150, 0, 230), sf::Color(255, 180, 50, 255), cosmic.starWhite,
+        [&]() {
+            educationalMode.startQuiz();
+        });
 
     // Textes d'information
     sf::Text infoText, speedText;
@@ -273,216 +439,330 @@ int main() {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
-                window.close();
+    window.close();
 
-            // Gestion des clics souris
-            if (event.type == sf::Event::MouseButtonPressed &&
-                event.mouseButton.button == sf::Mouse::Left) {
-                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                sf::Vector2f uiPos = window.mapPixelToCoords(mousePos, uiView);
+      // Gestion des clics souris
+          if (event.type == sf::Event::MouseButtonPressed &&
+      event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        sf::Vector2f uiPos = window.mapPixelToCoords(mousePos, uiView);
 
-                if (currentState == AppState::MAIN_MENU) {
-                    for (auto& b : menuButtons) {
-                        if (b.isClicked(uiPos)) {
-                            b.executeAction();
-                            break;
-                        }
-                    }
-                }
+  if (currentState == AppState::MAIN_MENU) {
+   for (auto& b : menuButtons) {
+    if (b.isClicked(uiPos)) {
+               b.executeAction();
+          break;
+       }
+            }
+     }
                 else if (currentState == AppState::PRESENTATION ||
-                    currentState == AppState::TEAM_INFO ||
-                    currentState == AppState::PLANET_DETAILS) {
-                    for (auto& b : backButtons) {
-                        if (b.isClicked(uiPos)) {
-                            b.executeAction();
-                            break;
-                        }
-                    }
-                }
+      currentState == AppState::TEAM_INFO ||
+       currentState == AppState::PLANET_DETAILS ||
+       currentState == AppState::PLANET_STRUCTURE) {
+   for (auto& b : backButtons) {
+       if (b.isClicked(uiPos)) {
+        b.executeAction();
+ break;
+      }
+           }
+     }
                 else if (currentState == AppState::SIMULATION) {
-                    sf::Vector2f worldPos = window.mapPixelToCoords(mousePos, worldView);
+    sf::Vector2f worldPos = window.mapPixelToCoords(mousePos, worldView);
+    sf::Vector2f uiPos = window.mapPixelToCoords(mousePos, uiView);
+    bool clicked = false;
 
-                    bool clicked = false;
-                    for (auto& b : simButtons) {
-                        if (b.isClicked(uiPos)) {
-                            b.executeAction();
-                            clicked = true;
-                            break;
-                        }
-                    }
+    // ✅ Gérer les clics du quiz en PREMIER
+    if (educationalMode.isQuizActive()) {
+        if (educationalMode.handleQuizClick(uiPos)) {
+            clicked = true;
+        }
+    }
 
-                    if (!clicked) {
-                        focusedPlanet = -1;
-                        for (size_t i = 0; i < planets.size(); ++i) {
-                            if (planets[i].shape.getGlobalBounds().contains(worldPos)) {
-                                selectedPlanet = &planets[i];
-                                currentState = AppState::PLANET_DETAILS;
-                                clicked = true;
-                                break;
-                            }
-                        }
+ // Vérifier le bouton principal OUTILS
+ if (!clicked && toolsMainButton.isClicked(uiPos)) {
+        toolsMainButton.executeAction();
+        clicked = true;
+    }
 
-                        if (!clicked && comets.size() < 50) {
-                            comets.push_back(Comet(worldPos));
-                        }
-                    }
-                }
+    // Vérifier les boutons du menu
+    if (!clicked && toolMenuOpen) {
+        for (auto& b : simButtons) {
+            if (b.isClicked(uiPos)) {
+                b.executeAction();
+       clicked = true;
+       break;
+  }
+  }
+  }
+
+    // Clic sur les planètes
+    if (!clicked) {
+        focusedPlanet = -1;
+        for (size_t i = 0; i < planets.size(); ++i) {
+            if (planets[i].shape.getGlobalBounds().contains(worldPos)) {
+ selectedPlanet = &planets[i];
+   currentState = AppState::PLANET_DETAILS;
+        clicked = true;
+      break;
+         }
+        }
+
+     // Créer une comète si aucun clic
+      if (!clicked && comets.size() < 50) {
+        comets.push_back(Comet(worldPos));
+        }
+    }
+}
             }
 
-            // Gestion du zoom avec la molette
-            if (event.type == sf::Event::MouseWheelScrolled &&
-                currentState == AppState::SIMULATION) {
-                float f = event.mouseWheelScroll.delta > 0 ? 0.9f : 1.1f;
-                if ((f < 1.f && worldView.getSize().x > 200.f) ||
-                    (f > 1.f && worldView.getSize().x < 5000.f)) {
-                    worldView.zoom(f);
-                }
+        // Gestion du zoom avec la molette
+ if (event.type == sf::Event::MouseWheelScrolled &&
+   currentState == AppState::SIMULATION) {
+          float f = event.mouseWheelScroll.delta > 0 ? 0.9f : 1.1f;
+     if ((f < 1.f && worldView.getSize().x > 200.f) ||
+    (f > 1.f && worldView.getSize().x < 5000.f)) {
+        worldView.zoom(f);
+     }
             }
 
-            // Touches clavier
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Escape) {
-                    if (currentState == AppState::PLANET_DETAILS) {
-                        currentState = AppState::SIMULATION;
-                        selectedPlanet = nullptr;
-                    }
-                    else if (currentState != AppState::MAIN_MENU) {
-                        currentState = AppState::MAIN_MENU;
-                    }
-                    else {
-                        window.close();
-                    }
-                }
+       // Touches clavier
+      if (event.type == sf::Event::KeyPressed) {
+      if (event.key.code == sf::Keyboard::Escape) {
+          if (currentState == AppState::PLANET_DETAILS) {
+   currentState = AppState::SIMULATION;
+        selectedPlanet = nullptr;
+  }
+      else if (currentState != AppState::MAIN_MENU) {
+         currentState = AppState::MAIN_MENU;
+  }
+      else {
+                window.close();
+    }
+      }
 
                 if (currentState == AppState::SIMULATION) {
-                    if (event.key.code == sf::Keyboard::Space)
-                        paused = !paused;
-                    if (event.key.code == sf::Keyboard::R) {
-                        worldView.setCenter(0.f, 0.f);
-                        worldView.setSize(1200.f, 800.f);
-                        focusedPlanet = -1;
-                    }
-                }
-            }
+     if (event.key.code == sf::Keyboard::Space)
+   paused = !paused;
+      if (event.key.code == sf::Keyboard::R) {
+  worldView.setCenter(0.f, 0.f);
+ worldView.setSize(1200.f, 800.f);
+    focusedPlanet = -1;
+      cameraFollowMode = false;
+                 followedPlanetIndex = -1;
+   }
+  if (event.key.code == sf::Keyboard::Tab) {
+       toolMenuOpen = !toolMenuOpen;
+  }
+      
+   // NOUVEAU : Touche F pour activer/désactiver le suivi
+ if (event.key.code == sf::Keyboard::F) {
+         if (focusedPlanet >= 0 && focusedPlanet < static_cast<int>(planets.size())) {
+      cameraFollowMode = !cameraFollowMode;
+         if (cameraFollowMode) {
+      followedPlanetIndex = focusedPlanet;
+     } else {
+            followedPlanetIndex = -1;
+              }
+         }
+}
+ 
+         //  NOUVEAU : Touches 1-8 pour suivre directement une planète
+    if (event.key.code >= sf::Keyboard::Num1 && event.key.code <= sf::Keyboard::Num8) {
+  int planetIdx = event.key.code - sf::Keyboard::Num1;
+            if (planetIdx < static_cast<int>(planets.size())) {
+        cameraFollowMode = true;
+       followedPlanetIndex = planetIdx;
+    focusedPlanet = planetIdx;
+         }
+  }
+   
+      // Touche 0 pour revenir au Soleil
+         if (event.key.code == sf::Keyboard::Num0) {
+      cameraFollowMode = false;
+          followedPlanetIndex = -1;
+  focusedPlanet = -1;
+    worldView.setCenter(Constants::SUN_CENTER);
+      }
+        
+      // ✅ CORRECTION : Touche H pour afficher/masquer les missions
+        if (event.key.code == sf::Keyboard::H) {
+   showMissionPanel = !showMissionPanel;
+    }
+   }
+     }
         }
 
         // UPDATE
         float dt = clock.restart().asSeconds();
         float time = clock.getElapsedTime().asSeconds();
 
-        sf::Vector2i mouse = sf::Mouse::getPosition(window);
+  sf::Vector2i mouse = sf::Mouse::getPosition(window);
         sf::Vector2f mouseUI = window.mapPixelToCoords(mouse, uiView);
 
-        // Mise ? jour des �toiles
+        // Mise à jour des étoiles
         updateStars(stars, time);
 
-        if (currentState == AppState::MAIN_MENU) {
+     if (currentState == AppState::MAIN_MENU) {
             for (auto& b : menuButtons) {
-                b.update(mouseUI);
-            }
-            updateMenuSolarSystem(menuPlanets, dt, Constants::MENU_CENTER);
-        }
+b.update(mouseUI);
+     }
+    updateMenuSolarSystem(menuPlanets, dt, Constants::MENU_CENTER);
+      }
         else if (currentState == AppState::PRESENTATION ||
-            currentState == AppState::TEAM_INFO ||
-            currentState == AppState::PLANET_DETAILS) {
-            for (auto& b : backButtons) {
-                b.update(mouseUI);
-            }
+       currentState == AppState::TEAM_INFO ||
+     currentState == AppState::PLANET_DETAILS ||
+      currentState == AppState::PLANET_STRUCTURE) {
+   for (auto& b : backButtons) {
+      b.update(mouseUI);
+    }
         }
         else if (currentState == AppState::SIMULATION) {
-            // Hover boutons
-            for (auto& b : simButtons) {
-                b.update(mouseUI);
+    // Mise à jour du bouton principal OUTILS
+       toolsMainButton.update(mouseUI);
+     
+   // Animation d'ouverture/fermeture du menu
+ if (toolMenuOpen) {
+        toolMenuAnimation = std::min(1.f, toolMenuAnimation + dt * 5.f);
+            } else {
+      toolMenuAnimation = std::max(0.f, toolMenuAnimation - dt * 5.f);
             }
 
-            // D�placement cam�ra
-            sf::Vector2f move(0, 0);
+            // Mise à jour des boutons du menu (seulement si visible)
+            if (toolMenuOpen) {
+      for (auto& b : simButtons) {
+  b.update(mouseUI);
+   }
+            }
+
+            // Déplacement caméra
+        sf::Vector2f move(0, 0);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
                 move.x -= Constants::PAN_SPEED * dt;
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-                move.x += Constants::PAN_SPEED * dt;
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-                move.y -= Constants::PAN_SPEED * dt;
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        move.x += Constants::PAN_SPEED * dt;
+         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+       move.y -= Constants::PAN_SPEED * dt;
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-                move.y += Constants::PAN_SPEED * dt;
-            if (move.x != 0 || move.y != 0)
-                focusedPlanet = -1;
+   move.y += Constants::PAN_SPEED * dt;
+    
+   // Si déplacement manuel, désactiver le suivi
+            if (move.x != 0 || move.y != 0) {
+       focusedPlanet = -1;
+    cameraFollowMode = false;
+    followedPlanetIndex = -1;
+         worldView.move(move);
+       }
+            
+            // ✅ NOUVEAU : Mode suivi planétaire avec interpolation fluide
+   if (cameraFollowMode && followedPlanetIndex >= 0 && 
+    followedPlanetIndex < static_cast<int>(planets.size())) {
+   
+           sf::Vector2f targetPos = planets[followedPlanetIndex].getPosition();
+     sf::Vector2f currentCenter = worldView.getCenter();
+ 
+          // Interpolation linéaire (lerp) pour un mouvement fluide
+       sf::Vector2f newCenter;
+    newCenter.x = currentCenter.x + (targetPos.x - currentCenter.x) * smoothCameraLerp;
+  newCenter.y = currentCenter.y + (targetPos.y - currentCenter.y) * smoothCameraLerp;
+     
+      worldView.setCenter(newCenter);
+      
+     // Mettre à jour l'infoText avec les infos de la planète suivie
+         const auto& p = planets[followedPlanetIndex];
+      float dist = std::hypot(p.getPosition().x - Constants::SUN_CENTER.x,
+         p.getPosition().y - Constants::SUN_CENTER.y);
+             float speed = std::hypot(p.velocity.x, p.velocity.y);
+   std::ostringstream oss;
+             oss << "[SUIVI] " << p.getName() << " | Dist: " << std::fixed
+   << std::setprecision(1) << dist << " u | Vit: " << speed << " u/s";
+                infoText.setString(oss.str());
+     }
 
-            // Simulation
+       // Simulation
             float deltaTime = dt * speedFactor * (paused ? 0 : 1);
-            if (!paused)
-                elapsedSimulationTime += deltaTime;
+   if (!paused)
+   elapsedSimulationTime += deltaTime;
 
-            // Mise ? jour plan?tes
-            for (auto& p : planets) {
-                p.update(deltaTime, Constants::SUN_CENTER, Constants::G,
-                    Constants::MASS_SUN, showTrails);
-            }
+      // Mise à jour planètes
+  for (auto& planet : planets) {
+      planet.update(deltaTime, Constants::SUN_CENTER, Constants::G,
+  Constants::MASS_SUN, showTrails);
+      planet.updateMoons(deltaTime);
+    }
+    
+    // ✅ NOUVEAU : Mise à jour de la timeline des missions
+    missionTimeline.update(deltaTime);
+    
+    // ✅ Vérifier si la souris survole une mission
+    sf::Vector2f worldMousePos = window.mapPixelToCoords(mouse, worldView);
+    hoveredMission = missionTimeline.checkMissionHover(worldMousePos, planets, 
+        Constants::SUN_CENTER);
 
-            // Mise ? jour com?tes
+  // Mise à jour comètes
             for (auto& c : comets) {
                 c.update(deltaTime, Constants::SUN_CENTER, Constants::G,
-                    Constants::MASS_SUN, showTrails);
-            }
+       Constants::MASS_SUN, showTrails);
+     }
 
-            comets.erase(std::remove_if(comets.begin(), comets.end(),
-                [](const Comet& c) { return !c.isActive(); }), comets.end());
+       comets.erase(std::remove_if(comets.begin(), comets.end(),
+           [](const Comet& c) { return !c.isActive(); }), comets.end());
 
-            // Focus plan?te
-            if (focusedPlanet >= 0 && focusedPlanet < planets.size()) {
-                worldView.setCenter(planets[focusedPlanet].getPosition());
-                const auto& p = planets[focusedPlanet];
-                float dist = std::hypot(p.getPosition().x - Constants::SUN_CENTER.x,
-                    p.getPosition().y - Constants::SUN_CENTER.y);
-                float speed = std::hypot(p.velocity.x, p.velocity.y);
-                std::ostringstream oss;
-                oss << p.getName() << " | Dist: " << std::fixed
-                    << std::setprecision(1) << dist << " u | Vit: " << speed
-                    << " u/s | Diam: " << p.realDiameterKm << " km | " << p.fact;
-                infoText.setString(oss.str());
-            }
-            else {
-                worldView.setCenter(Constants::SUN_CENTER);
-                infoText.setString("Clic sur une planete pour les details | Touche R pour reset camera");
-            }
-
-            std::ostringstream oss2;
-            oss2 << "Vitesse: x" << speedFactor << (paused ? " [PAUSE]" : "");
-            speedText.setString(oss2.str());
+      // Focus planète (mode ancien)
+  if (!cameraFollowMode && focusedPlanet >= 0 && 
+     focusedPlanet < static_cast<int>(planets.size())) {
+     worldView.setCenter(planets[focusedPlanet].getPosition());
+    const auto& p = planets[focusedPlanet];
+   float dist = std::hypot(p.getPosition().x - Constants::SUN_CENTER.x,
+    p.getPosition().y - Constants::SUN_CENTER.y);
+       float speed = std::hypot(p.velocity.x, p.velocity.y);
+   std::ostringstream oss;
+        oss << p.getName() << " | Dist: " << std::fixed
+   << std::setprecision(1) << dist << " u | Vit: " << speed
+       << " u/s | Diam: " << p.realDiameterKm << " km | " << p.fact;
+      infoText.setString(oss.str());
+  }
         }
 
-        // RENDER
-        window.clear(sf::Color(5, 5, 15));
+     // RENDER
+  window.clear(sf::Color(5, 5, 15));
 
-        switch (currentState) {
+  switch (currentState) {
         case AppState::MAIN_MENU:
-            drawMainMenu(window, font, menuButtons, stars, menuPlanets,
-                Constants::MENU_CENTER);
+ drawMainMenu(window, font, menuButtons, stars, menuPlanets,
+         Constants::MENU_CENTER);
             break;
 
         case AppState::PRESENTATION:
-            drawPresentation(window, font, backButtons, stars, time);
-            break;
+      drawPresentation(window, font, backButtons, stars, time);
+       break;
 
         case AppState::TEAM_INFO:
-            drawTeamInfo(window, font, backButtons, stars, time);
-            break;
+         drawTeamInfo(window, font, backButtons, stars, time);
+break;
+
+        case AppState::PLANET_STRUCTURE:
+drawPlanetStructure(window, font, backButtons, stars, time);
+ break;
 
         case AppState::PLANET_DETAILS:
-            if (selectedPlanet) {
-                drawPlanetDetails(window, font, backButtons, stars, time,
-                    *selectedPlanet);
-            }
-            break;
+  if (selectedPlanet) {
+ drawPlanetDetails(window, font, backButtons, stars, time,
+        *selectedPlanet);
+     }
+ break;
 
         case AppState::SIMULATION:
             drawSimulation(window, font, worldView, uiView, stars, time,
                 sun, sunGlow, planets, comets, simButtons,
+                toolsMainButton, toolMenuOpen, toolMenuAnimation,
                 infoText, speedText, showOrbits, showTrails,
                 showLabels, showStats, showGrid, statsPanel,
-                statsTitle, saturnRingTexture);
-            break;
-        }
+                statsTitle, saturnRingTexture,
+                cameraFollowMode, followedPlanetIndex,
+                &missionTimeline, hoveredMission, showMissionPanel,
+                &educationalMode);  // ✅ NOUVEAU
+   break;
+    }
 
         window.display();
     }
