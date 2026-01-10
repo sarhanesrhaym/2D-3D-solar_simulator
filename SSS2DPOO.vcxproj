@@ -128,9 +128,12 @@
   <ItemGroup>
     <ClCompile Include="Comet.cpp" />
     <ClCompile Include="CosmicButton.cpp" />
+    <ClCompile Include="EducationalMode.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuPlanet.cpp" />
+    <ClCompile Include="Moon.cpp" />
     <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="SpaceMission.cpp" />
     <ClCompile Include="SSS2DPOO.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -140,8 +143,11 @@
     <ClInclude Include="Comet.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CosmicButton.h" />
+    <ClInclude Include="EducationalMode.h" />
     <ClInclude Include="MenuPlanet.h" />
+    <ClInclude Include="Moon.h" />
     <ClInclude Include="Planet.h" />
+    <ClInclude Include="SpaceMission.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>

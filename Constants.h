@@ -27,9 +27,17 @@ namespace Constants {
     const std::string FONT_PATH = "C:\\Windows\\Fonts\\arial.ttf";
     const std::string TEXTURE_PATH = "textures/";
 
-    // Nouvelles constantes pour les améliorations visuelles
-    const sf::Color NEBULA_COLOR_1(138, 43, 226, 25);  // Violet
-    const sf::Color NEBULA_COLOR_2(30, 144, 255, 20);  // Bleu
+    // Améliorations visuelles - Couleurs dynamiques et dégradés
+    const sf::Color NEBULA_COLOR_1(138, 43, 226, 30);    // Violet
+    const sf::Color NEBULA_COLOR_2(30, 144, 255, 25);    // Bleu cyan
+    const sf::Color NEBULA_COLOR_3(255, 50, 100, 20);    // Rose/Magenta
     const sf::Vector2f NEBULA_1_POS(100.f, 50.f);
     const sf::Vector2f NEBULA_2_POS(700.f, 450.f);
+    const sf::Vector2f NEBULA_3_POS(900.f, 150.f);
+
+    // Nouvelles couleurs pour les accents
+    const sf::Color ACCENT_CYAN(0, 255, 255);
+    const sf::Color ACCENT_MAGENTA(255, 0, 255);
+    const sf::Color ACCENT_LIME(0, 255, 100);
+    const sf::Color BUTTON_GLOW(100, 200, 255, 100);
 }

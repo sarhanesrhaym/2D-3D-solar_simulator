@@ -51,6 +51,15 @@
     <ClCompile Include="UI.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Moon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceMission.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EducationalMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppState.h">
@@ -76,6 +85,15 @@
     </ClInclude>
     <ClInclude Include="Star.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="Moon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceMission.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EducationalMode.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
