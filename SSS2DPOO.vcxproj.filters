@@ -48,8 +48,41 @@
     <ClCompile Include="CosmicButton.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Moon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceMission.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EducationalMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetFollowHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="UI.cpp">
-      <Filter>src</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Presentation_Professional.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Presentation_Fixed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Presentation_CORRECTED.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Presentation_Final_FIXED.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Presentation_ENHANCED.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Presentation_ULTRA_BRIGHT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_PRESENTATION_FINAL_ULTRA_LISIBLE.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +110,18 @@
     <ClInclude Include="Star.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="Moon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceMission.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EducationalMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetFollowHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile.make">
@@ -85,6 +130,40 @@
     <None Include="README.md">
       <Filter>Configuration</Filter>
     </None>
+    <None Include="build_portable.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="verify_portable.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="BUILD_PORTABLE_GUIDE.md" />
+    <None Include="PRESENTATION_ENCADRANT.md" />
+    <None Include="test_portable.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="RECAPITULATIF_FINAL.md" />
+    <None Include="run_all.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="detect_sfml.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="FIX_SFML_ERROR.md" />
+    <None Include="ACTION_IMMEDIATE.md" />
+    <None Include="VERIFICATION_SFML_DETECTE.md" />
+    <None Include="NOTES_SFML_2.6.1.md" />
+    <None Include="build_portable.ps1" />
+    <None Include="BUILD_NOW.ps1" />
+    <None Include="GUIDE_EXPRESS_BUILD.md" />
+    <None Include="build_debug.ps1" />
+    <None Include="DEBUG_VS_RELEASE.md" />
+    <None Include="diagnose_sfml.ps1" />
+    <None Include="FIX_DLL_MANQUANTES.md" />
+    <None Include="build_auto.ps1" />
+    <None Include="build_final.ps1" />
+    <None Include="build_diagnostic.ps1" />
+    <None Include="build_succes.ps1" />
+    <None Include="build_GO.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt">

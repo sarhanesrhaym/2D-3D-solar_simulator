@@ -1,4 +1,4 @@
-#include "Planet.h"
+ï»¿#include "Planet.h"
 #include <cmath>
 #include <cstdlib>
 #include <sstream>
@@ -9,7 +9,8 @@ Planet::Planet(float semiMajorAxis, float eccentricity,
     float diamKm, const std::string& fact, sf::Color col, int moons,
     float ringTilt, const std::string& comp, float temp, float grav,
     const std::string& disc, const std::vector<std::string>& chars,
-    const sf::Font& font, sf::Texture* texture) {
+    const sf::Font& font, sf::Texture* texture)
+    : moonsInitialized(false) {
 
     this->semiMajorAxis = semiMajorAxis;
     this->eccentricity = eccentricity;
@@ -28,59 +29,59 @@ Planet::Planet(float semiMajorAxis, float eccentricity,
     this->visible = true;
     this->planetTexture = texture;
 
-    // Nouvelles propriétés réalistes basées sur le type de planète
+    // Nouvelles propriÃ©tÃ©s rÃ©alistes basÃ©es sur le type de planÃ¨te
     if (name == "Mercure") {
         density = 5.43f;
         rotationPeriod = 1407.6f;
-        planetType = "Planète tellurique";
+        planetType = "PlanÃ¨te tellurique";
         orbitalPeriod = 88.0f;
     }
     else if (name == "Venus") {
         density = 5.24f;
         rotationPeriod = 5832.5f;
-        planetType = "Planète tellurique";
+        planetType = "PlanÃ¨te tellurique";
         orbitalPeriod = 224.7f;
     }
     else if (name == "Terre") {
         density = 5.51f;
         rotationPeriod = 23.9f;
-        planetType = "Planète tellurique";
+        planetType = "PlanÃ¨te tellurique";
         orbitalPeriod = 365.2f;
     }
     else if (name == "Mars") {
         density = 3.93f;
         rotationPeriod = 24.6f;
-        planetType = "Planète tellurique";
+        planetType = "PlanÃ¨te tellurique";
         orbitalPeriod = 687.0f;
     }
     else if (name == "Jupiter") {
         density = 1.33f;
         rotationPeriod = 9.9f;
-        planetType = "Géante gazeuse";
+        planetType = "GÃ©ante gazeuse";
         orbitalPeriod = 4331.0f;
     }
     else if (name == "Saturne") {
         density = 0.69f;
         rotationPeriod = 10.7f;
-        planetType = "Géante gazeuse";
+        planetType = "GÃ©ante gazeuse";
         orbitalPeriod = 10747.0f;
     }
     else if (name == "Uranus") {
         density = 1.27f;
         rotationPeriod = 17.2f;
-        planetType = "Géante de glaces";
+        planetType = "GÃ©ante de glaces";
         orbitalPeriod = 30589.0f;
     }
     else if (name == "Neptune") {
         density = 1.64f;
         rotationPeriod = 16.1f;
-        planetType = "Géante de glaces";
+        planetType = "GÃ©ante de glaces";
         orbitalPeriod = 59800.0f;
     }
     else {
         density = 3.0f;
         rotationPeriod = 24.0f;
-        planetType = "Planète";
+        planetType = "PlanÃ¨te";
         orbitalPeriod = 365.0f;
     }
 
@@ -89,7 +90,7 @@ Planet::Planet(float semiMajorAxis, float eccentricity,
     const float massSun = 1e6f;
     this->angularSpeed = std::sqrt(G * massSun / (semiMajorAxis * semiMajorAxis * semiMajorAxis));
 
-    // Angle initial aléatoire
+    // Angle initial alÃ©atoire
     this->angle = (std::rand() % 360) * 3.14159f / 180.f;
 
     // Position initiale
@@ -131,28 +132,28 @@ std::vector<std::pair<std::string, std::string>> Planet::getFormattedInfo() cons
     std::vector<std::pair<std::string, std::string>> info;
 
     // Formatage simple et clair
-    std::string massStr = std::to_string(static_cast<int>(mass * 1e6)) + " × 10²³ kg";
+    std::string massStr = std::to_string(static_cast<int>(mass * 1e6)) + " Ã— 10Â²Â³ kg";
     std::string diamStr = std::to_string(static_cast<int>(realDiameterKm)) + " km";
-    std::string tempStr = std::to_string(static_cast<int>(temperature)) + " °C";
-    std::string gravStr = std::to_string(static_cast<int>(gravity)) + " m/s²";
-    std::string densStr = std::to_string(static_cast<int>(density)) + " g/cm³";
+    std::string tempStr = std::to_string(static_cast<int>(temperature)) + " Â°C";
+    std::string gravStr = std::to_string(static_cast<int>(gravity)) + " m/sÂ²";
+    std::string densStr = std::to_string(static_cast<int>(density)) + " g/cmÂ³";
 
-    // Période orbitale SIMPLE
+    // PÃ©riode orbitale SIMPLE
     std::string orbitStr = std::to_string(static_cast<int>(orbitalPeriod)) + " j";
 
-    // Période de rotation SIMPLE  
+    // PÃ©riode de rotation SIMPLE  
     std::string rotationStr = std::to_string(static_cast<int>(rotationPeriod)) + " h";
 
     info.push_back({ "Type", planetType });
-    info.push_back({ "Diamètre", diamStr });
+    info.push_back({ "DiamÃ¨tre", diamStr });
     info.push_back({ "Masse", massStr });
-    info.push_back({ "Température", tempStr });
-    info.push_back({ "Gravité", gravStr });
-    info.push_back({ "Densité", densStr });
+    info.push_back({ "TempÃ©rature", tempStr });
+    info.push_back({ "GravitÃ©", gravStr });
+    info.push_back({ "DensitÃ©", densStr });
     info.push_back({ "Satellites", std::to_string(numMoons) });
     info.push_back({ "Orbite", orbitStr });
     info.push_back({ "Rotation", rotationStr });
-    info.push_back({ "Découverte", discovery });
+    info.push_back({ "DÃ©couverte", discovery });
 
     return info;
 }
@@ -160,29 +161,30 @@ std::vector<std::pair<std::string, std::string>> Planet::getFormattedInfo() cons
 void Planet::update(float deltaTime, const sf::Vector2f& sunCenter, float G, float massSun, bool showTrails) {
     if (!visible) return;
 
-    // Mise à jour de l'angle
+    // Mise Ã  jour de l'angle
     angle += angularSpeed * deltaTime;
 
     // Calcul de la nouvelle position
     float r = semiMajorAxis * (1 - eccentricity * eccentricity) / (1 + eccentricity * std::cos(angle));
     sf::Vector2f pos(sunCenter.x + r * std::cos(angle), sunCenter.y + r * std::sin(angle));
 
-    // Mise à jour des positions
+    // Mise Ã  jour des positions
     shape.setPosition(pos);
     glow.setPosition(pos);
     label.setPosition(pos + sf::Vector2f(-25, -35));
 
-    // Mise à jour du trail
+    // Mise Ã  jour du trail
     if (showTrails) {
         trail.append(sf::Vertex(pos, color));
         if (trail.getVertexCount() > 400) {
-            // Décalage des vertices pour maintenir une taille maximale
+            // DÃ©calage des vertices pour maintenir une taille maximale
             for (size_t i = 0; i < trail.getVertexCount() - 1; ++i) {
                 trail[i] = trail[i + 1];
             }
             trail.resize(trail.getVertexCount() - 1);
         }
     }
+    updateMoons(deltaTime);
 }
 
 void Planet::draw(sf::RenderWindow& window, bool showTrails, bool showLabels) {
@@ -227,4 +229,67 @@ void Planet::clearTrail() {
 
 const sf::Vector2f& Planet::getPosition() const {
     return shape.getPosition();
+}
+
+// ===== SYSTÃˆME DE LUNES =====
+void Planet::initializeMoons() {
+    if (moonsInitialized) return;
+
+    // RÃ©cupÃ©rer les donnÃ©es des lunes pour cette planÃ¨te
+    std::vector<MoonData> moonDataList = getMoonDataForPlanet(name);
+
+    for (const auto& data : moonDataList) {
+        // CrÃ©er la lune avec un angle initial alÃ©atoire
+        float initialAngle = static_cast<float>(std::rand() % 360) * 3.14159f / 180.f;
+
+        Moon moon(data.name, data.orbitRadius, data.size,
+            data.color, data.orbitalSpeed, initialAngle);
+
+        // Ajouter les donnÃ©es rÃ©alistes
+        moon.realDiameterKm = data.realDiameterKm;
+        moon.realDistanceKm = data.realDistanceKm;
+        moon.description = data.description;
+
+        moons.push_back(moon);
+    }
+
+    moonsInitialized = true;
+}
+
+void Planet::updateMoons(float deltaTime) {
+    if (!moonsInitialized) {
+        initializeMoons();
+    }
+
+    sf::Vector2f planetPos = shape.getPosition();
+
+    for (auto& moon : moons) {
+        moon.update(deltaTime, planetPos);
+    }
+}
+
+void Planet::drawMoons(sf::RenderWindow& window, bool showLabels) {
+    sf::Vector2f planetPos = shape.getPosition();
+    float planetRadius = shape.getRadius();
+
+    // Dessiner les orbites des lunes
+    for (const auto& moon : moons) {
+        // Orbite de la lune (cercle pointillÃ©)
+        sf::CircleShape orbitCircle(moon.orbitRadius);
+        orbitCircle.setOrigin(moon.orbitRadius, moon.orbitRadius);
+        orbitCircle.setPosition(planetPos);
+        orbitCircle.setFillColor(sf::Color::Transparent);
+        orbitCircle.setOutlineThickness(0.5f);
+        orbitCircle.setOutlineColor(sf::Color(moon.color.r, moon.color.g, moon.color.b, 60));
+        window.draw(orbitCircle);
+    }
+
+    // Dessiner les lunes
+    for (const auto& moon : moons) {
+        // Dessiner le glow
+        window.draw(moon.glow);
+
+        // Dessiner la lune
+        window.draw(moon.shape);
+    }
 }
