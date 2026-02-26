@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -128,20 +128,35 @@
   <ItemGroup>
     <ClCompile Include="Comet.cpp" />
     <ClCompile Include="CosmicButton.cpp" />
+    <ClCompile Include="EducationalMode.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuPlanet.cpp" />
+    <ClCompile Include="Moon.cpp" />
     <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="PlanetFollowHelper.cpp" />
+    <ClCompile Include="SpaceMission.cpp" />
     <ClCompile Include="SSS2DPOO.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UI_Presentation_CORRECTED.cpp" />
+    <ClCompile Include="UI_Presentation_ENHANCED.cpp" />
+    <ClCompile Include="UI_Presentation_Final_FIXED.cpp" />
+    <ClCompile Include="UI_PRESENTATION_FINAL_ULTRA_LISIBLE.cpp" />
+    <ClCompile Include="UI_Presentation_Fixed.cpp" />
+    <ClCompile Include="UI_Presentation_Professional.cpp" />
+    <ClCompile Include="UI_Presentation_ULTRA_BRIGHT.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppState.h" />
     <ClInclude Include="Comet.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="CosmicButton.h" />
+    <ClInclude Include="EducationalMode.h" />
     <ClInclude Include="MenuPlanet.h" />
+    <ClInclude Include="Moon.h" />
     <ClInclude Include="Planet.h" />
+    <ClInclude Include="PlanetFollowHelper.h" />
+    <ClInclude Include="SpaceMission.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
@@ -149,8 +164,32 @@
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ACTION_IMMEDIATE.md" />
+    <None Include="build_auto.ps1" />
+    <None Include="build_debug.ps1" />
+    <None Include="build_diagnostic.ps1" />
+    <None Include="build_final.ps1" />
+    <None Include="build_GO.ps1" />
+    <None Include="BUILD_NOW.ps1" />
+    <None Include="build_portable.bat" />
+    <None Include="build_portable.ps1" />
+    <None Include="BUILD_PORTABLE_GUIDE.md" />
+    <None Include="build_succes.ps1" />
+    <None Include="DEBUG_VS_RELEASE.md" />
+    <None Include="detect_sfml.bat" />
+    <None Include="diagnose_sfml.ps1" />
+    <None Include="FIX_DLL_MANQUANTES.md" />
+    <None Include="FIX_SFML_ERROR.md" />
+    <None Include="GUIDE_EXPRESS_BUILD.md" />
     <None Include="Makefile.make" />
+    <None Include="NOTES_SFML_2.6.1.md" />
+    <None Include="PRESENTATION_ENCADRANT.md" />
     <None Include="README.md" />
+    <None Include="RECAPITULATIF_FINAL.md" />
+    <None Include="run_all.bat" />
+    <None Include="test_portable.bat" />
+    <None Include="VERIFICATION_SFML_DETECTE.md" />
+    <None Include="verify_portable.bat" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Downloads\jupiter.jpg" />
