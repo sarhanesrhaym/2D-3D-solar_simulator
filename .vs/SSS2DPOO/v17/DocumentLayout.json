@@ -1,0 +1,921 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:CMakeLists.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PlanetFollowHelper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:PlanetFollowHelper.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Star.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Star.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Star.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Star.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\EducationalMode.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:EducationalMode.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_GO.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_GO.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PlanetFollowHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:PlanetFollowHelper.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Planet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Planet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Planet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Planet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Moon.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Moon.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Moon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Moon.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\MenuPlanet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:MenuPlanet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\MenuPlanet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:MenuPlanet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\EducationalMode.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:EducationalMode.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CosmicButton.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:CosmicButton.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CosmicButton.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:CosmicButton.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Constants.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Comet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Comet.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Comet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Comet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\SpaceMission.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:SpaceMission.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\SpaceMission.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:SpaceMission.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_ULTRA_BRIGHT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI_Presentation_ULTRA_BRIGHT.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_ENHANCED.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI_Presentation_ENHANCED.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Final_FIXED.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI_Presentation_Final_FIXED.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_CORRECTED.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI_Presentation_CORRECTED.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Fixed.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI_Presentation_Fixed.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Professional.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:UI_Presentation_Professional.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_debug.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_debug.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_portable.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_portable.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\BUILD_PORTABLE_GUIDE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:BUILD_PORTABLE_GUIDE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_portable.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_portable.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\run_all.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:run_all.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PRESENTATION_ENCADRANT.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:PRESENTATION_ENCADRANT.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Makefile.make||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:Makefile.make||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\AppState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:AppState.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\verify_portable.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:verify_portable.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\test_portable.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:test_portable.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\RECAPITULATIF_FINAL.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:RECAPITULATIF_FINAL.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\detect_sfml.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:detect_sfml.bat||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\FIX_SFML_ERROR.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:FIX_SFML_ERROR.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\ACTION_IMMEDIATE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:ACTION_IMMEDIATE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\VERIFICATION_SFML_DETECTE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:VERIFICATION_SFML_DETECTE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\NOTES_SFML_2.6.1.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:NOTES_SFML_2.6.1.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\BUILD_NOW.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:BUILD_NOW.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\GUIDE_EXPRESS_BUILD.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:GUIDE_EXPRESS_BUILD.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\DEBUG_VS_RELEASE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:DEBUG_VS_RELEASE.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\diagnose_sfml.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:diagnose_sfml.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\FIX_DLL_MANQUANTES.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:FIX_DLL_MANQUANTES.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_auto.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_auto.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_final.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_final.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_diagnostic.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_diagnostic.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_succes.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{7F493142-BA0B-4D5F-B560-C4AF5D8546C6}|SSS2DPOO.vcxproj|solutionrelative:build_succes.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\main.cpp",
+              "RelativeDocumentMoniker": "main.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\main.cpp",
+              "RelativeToolTip": "main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACwBAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-09T20:44:42.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UI.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI.cpp",
+              "RelativeDocumentMoniker": "UI.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI.cpp",
+              "RelativeToolTip": "UI.cpp",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAAAKQLAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-10T23:07:52.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PlanetFollowHelper.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PlanetFollowHelper.cpp",
+              "RelativeDocumentMoniker": "PlanetFollowHelper.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PlanetFollowHelper.cpp",
+              "RelativeToolTip": "PlanetFollowHelper.cpp",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAE0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-10T16:55:18.971Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAGgAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-11-09T20:47:29.178Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CMakeLists.txt",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CMakeLists.txt",
+              "RelativeDocumentMoniker": "CMakeLists.txt",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CMakeLists.txt",
+              "RelativeToolTip": "CMakeLists.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-11-09T20:46:49.309Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EducationalMode.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\EducationalMode.cpp",
+              "RelativeDocumentMoniker": "EducationalMode.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\EducationalMode.cpp",
+              "RelativeToolTip": "EducationalMode.cpp",
+              "ViewState": "AgIAAPMAAAAAAAAAAAAAAB4BAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-07T19:34:04.76Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Star.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Star.h",
+              "RelativeDocumentMoniker": "Star.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Star.h",
+              "RelativeToolTip": "Star.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:44:05.47Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Star.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Star.cpp",
+              "RelativeDocumentMoniker": "Star.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Star.cpp",
+              "RelativeToolTip": "Star.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-09T20:45:22.064Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UI.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI.h",
+              "RelativeDocumentMoniker": "UI.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI.h",
+              "RelativeToolTip": "UI.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:28:25.356Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PlanetFollowHelper.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PlanetFollowHelper.h",
+              "RelativeDocumentMoniker": "PlanetFollowHelper.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PlanetFollowHelper.h",
+              "RelativeToolTip": "PlanetFollowHelper.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-10T16:54:24.405Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Planet.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Planet.h",
+              "RelativeDocumentMoniker": "Planet.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Planet.h",
+              "RelativeToolTip": "Planet.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:43:09.357Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "build_GO.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_GO.ps1",
+              "RelativeDocumentMoniker": "build_GO.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_GO.ps1",
+              "RelativeToolTip": "build_GO.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:58:28.617Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Planet.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Planet.cpp",
+              "RelativeDocumentMoniker": "Planet.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Planet.cpp",
+              "RelativeToolTip": "Planet.cpp",
+              "ViewState": "AgIAAAsBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-09T20:44:56.004Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Moon.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Moon.h",
+              "RelativeDocumentMoniker": "Moon.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Moon.h",
+              "RelativeToolTip": "Moon.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-07T09:30:01.761Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Moon.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Moon.cpp",
+              "RelativeDocumentMoniker": "Moon.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Moon.cpp",
+              "RelativeToolTip": "Moon.cpp",
+              "ViewState": "AgIAANUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-07T09:31:04.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MenuPlanet.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\MenuPlanet.h",
+              "RelativeDocumentMoniker": "MenuPlanet.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\MenuPlanet.h",
+              "RelativeToolTip": "MenuPlanet.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:28:09.812Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "MenuPlanet.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\MenuPlanet.cpp",
+              "RelativeDocumentMoniker": "MenuPlanet.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\MenuPlanet.cpp",
+              "RelativeToolTip": "MenuPlanet.cpp",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAKMAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-09T20:45:40.574Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "EducationalMode.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\EducationalMode.h",
+              "RelativeDocumentMoniker": "EducationalMode.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\EducationalMode.h",
+              "RelativeToolTip": "EducationalMode.h",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAA8AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-07T19:32:36.079Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CosmicButton.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CosmicButton.h",
+              "RelativeDocumentMoniker": "CosmicButton.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CosmicButton.h",
+              "RelativeToolTip": "CosmicButton.h",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABQAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:27:57.758Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "CosmicButton.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CosmicButton.cpp",
+              "RelativeDocumentMoniker": "CosmicButton.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\CosmicButton.cpp",
+              "RelativeToolTip": "CosmicButton.cpp",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAJgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-09T20:45:53.9Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Constants.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Constants.h",
+              "RelativeDocumentMoniker": "Constants.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Constants.h",
+              "RelativeToolTip": "Constants.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:26:51.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Comet.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Comet.h",
+              "RelativeDocumentMoniker": "Comet.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Comet.h",
+              "RelativeToolTip": "Comet.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:26:22.885Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Comet.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Comet.cpp",
+              "RelativeDocumentMoniker": "Comet.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Comet.cpp",
+              "RelativeToolTip": "Comet.cpp",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABEAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-11-09T20:45:08.862Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SpaceMission.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\SpaceMission.h",
+              "RelativeDocumentMoniker": "SpaceMission.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\SpaceMission.h",
+              "RelativeToolTip": "SpaceMission.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-01-07T19:02:24.8Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "SpaceMission.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\SpaceMission.cpp",
+              "RelativeDocumentMoniker": "SpaceMission.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\SpaceMission.cpp",
+              "RelativeToolTip": "SpaceMission.cpp",
+              "ViewState": "AgIAAIYBAAAAAAAAAAAAAH0BAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-07T19:03:49.981Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "UI_Presentation_ULTRA_BRIGHT.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_ULTRA_BRIGHT.cpp",
+              "RelativeDocumentMoniker": "UI_Presentation_ULTRA_BRIGHT.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_ULTRA_BRIGHT.cpp",
+              "RelativeToolTip": "UI_Presentation_ULTRA_BRIGHT.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-11T23:29:16.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "UI_Presentation_ENHANCED.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_ENHANCED.cpp",
+              "RelativeDocumentMoniker": "UI_Presentation_ENHANCED.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_ENHANCED.cpp",
+              "RelativeToolTip": "UI_Presentation_ENHANCED.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-11T23:20:50.885Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "UI_Presentation_Final_FIXED.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Final_FIXED.cpp",
+              "RelativeDocumentMoniker": "UI_Presentation_Final_FIXED.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Final_FIXED.cpp",
+              "RelativeToolTip": "UI_Presentation_Final_FIXED.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-11T23:07:49.633Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "UI_Presentation_CORRECTED.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_CORRECTED.cpp",
+              "RelativeDocumentMoniker": "UI_Presentation_CORRECTED.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_CORRECTED.cpp",
+              "RelativeToolTip": "UI_Presentation_CORRECTED.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-11T21:57:37.409Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "UI_Presentation_Fixed.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Fixed.cpp",
+              "RelativeDocumentMoniker": "UI_Presentation_Fixed.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Fixed.cpp",
+              "RelativeToolTip": "UI_Presentation_Fixed.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-11T21:46:35.221Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "UI_Presentation_Professional.cpp",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Professional.cpp",
+              "RelativeDocumentMoniker": "UI_Presentation_Professional.cpp",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\UI_Presentation_Professional.cpp",
+              "RelativeToolTip": "UI_Presentation_Professional.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-01-11T21:28:53.578Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "build_debug.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_debug.ps1",
+              "RelativeDocumentMoniker": "build_debug.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_debug.ps1",
+              "RelativeToolTip": "build_debug.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:03:12.804Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "diagnose_sfml.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\diagnose_sfml.ps1",
+              "RelativeDocumentMoniker": "diagnose_sfml.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\diagnose_sfml.ps1",
+              "RelativeToolTip": "diagnose_sfml.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAL8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:11:13.21Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "FIX_DLL_MANQUANTES.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\FIX_DLL_MANQUANTES.md",
+              "RelativeDocumentMoniker": "FIX_DLL_MANQUANTES.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\FIX_DLL_MANQUANTES.md",
+              "RelativeToolTip": "FIX_DLL_MANQUANTES.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T21:11:53.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "build_succes.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_succes.ps1",
+              "RelativeDocumentMoniker": "build_succes.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_succes.ps1",
+              "RelativeToolTip": "build_succes.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:50:39.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "build_diagnostic.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_diagnostic.ps1",
+              "RelativeDocumentMoniker": "build_diagnostic.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_diagnostic.ps1",
+              "RelativeToolTip": "build_diagnostic.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHwBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:42:39.585Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "build_final.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_final.ps1",
+              "RelativeDocumentMoniker": "build_final.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_final.ps1",
+              "RelativeToolTip": "build_final.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:37:18.412Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "build_auto.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_auto.ps1",
+              "RelativeDocumentMoniker": "build_auto.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_auto.ps1",
+              "RelativeToolTip": "build_auto.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T21:31:49.292Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "BUILD_PORTABLE_GUIDE.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\BUILD_PORTABLE_GUIDE.md",
+              "RelativeDocumentMoniker": "BUILD_PORTABLE_GUIDE.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\BUILD_PORTABLE_GUIDE.md",
+              "RelativeToolTip": "BUILD_PORTABLE_GUIDE.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T18:59:53.66Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "build_portable.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_portable.ps1",
+              "RelativeDocumentMoniker": "build_portable.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_portable.ps1",
+              "RelativeToolTip": "build_portable.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T20:14:33.328Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "DEBUG_VS_RELEASE.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\DEBUG_VS_RELEASE.md",
+              "RelativeDocumentMoniker": "DEBUG_VS_RELEASE.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\DEBUG_VS_RELEASE.md",
+              "RelativeToolTip": "DEBUG_VS_RELEASE.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T21:04:30.536Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "build_portable.bat",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_portable.bat",
+              "RelativeDocumentMoniker": "build_portable.bat",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\build_portable.bat",
+              "RelativeToolTip": "build_portable.bat",
+              "ViewState": "AgIAAJgAAAAAAAAAAAAAwEIAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH/SURBVEhL7dU/aBNhHMbxby5pgjo6WK1DaGOJ8Q8qFmxBWnGxaqk4OIriWBChKTEBFam0SkEdRByEDp3VRYqKDoJSMCpW0VoaTawWXJNo7tL7XV6XKvY1ryUYB8HPcvB7n/ee9ziOg79JKaWP/j2\u002BZGIgCyqsL9SHL2fV4\u002Bb7eg5UvYIK\u002B5KJuDo7OPRTvH7OnEph6UOdKx73Hj3lzsMnuCL68pKMBSWnzJuZHNPvZ3FsB8dxyGQ/8Tg9ydeSrceNjAWTUxkyH\u002BbI5D7iiiAivHo7w\u002BzcZ569nNLjRsaCWCSM5QMRj\u002B6uHXTvakcWijZFI3rcyFiglMK2HTwRlFIopRAR/BZUVEWPGxkLXk\u002B/Wzixy83xB9y4fR9PhJJtM5F\u002BoceNjAVbNrSyZtVKNkZbEHERzyW6rplYawudHW163MhYsGL5Mjrbt7M\u002B0ozfsghYFts2x\u002Bho28rV0TGGL13Rt1QV0Ae6YLCBw4d6Abg1fpeJ9HOKxSLiztPXn2B3104O9uzXt/1gfIJqQqEQhUKBc6kBhk\u002BnyOfzKO/3L7ymAm/exZ0vo1QFpSq45TKyxNddU0FFeTT4/RyPn6TvRJxgwM\u002BXYkGPLVJTQe/ePVy7PELT6kbWNjUyNnqdY0eP6LFFair4bmRokIsXzuvjqnzJRH8WfH/8T6hO5fTJf7/4Bn2yzOdgnYQEAAAAAElFTkSuQmCC",
+              "WhenOpened": "2026-01-10T18:58:45.938Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "BUILD_NOW.ps1",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\BUILD_NOW.ps1",
+              "RelativeDocumentMoniker": "BUILD_NOW.ps1",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\BUILD_NOW.ps1",
+              "RelativeToolTip": "BUILD_NOW.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-10T20:14:48.504Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "GUIDE_EXPRESS_BUILD.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\GUIDE_EXPRESS_BUILD.md",
+              "RelativeDocumentMoniker": "GUIDE_EXPRESS_BUILD.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\GUIDE_EXPRESS_BUILD.md",
+              "RelativeToolTip": "GUIDE_EXPRESS_BUILD.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T20:15:20.509Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "run_all.bat",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\run_all.bat",
+              "RelativeDocumentMoniker": "run_all.bat",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\run_all.bat",
+              "RelativeToolTip": "run_all.bat",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH/SURBVEhL7dU/aBNhHMbxby5pgjo6WK1DaGOJ8Q8qFmxBWnGxaqk4OIriWBChKTEBFam0SkEdRByEDp3VRYqKDoJSMCpW0VoaTawWXJNo7tL7XV6XKvY1ryUYB8HPcvB7n/ee9ziOg79JKaWP/j2\u002BZGIgCyqsL9SHL2fV4\u002Bb7eg5UvYIK\u002B5KJuDo7OPRTvH7OnEph6UOdKx73Hj3lzsMnuCL68pKMBSWnzJuZHNPvZ3FsB8dxyGQ/8Tg9ydeSrceNjAWTUxkyH\u002BbI5D7iiiAivHo7w\u002BzcZ569nNLjRsaCWCSM5QMRj\u002B6uHXTvakcWijZFI3rcyFiglMK2HTwRlFIopRAR/BZUVEWPGxkLXk\u002B/Wzixy83xB9y4fR9PhJJtM5F\u002BoceNjAVbNrSyZtVKNkZbEHERzyW6rplYawudHW163MhYsGL5Mjrbt7M\u002B0ozfsghYFts2x\u002Bho28rV0TGGL13Rt1QV0Ae6YLCBw4d6Abg1fpeJ9HOKxSLiztPXn2B3104O9uzXt/1gfIJqQqEQhUKBc6kBhk\u002BnyOfzKO/3L7ymAm/exZ0vo1QFpSq45TKyxNddU0FFeTT4/RyPn6TvRJxgwM\u002BXYkGPLVJTQe/ePVy7PELT6kbWNjUyNnqdY0eP6LFFair4bmRokIsXzuvjqnzJRH8WfH/8T6hO5fTJf7/4Bn2yzOdgnYQEAAAAAElFTkSuQmCC",
+              "WhenOpened": "2026-01-10T19:27:11.115Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "detect_sfml.bat",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\detect_sfml.bat",
+              "RelativeDocumentMoniker": "detect_sfml.bat",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\detect_sfml.bat",
+              "RelativeToolTip": "detect_sfml.bat",
+              "ViewState": "AgIAAHsAAAAAAAAAAIBJwH0AAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH/SURBVEhL7dU/aBNhHMbxby5pgjo6WK1DaGOJ8Q8qFmxBWnGxaqk4OIriWBChKTEBFam0SkEdRByEDp3VRYqKDoJSMCpW0VoaTawWXJNo7tL7XV6XKvY1ryUYB8HPcvB7n/ee9ziOg79JKaWP/j2\u002BZGIgCyqsL9SHL2fV4\u002Bb7eg5UvYIK\u002B5KJuDo7OPRTvH7OnEph6UOdKx73Hj3lzsMnuCL68pKMBSWnzJuZHNPvZ3FsB8dxyGQ/8Tg9ydeSrceNjAWTUxkyH\u002BbI5D7iiiAivHo7w\u002BzcZ569nNLjRsaCWCSM5QMRj\u002B6uHXTvakcWijZFI3rcyFiglMK2HTwRlFIopRAR/BZUVEWPGxkLXk\u002B/Wzixy83xB9y4fR9PhJJtM5F\u002BoceNjAVbNrSyZtVKNkZbEHERzyW6rplYawudHW163MhYsGL5Mjrbt7M\u002B0ozfsghYFts2x\u002Bho28rV0TGGL13Rt1QV0Ae6YLCBw4d6Abg1fpeJ9HOKxSLiztPXn2B3104O9uzXt/1gfIJqQqEQhUKBc6kBhk\u002BnyOfzKO/3L7ymAm/exZ0vo1QFpSq45TKyxNddU0FFeTT4/RyPn6TvRJxgwM\u002BXYkGPLVJTQe/ePVy7PELT6kbWNjUyNnqdY0eP6LFFair4bmRokIsXzuvjqnzJRH8WfH/8T6hO5fTJf7/4Bn2yzOdgnYQEAAAAAElFTkSuQmCC",
+              "WhenOpened": "2026-01-10T19:43:54.347Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "NOTES_SFML_2.6.1.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\NOTES_SFML_2.6.1.md",
+              "RelativeDocumentMoniker": "NOTES_SFML_2.6.1.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\NOTES_SFML_2.6.1.md",
+              "RelativeToolTip": "NOTES_SFML_2.6.1.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T19:55:52.486Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "VERIFICATION_SFML_DETECTE.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\VERIFICATION_SFML_DETECTE.md",
+              "RelativeDocumentMoniker": "VERIFICATION_SFML_DETECTE.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\VERIFICATION_SFML_DETECTE.md",
+              "RelativeToolTip": "VERIFICATION_SFML_DETECTE.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T19:55:14.077Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "ACTION_IMMEDIATE.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\ACTION_IMMEDIATE.md",
+              "RelativeDocumentMoniker": "ACTION_IMMEDIATE.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\ACTION_IMMEDIATE.md",
+              "RelativeToolTip": "ACTION_IMMEDIATE.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T19:45:39.124Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "FIX_SFML_ERROR.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\FIX_SFML_ERROR.md",
+              "RelativeDocumentMoniker": "FIX_SFML_ERROR.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\FIX_SFML_ERROR.md",
+              "RelativeToolTip": "FIX_SFML_ERROR.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T19:45:04.987Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "PRESENTATION_ENCADRANT.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PRESENTATION_ENCADRANT.md",
+              "RelativeDocumentMoniker": "PRESENTATION_ENCADRANT.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\PRESENTATION_ENCADRANT.md",
+              "RelativeToolTip": "PRESENTATION_ENCADRANT.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T19:00:38.206Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "RECAPITULATIF_FINAL.md",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\RECAPITULATIF_FINAL.md",
+              "RelativeDocumentMoniker": "RECAPITULATIF_FINAL.md",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\RECAPITULATIF_FINAL.md",
+              "RelativeToolTip": "RECAPITULATIF_FINAL.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2026-01-10T19:01:59.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "test_portable.bat",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\test_portable.bat",
+              "RelativeDocumentMoniker": "test_portable.bat",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\test_portable.bat",
+              "RelativeToolTip": "test_portable.bat",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALgAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH/SURBVEhL7dU/aBNhHMbxby5pgjo6WK1DaGOJ8Q8qFmxBWnGxaqk4OIriWBChKTEBFam0SkEdRByEDp3VRYqKDoJSMCpW0VoaTawWXJNo7tL7XV6XKvY1ryUYB8HPcvB7n/ee9ziOg79JKaWP/j2\u002BZGIgCyqsL9SHL2fV4\u002Bb7eg5UvYIK\u002B5KJuDo7OPRTvH7OnEph6UOdKx73Hj3lzsMnuCL68pKMBSWnzJuZHNPvZ3FsB8dxyGQ/8Tg9ydeSrceNjAWTUxkyH\u002BbI5D7iiiAivHo7w\u002BzcZ569nNLjRsaCWCSM5QMRj\u002B6uHXTvakcWijZFI3rcyFiglMK2HTwRlFIopRAR/BZUVEWPGxkLXk\u002B/Wzixy83xB9y4fR9PhJJtM5F\u002BoceNjAVbNrSyZtVKNkZbEHERzyW6rplYawudHW163MhYsGL5Mjrbt7M\u002B0ozfsghYFts2x\u002Bho28rV0TGGL13Rt1QV0Ae6YLCBw4d6Abg1fpeJ9HOKxSLiztPXn2B3104O9uzXt/1gfIJqQqEQhUKBc6kBhk\u002BnyOfzKO/3L7ymAm/exZ0vo1QFpSq45TKyxNddU0FFeTT4/RyPn6TvRJxgwM\u002BXYkGPLVJTQe/ePVy7PELT6kbWNjUyNnqdY0eP6LFFair4bmRokIsXzuvjqnzJRH8WfH/8T6hO5fTJf7/4Bn2yzOdgnYQEAAAAAElFTkSuQmCC",
+              "WhenOpened": "2026-01-10T19:01:09.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "verify_portable.bat",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\verify_portable.bat",
+              "RelativeDocumentMoniker": "verify_portable.bat",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\verify_portable.bat",
+              "RelativeToolTip": "verify_portable.bat",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAH/SURBVEhL7dU/aBNhHMbxby5pgjo6WK1DaGOJ8Q8qFmxBWnGxaqk4OIriWBChKTEBFam0SkEdRByEDp3VRYqKDoJSMCpW0VoaTawWXJNo7tL7XV6XKvY1ryUYB8HPcvB7n/ee9ziOg79JKaWP/j2\u002BZGIgCyqsL9SHL2fV4\u002Bb7eg5UvYIK\u002B5KJuDo7OPRTvH7OnEph6UOdKx73Hj3lzsMnuCL68pKMBSWnzJuZHNPvZ3FsB8dxyGQ/8Tg9ydeSrceNjAWTUxkyH\u002BbI5D7iiiAivHo7w\u002BzcZ569nNLjRsaCWCSM5QMRj\u002B6uHXTvakcWijZFI3rcyFiglMK2HTwRlFIopRAR/BZUVEWPGxkLXk\u002B/Wzixy83xB9y4fR9PhJJtM5F\u002BoceNjAVbNrSyZtVKNkZbEHERzyW6rplYawudHW163MhYsGL5Mjrbt7M\u002B0ozfsghYFts2x\u002Bho28rV0TGGL13Rt1QV0Ae6YLCBw4d6Abg1fpeJ9HOKxSLiztPXn2B3104O9uzXt/1gfIJqQqEQhUKBc6kBhk\u002BnyOfzKO/3L7ymAm/exZ0vo1QFpSq45TKyxNddU0FFeTT4/RyPn6TvRJxgwM\u002BXYkGPLVJTQe/ePVy7PELT6kbWNjUyNnqdY0eP6LFFair4bmRokIsXzuvjqnzJRH8WfH/8T6hO5fTJf7/4Bn2yzOdgnYQEAAAAAElFTkSuQmCC",
+              "WhenOpened": "2026-01-10T18:59:11.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "Makefile.make",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Makefile.make",
+              "RelativeDocumentMoniker": "Makefile.make",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\Makefile.make",
+              "RelativeToolTip": "Makefile.make",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-09T20:47:06.251Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "AppState.h",
+              "DocumentMoniker": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\AppState.h",
+              "RelativeDocumentMoniker": "AppState.h",
+              "ToolTip": "C:\\Users\\hp\\source\\repos\\SSS2DPOO\\AppState.h",
+              "RelativeToolTip": "AppState.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-11-09T20:26:08.653Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

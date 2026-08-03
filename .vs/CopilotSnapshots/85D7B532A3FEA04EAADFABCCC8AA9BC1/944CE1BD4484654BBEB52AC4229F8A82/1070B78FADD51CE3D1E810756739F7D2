@@ -1,0 +1,118 @@
+﻿@echo off
+REM ============================================================
+REM  DETECTION AUTOMATIQUE DE SFML
+REM  Trouve l'emplacement de SFML sur votre système
+REM ============================================================
+
+echo.
+echo ========================================
+echo  DETECTION DE SFML
+echo ========================================
+echo.
+
+echo Recherche de SFML sur votre systeme...
+echo.
+
+REM Vérifier les emplacements courants
+set FOUND=0
+
+REM Emplacement 1 : C:\SFML-2.5.1
+if exist "C:\SFML-2.5.1\bin\sfml-graphics-2.dll" (
+    echo [TROUVE] C:\SFML-2.5.1
+    set SFML_PATH=C:\SFML-2.5.1
+    set FOUND=1
+)
+
+REM Emplacement 2 : C:\SFML
+if exist "C:\SFML\bin\sfml-graphics-2.dll" (
+    echo [TROUVE] C:\SFML
+    set SFML_PATH=C:\SFML
+    set FOUND=1
+)
+
+REM Emplacement 3 : Program Files
+if exist "C:\Program Files\SFML\bin\sfml-graphics-2.dll" (
+ echo [TROUVE] C:\Program Files\SFML
+    set SFML_PATH=C:\Program Files\SFML
+set FOUND=1
+)
+
+REM Emplacement 4 : Program Files (x86)
+if exist "C:\Program Files (x86)\SFML\bin\sfml-graphics-2.dll" (
+    echo [TROUVE] C:\Program Files (x86)\SFML
+    set SFML_PATH=C:\Program Files (x86)\SFML
+    set FOUND=1
+)
+
+REM Emplacement 5 : Dossier du projet
+if exist "%~dp0SFML\bin\sfml-graphics-2.dll" (
+    echo [TROUVE] %~dp0SFML
+    set SFML_PATH=%~dp0SFML
+    set FOUND=1
+)
+
+REM Emplacement 6 : vcpkg
+if exist "C:\vcpkg\installed\x64-windows\bin\sfml-graphics-2.dll" (
+    echo [TROUVE] C:\vcpkg\installed\x64-windows
+    set SFML_PATH=C:\vcpkg\installed\x64-windows
+    set FOUND=1
+)
+
+REM Emplacement 7 : Sous-dossiers courants
+for /d %%d in (C:\*SFML*) do (
+if exist "%%d\bin\sfml-graphics-2.dll" (
+        echo [TROUVE] %%d
+        set SFML_PATH=%%d
+        set FOUND=1
+)
+)
+
+echo.
+if %FOUND%==1 (
+    echo ========================================
+  echo  SFML TROUVE !
+    echo ========================================
+    echo.
+    echo Chemin detecte : %SFML_PATH%
+    echo.
+    echo Verification des DLLs :
+    if exist "%SFML_PATH%\bin\sfml-graphics-2.dll" echo [OK] sfml-graphics-2.dll
+    if exist "%SFML_PATH%\bin\sfml-window-2.dll" echo [OK] sfml-window-2.dll
+    if exist "%SFML_PATH%\bin\sfml-system-2.dll" echo [OK] sfml-system-2.dll
+    echo.
+    echo Copiez cette ligne dans build_portable.bat (ligne 14) :
+    echo.
+    echo set SFML_ROOT=%SFML_PATH%
+    echo.
+) else (
+    echo ========================================
+    echo  SFML NON TROUVE
+    echo ========================================
+    echo.
+    echo SFML n'a pas ete detecte automatiquement.
+  echo.
+    echo SOLUTIONS :
+    echo.
+    echo 1. TELECHARGER SFML :
+  echo    https://www.sfml-dev.org/download.php
+    echo Version recommandee : SFML 2.5.1 (MinGW ou Visual C++)
+    echo.
+    echo 2. EXTRAIRE dans un de ces emplacements :
+    echo    - C:\SFML-2.5.1\
+    echo    - C:\SFML\
+    echo    - Dans le dossier du projet
+    echo.
+    echo 3. VERIFIER la structure :
+    echo    SFML-2.5.1\
+    echo    ├── bin\
+    echo    │   ├── sfml-graphics-2.dll
+    echo    │   ├── sfml-window-2.dll
+    echo    │└── sfml-system-2.dll
+    echo    ├── include\
+    echo    └── lib\
+    echo.
+    echo 4. RELANCER ce script pour detecter SFML
+    echo.
+)
+
+pause

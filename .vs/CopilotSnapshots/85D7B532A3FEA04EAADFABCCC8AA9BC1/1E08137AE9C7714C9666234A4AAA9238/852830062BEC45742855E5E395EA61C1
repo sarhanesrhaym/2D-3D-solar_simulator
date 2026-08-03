@@ -1,0 +1,268 @@
+﻿/**
+ * ============================================================================
+ * FONCTION drawTeamInfo() AMÉLIORÉE - STYLE DESIGN PREMIUM
+ * ============================================================================
+ * 
+ * À remplacer la fonction drawTeamInfo() existante dans UI.cpp
+ * Applique le design de l'image avec glows, bordures colorées et typographie élégante
+ * 
+ * ============================================================================
+ */
+
+void drawTeamInfo(sf::RenderWindow& window, const sf::Font& font,
+    std::vector<CosmicButton>& backButtons,
+    std::vector<Star>& stars, float time) {
+
+ // Fond spatial élégant animé
+ static float teamBg = 0.f;
+    teamBg += 0.004f;
+    int teamBgShade = static_cast<int>(12 + 6 * std::sin(teamBg));
+    window.clear(sf::Color(teamBgShade, teamBgShade - 4, 35 + static_cast<int>(8 * std::sin(teamBg * 0.6f))));
+
+    // Fond étoilé
+    for (auto& s : stars) {
+        s.draw(window);
+    }
+
+    // ===== PANNEAU PRINCIPAL AVEC GLOWS MULTICOUCHES =====
+    float panelW = 1100.f;
+    float panelH = 650.f;
+    float panelX = 50.f;
+    float panelY = 70.f;
+
+    // Glow externe (couches)
+    for (int glowLayer = 4; glowLayer >= 1; --glowLayer) {
+        sf::RectangleShape glowBox(sf::Vector2f(panelW + glowLayer * 8.f, panelH + glowLayer * 8.f));
+        glowBox.setPosition(panelX - glowLayer * 4.f, panelY - glowLayer * 4.f);
+        glowBox.setFillColor(sf::Color::Transparent);
+ glowBox.setOutlineThickness(1.f);
+        float glowAlpha = 60 - glowLayer * 12;
+        glowBox.setOutlineColor(sf::Color(100, 150, 255, static_cast<sf::Uint8>(std::max(0.f, glowAlpha))));
+     window.draw(glowBox);
+    }
+
+    // Panneau principal
+    sf::RectangleShape mainPanel(sf::Vector2f(panelW, panelH));
+    mainPanel.setPosition(panelX, panelY);
+    mainPanel.setFillColor(sf::Color(25, 15, 50, 240));
+    mainPanel.setOutlineThickness(3);
+    mainPanel.setOutlineColor(sf::Color(100, 200, 255));
+    window.draw(mainPanel);
+
+    // ===== EN-TÊTE ANIMÉ =====
+    static float teamHeaderGlow = 0.f;
+    teamHeaderGlow += 0.025f;
+
+    sf::RectangleShape header(sf::Vector2f(panelW, 90.f));
+    header.setPosition(panelX, panelY);
+    float teamHeaderAlpha = 160 + 40 * std::sin(teamHeaderGlow);
+    header.setFillColor(sf::Color(40, 80, 160, static_cast<sf::Uint8>(teamHeaderAlpha)));
+    window.draw(header);
+
+    // Ligne brillante supérieure
+    sf::RectangleShape headerBrightLine(sf::Vector2f(panelW, 3.f));
+    headerBrightLine.setPosition(panelX, panelY);
+    float brightLineAlpha = 150 + 100 * std::sin(teamHeaderGlow + 1.57f);
+    headerBrightLine.setFillColor(sf::Color(100, 220, 255, static_cast<sf::Uint8>(brightLineAlpha)));
+    window.draw(headerBrightLine);
+
+    // Titre principal
+    sf::Text title("EQUIPE DE DEVELOPPEMENT COSMOUIT", font, 38);
+    title.setPosition(panelX + panelW / 2.f, panelY + 35.f);
+    title.setOrigin(title.getLocalBounds().width / 2, title.getLocalBounds().height / 2);
+ title.setFillColor(sf::Color::White);
+    title.setStyle(sf::Text::Bold);
+    title.setOutlineThickness(2);
+    title.setOutlineColor(sf::Color(100, 200, 255));
+    window.draw(title);
+
+  // Sous-titre
+    sf::Text subtitle("Projet Universitaire - Annee 2025/2026", font, 16);
+    subtitle.setPosition(panelX + panelW / 2.f, panelY + 68.f);
+    subtitle.setOrigin(subtitle.getLocalBounds().width / 2, subtitle.getLocalBounds().height / 2);
+    subtitle.setFillColor(sf::Color(180, 220, 255));
+    window.draw(subtitle);
+
+    // ===== CONTENU AVEC DEUX COLONNES =====
+    float leftColX = panelX + 20.f;
+    float rightColX = panelX + panelW / 2.f + 10.f;
+float contentStartY = panelY + 110.f;
+    float contentHeight = panelH - 140.f;
+
+    // ===== COLONNE GAUCHE : ÉQUIPE =====
+    sf::Text teamTitle("EQUIPE DE DEVELOPPEMENT", font, 22);
+    teamTitle.setPosition(leftColX, contentStartY);
+    teamTitle.setFillColor(sf::Color(255, 200, 100));
+    teamTitle.setStyle(sf::Text::Bold);
+    window.draw(teamTitle);
+
+    // Ligne séparatrice
+    sf::RectangleShape leftSeparator(sf::Vector2f(450.f, 1.f));
+    leftSeparator.setPosition(leftColX, contentStartY + 28.f);
+    leftSeparator.setFillColor(sf::Color(100, 150, 200, 80));
+    window.draw(leftSeparator);
+
+ float teamY = contentStartY + 40.f;
+
+    struct TeamMember {
+      std::string name;
+        std::string role;
+        std::string description;
+        sf::Color color;
+    };
+
+    std::vector<TeamMember> teamMembers = {
+        {"◊ EL GHAYATI SARA", "Chef de Projet", "Coordination, Architecture", sf::Color(100, 255, 255)},
+        {"☀ SANGARE NFALY", "Expert Physique", "Algorithmes, Simulation", sf::Color(255, 200, 100)},
+ {"▭ SARHANE AYMANE", "Designer UI/UX", "Interface, Graphismes", sf::Color(200, 150, 255)},
+  {"</> BAJOUDI ALAE", "Developpeur", "Optimisation, Tests", sf::Color(100, 255, 150)},
+        {"◉ MIDINI HAFSA", "Responsable QA", "Documentation, Tests", sf::Color(100, 200, 255)}
+    };
+
+    for (size_t i = 0; i < teamMembers.size(); ++i) {
+        const auto& member = teamMembers[i];
+
+     // Fond avec accent coloré
+    sf::RectangleShape memberBox(sf::Vector2f(460.f, 55.f));
+        memberBox.setPosition(leftColX, teamY);
+      memberBox.setFillColor(sf::Color(30, 25, 50, 180));
+     memberBox.setOutlineThickness(2);
+        float boxAlpha = 80 + 40 * std::sin(teamBg + i);
+        memberBox.setOutlineColor(sf::Color(member.color.r, member.color.g,
+  member.color.b, static_cast<sf::Uint8>(boxAlpha)));
+        window.draw(memberBox);
+
+  // Bande colorée à gauche
+        sf::RectangleShape colorBar(sf::Vector2f(4.f, 55.f));
+   colorBar.setPosition(leftColX, teamY);
+        colorBar.setFillColor(member.color);
+        window.draw(colorBar);
+
+        // Nom avec icône
+        sf::Text name(member.name, font, 16);
+        name.setPosition(leftColX + 20.f, teamY + 8.f);
+ name.setFillColor(sf::Color(255, 255, 255));
+name.setStyle(sf::Text::Bold);
+        window.draw(name);
+
+        // Rôle
+        sf::Text role(member.role, font, 13);
+        role.setPosition(leftColX + 20.f, teamY + 28.f);
+     role.setFillColor(member.color);
+        role.setStyle(sf::Text::Bold);
+        window.draw(role);
+
+   teamY += 65.f;
+    }
+
+    // ===== COLONNE DROITE : ENCADREMENT ET INFOS =====
+
+    // Section Encadrement Académique
+    sf::Text supervisionTitle("ENCADREMENT ACADEMIQUE", font, 20);
+    supervisionTitle.setPosition(rightColX, contentStartY);
+    supervisionTitle.setFillColor(sf::Color(100, 255, 255));
+    supervisionTitle.setStyle(sf::Text::Bold);
+    window.draw(supervisionTitle);
+
+    sf::RectangleShape rightSeparator(sf::Vector2f(450.f, 1.f));
+    rightSeparator.setPosition(rightColX, contentStartY + 26.f);
+    rightSeparator.setFillColor(sf::Color(100, 150, 200, 80));
+    window.draw(rightSeparator);
+
+    // Boîte encadrement
+    sf::RectangleShape encadrementBox(sf::Vector2f(460.f, 85.f));
+    encadrementBox.setPosition(rightColX, contentStartY + 38.f);
+    encadrementBox.setFillColor(sf::Color(20, 40, 60, 200));
+    encadrementBox.setOutlineThickness(2);
+    encadrementBox.setOutlineColor(sf::Color(100, 200, 255));
+    window.draw(encadrementBox);
+
+    sf::Text supervisorName("Pr. MOHAMED DAOUDI", font, 18);
+    supervisorName.setPosition(rightColX + 15.f, contentStartY + 45.f);
+    supervisorName.setFillColor(sf::Color(255, 255, 100));
+    supervisorName.setStyle(sf::Text::Bold);
+    window.draw(supervisorName);
+
+    sf::Text supervisorRole("Professeur Encadrant Principal", font, 13);
+    supervisorRole.setPosition(rightColX + 15.f, contentStartY + 67.f);
+    supervisorRole.setFillColor(sf::Color(200, 230, 255));
+    window.draw(supervisorRole);
+
+ // Section Informations Projet
+    float infoSectionY = contentStartY + 140.f;
+
+    sf::Text projectTitle("INFORMATIONS DU PROJET", font, 20);
+    projectTitle.setPosition(rightColX, infoSectionY);
+    projectTitle.setFillColor(sf::Color(255, 150, 50));
+    projectTitle.setStyle(sf::Text::Bold);
+    window.draw(projectTitle);
+
+    sf::RectangleShape infoSeparator(sf::Vector2f(450.f, 1.f));
+    infoSeparator.setPosition(rightColX, infoSectionY + 26.f);
+    infoSeparator.setFillColor(sf::Color(100, 150, 200, 80));
+    window.draw(infoSeparator);
+
+    float infoY = infoSectionY + 40.f;
+
+    std::vector<std::pair<std::string, std::string>> projectInfo = {
+        {"Nom", "CosmoUIT - Simulateur Solaire 2D"},
+      {"Version", "2.0 (Release Finale)"},
+        {"Langage", "C++ 17 avec SFML"},
+        {"Plateformes", "Windows"},
+        {"Licence", "Educative - Universitaire"}
+    };
+
+    for (const auto& info : projectInfo) {
+        sf::Text label(info.first + ":", font, 13);
+        label.setPosition(rightColX, infoY);
+        label.setFillColor(sf::Color(180, 220, 255));
+        label.setStyle(sf::Text::Bold);
+        window.draw(label);
+
+        sf::Text value(info.second, font, 13);
+        value.setPosition(rightColX + 140.f, infoY);
+      value.setFillColor(sf::Color(255, 255, 180));
+        window.draw(value);
+
+    infoY += 22.f;
+    }
+
+    // ===== BAS DE LA FENÊTRE =====
+
+    // Citation inspirante
+    sf::Text quote("L'astronomie nous apprend a regarder au-dela de nous-memes", font, 14);
+    quote.setPosition(panelX + panelW / 2.f, panelY + panelH - 45.f);
+    quote.setOrigin(quote.getLocalBounds().width / 2, 0);
+    quote.setFillColor(sf::Color(150, 255, 150));
+    quote.setStyle(sf::Text::Italic);
+    window.draw(quote);
+
+    sf::Text quoteAuthor("- Carl Sagan", font, 12);
+    quoteAuthor.setPosition(panelX + panelW / 2.f, panelY + panelH - 27.f);
+    quoteAuthor.setOrigin(quoteAuthor.getLocalBounds().width / 2, 0);
+    quoteAuthor.setFillColor(sf::Color(150, 255, 150));
+    window.draw(quoteAuthor);
+
+    // Ligne inférieure brillante
+    sf::RectangleShape bottomBrightLine(sf::Vector2f(panelW, 2.f));
+    bottomBrightLine.setPosition(panelX, panelY + panelH - 3.f);
+    bottomBrightLine.setFillColor(sf::Color(100, 200, 255, 150));
+    window.draw(bottomBrightLine);
+
+    // Bouton retour avec effet
+    for (auto& b : backButtons) {
+   if (b.hover) {
+      sf::RectangleShape hoverGlow(sf::Vector2f(b.base.getSize().x + 20.f, b.base.getSize().y + 20.f));
+            hoverGlow.setOrigin(10.f, 10.f);
+  hoverGlow.setPosition(b.base.getPosition().x + b.base.getSize().x / 2.f,
+    b.base.getPosition().y + b.base.getSize().y / 2.f);
+   hoverGlow.setFillColor(sf::Color(100, 200, 255, 60));
+ window.draw(hoverGlow);
+        }
+        b.draw(window);
+    }
+}
+
+// ============================================================================
+// FIN - drawTeamInfo() AMÉLIORÉE
+// ============================================================================

@@ -1,0 +1,527 @@
+﻿#include "EducationalMode.h"
+#include <algorithm>
+#include <sstream>
+#include <iomanip>
+#include <iostream> // ? DEBUG
+
+EducationalMode::EducationalMode(const sf::Font& f)
+    : font(f), quizActive(false), currentQuestionIndex(0), score(0),
+      totalAnswered(0), answerRevealed(false), selectedAnswer(-1),
+      feedbackTimer(0.f), cardActive(false), currentCardIndex(0), cardTimer(0.f) {
+    initializeQuestions();
+    initializeLearningCards();
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+}
+
+// ===== INITIALISATION DES QUESTIONS =====
+void EducationalMode::initializeQuestions() {
+    quizQuestions.clear();
+    
+    // === MERCURE ===
+    quizQuestions.push_back(QuizQuestion(
+        "Quelle est la particularite de Mercure ?",
+        {"C'est la plus grosse planete", "Sa journee dure plus longtemps que son annee",
+         "Elle possede des anneaux", "Elle est la plus froide"},
+1,
+     "Mercure tourne si lentement qu'une journee (176 jours terrestres) dure plus longtemps que son annee (88 jours) !"
+    ));
+    
+    quizQuestions.push_back(QuizQuestion(
+        "Combien de lunes possede Mercure ?",
+        {"0", "1", "2", "7"},
+ 0,
+   "Mercure est trop proche du Soleil pour retenir des satellites naturels."
+    ));
+    
+    // === VÉNUS ===
+ quizQuestions.push_back(QuizQuestion(
+        "Quelle est la temperature moyenne sur Venus ?",
+        {"100°C", "250°C", "464°C", "1000°C"},
+        2,
+     "Venus est la planete la plus chaude avec 464°C en raison de son effet de serre extreme !"
+  ));
+    
+    quizQuestions.push_back(QuizQuestion(
+        "Dans quel sens tourne Venus sur elle-meme ?",
+        {"Sens normal (prograde)", "Sens inverse (retrograde)", "Elle ne tourne pas", "Variable"},
+        1,
+        "Venus tourne en sens retrograde, probablement suite a une collision geante."
+    ));
+    
+    // === TERRE ===
+    quizQuestions.push_back(QuizQuestion(
+        "Quel pourcentage de la surface terrestre est recouverte d'eau ?",
+        {"50%", "61%", "71%", "85%"},
+        2,
+        "71% de la surface terrestre est recouverte d'oceans et de mers."
+    ));
+    
+    quizQuestions.push_back(QuizQuestion(
+        "Quel est l'age approximatif de la Terre ?",
+        {"2 milliards d'annees", "3,5 milliards d'annees", 
+         "4,5 milliards d'annees", "6 milliards d'annees"},
+     2,
+        "La Terre s'est formee il y a environ 4,5 milliards d'annees."
+    ));
+    
+    // === MARS ===
+    quizQuestions.push_back(QuizQuestion(
+    "Quel est le plus grand volcan du systeme solaire ?",
+        {"Mont Everest", "Olympus Mons sur Mars", "Mauna Kea", "Volcan Io"},
+        1,
+        "Olympus Mons sur Mars culmine a 21 km, soit 3 fois la hauteur de l'Everest !"
+    ));
+    
+    quizQuestions.push_back(QuizQuestion(
+        "Combien de rovers ont ete envoyes avec succes sur Mars par la NASA ?",
+        {"2", "3", "5", "7"},
+        2,
+        "5 rovers : Sojourner (1997), Spirit (2004), Opportunity (2004), Curiosity (2012), Perseverance (2021)."
+    ));
+    
+    // === JUPITER ===
+    quizQuestions.push_back(QuizQuestion(
+    "Combien de Terres pourraient tenir dans Jupiter ?",
+        {"100", "500", "1 300", "10 000"},
+        2,
+        "Jupiter pourrait contenir plus de 1 300 Terres ! C'est la plus grande planete."
+    ));
+    
+    quizQuestions.push_back(QuizQuestion(
+ "Quel phenomene celebre peut-on observer sur Jupiter ?",
+        {"Anneaux geants", "Grande Tache Rouge", "Geysers de glace", "Aurores polaires"},
+        1,
+        "La Grande Tache Rouge est une tempete geante qui dure depuis au moins 400 ans !"
+    ));
+    
+    // === SATURNE ===
+    quizQuestions.push_back(QuizQuestion(
+        "De quoi sont composes les anneaux de Saturne ?",
+        {"Roches", "Glace et roches", "Poussiere", "Gaz"},
+        1,
+ "Les anneaux sont composes de milliards de particules de glace et de roches."
+    ));
+    
+    quizQuestions.push_back(QuizQuestion(
+        "Saturne flotterait-elle dans l'eau ?",
+        {"Oui", "Non", "Partiellement", "Seulement a haute temperature"},
+        0,
+     "Saturne a une densite inferieure a l'eau (0,687 g/cm³), elle flotterait !"
+    ));
+    
+    // === URANUS ===
+    quizQuestions.push_back(QuizQuestion(
+        "Quelle est l'inclinaison de l'axe de rotation d'Uranus ?",
+        {"23°", "45°", "82°", "98°"},
+        3,
+        "Uranus tourne quasiment sur le cote avec une inclinaison de 98° !"
+  ));
+  
+    // === NEPTUNE ===
+ quizQuestions.push_back(QuizQuestion(
+   "Quelle est la vitesse maximale des vents sur Neptune ?",
+        {"500 km/h", "1 000 km/h", "2 100 km/h", "3 500 km/h"},
+        2,
+        "Neptune possede les vents les plus rapides du systeme solaire a 2 100 km/h !"
+    ));
+    
+    // === MISSIONS SPATIALES ===
+    quizQuestions.push_back(QuizQuestion(
+   "Quelle sonde a survole Pluton en 2015 ?",
+        {"Voyager 1", "New Horizons", "Pioneer 10", "Cassini"},
+  1,
+        "New Horizons a survole Pluton le 14 juillet 2015 apres 9 ans de voyage."
+    ));
+ 
+    quizQuestions.push_back(QuizQuestion(
+        "Quelle mission a decouvert des geysers sur Encelade ?",
+        {"Voyager 2", "Galileo", "Cassini", "Juno"},
+        2,
+        "Cassini a decouvert des geysers d'eau sur Encelade, lune de Saturne."
+    ));
+}
+
+// ===== INITIALISATION DES CARTES PÉDAGOGIQUES =====
+void EducationalMode::initializeLearningCards() {
+    learningCards.clear();
+    
+    // === PLANÈTES ===
+    learningCards.push_back(LearningCard(
+        "Mercure : La Planete Extreme",
+        "Sur Mercure, la difference de temperature entre le jour (+430°C) et la nuit (-180°C) est de 610°C ! "
+        "C'est l'amplitude thermique la plus importante du systeme solaire.",
+     "Planete", sf::Color(169, 169, 169)
+    ));
+    
+    learningCards.push_back(LearningCard(
+    "Venus : L'Enfer Celeste",
+        "Venus possede une atmosphere si dense que la pression au sol equivaut a etre a 900 metres sous l'eau ! "
+        "Les sondes sovietiques Venera n'ont survecu que quelques heures.",
+        "Planete", sf::Color(255, 198, 73)
+    ));
+    
+  learningCards.push_back(LearningCard(
+        "Terre : Notre Oasis Cosmique",
+      "La Terre est la seule planete connue ou l'eau existe sous ses trois formes : solide (glace), "
+        "liquide (oceans) et gazeuse (vapeur d'eau). Cette caracteristique unique permet la vie.",
+        "Planete", sf::Color(100, 149, 237)
+    ));
+    
+    learningCards.push_back(LearningCard(
+        "Mars : La Planete Rouge",
+ "Mars possede Valles Marineris, un canyon long de 4 000 km et profond de 7 km. "
+        "Il pourrait contenir tout le territoire des États-Unis !",
+        "Planete", sf::Color(205, 92, 92)
+    ));
+    
+    learningCards.push_back(LearningCard(
+      "Jupiter : Le Geant Protecteur",
+   "Jupiter agit comme un bouclier pour la Terre en deviant des asteroides et cometes dangereux "
+      "grace a sa gravite immense. Sans Jupiter, la vie sur Terre serait menacee !",
+        "Planete", sf::Color(218, 165, 32)
+    ));
+    
+    learningCards.push_back(LearningCard(
+        "Saturne : La Planete aux Mille Anneaux",
+        "Les anneaux de Saturne s'etendent sur 282 000 km mais ne font que 10 metres d'epaisseur ! "
+        "C'est comme une feuille de papier de la taille d'un terrain de football.",
+        "Planete", sf::Color(238, 232, 170)
+    ));
+    
+    // === MISSIONS SPATIALES ===
+    learningCards.push_back(LearningCard(
+        "Voyager 1 : Le Messager de l'Humanite",
+        "Voyager 1 (1977) est l'objet le plus eloigne cree par l'homme (24 milliards de km). "
+        "Il transporte un disque d'or avec des sons et images de la Terre pour d'eventuelles civilisations.",
+  "Mission", sf::Color(100, 180, 255)
+    ));
+    
+    learningCards.push_back(LearningCard(
+        "Apollo 11 : Un Petit Pas...",
+    "Le 21 juillet 1969, Neil Armstrong devient le premier humain a marcher sur la Lune. "
+      "Ses empreintes sont toujours visibles et le resteront pendant des millions d'annees !",
+        "Mission", sf::Color(200, 200, 200)
+    ));
+    
+    // === PHYSIQUE ===
+    learningCards.push_back(LearningCard(
+        "La Gravite : La Force Invisible",
+        "La gravite de Jupiter est 2,5 fois plus forte que celle de la Terre. "
+        "Un humain de 70 kg pèserait 175 kg sur Jupiter !",
+        "Physique", sf::Color(255, 150, 50)
+ ));
+    
+    learningCards.push_back(LearningCard(
+  "Vitesse de la Lumiere",
+    "La lumiere du Soleil met 8 minutes et 20 secondes pour atteindre la Terre. "
+        "Quand vous regardez le Soleil, vous le voyez tel qu'il etait il y a 8 minutes !",
+        "Physique", sf::Color(255, 255, 100)
+    ));
+}
+
+// ===== QUIZ : DÉMARRAGE =====
+void EducationalMode::startQuiz() {
+    std::cout << "DEBUG: Quiz demarre !" << std::endl;  // ? DEBUG
+    quizActive = true;
+    currentQuestionIndex = 0;
+    score = 0;
+    totalAnswered = 0;
+    answerRevealed = false;
+    selectedAnswer = -1;
+    
+    // Mélanger les questions
+    std::random_shuffle(quizQuestions.begin(), quizQuestions.end());
+    std::cout << "DEBUG: " << quizQuestions.size() << " questions chargees" << std::endl;  // ? DEBUG
+}
+
+// ===== QUIZ : QUESTION SUIVANTE =====
+void EducationalMode::nextQuestion() {
+    if (currentQuestionIndex < static_cast<int>(quizQuestions.size()) - 1) {
+        currentQuestionIndex++;
+  answerRevealed = false;
+        selectedAnswer = -1;
+        feedbackTimer = 0.f;
+    } else {
+        // Fin du quiz
+        quizActive = false;
+    }
+}
+
+// ===== QUIZ : RÉPONDRE =====
+void EducationalMode::answerQuestion(int choiceIndex) {
+    if (answerRevealed) return;
+    
+    selectedAnswer = choiceIndex;
+    answerRevealed = true;
+    totalAnswered++;
+    
+    if (choiceIndex == quizQuestions[currentQuestionIndex].correctAnswer) {
+        score++;
+    }
+    
+    feedbackTimer = 0.f;
+}
+
+// ===== QUIZ : GESTION DES CLICS =====
+bool EducationalMode::handleQuizClick(const sf::Vector2f& mousePos) {
+    if (!quizActive) return false;
+    
+    // ? Bouton "Question Suivante" (prioritaire si la réponse est révélée)
+    if (answerRevealed) {
+        sf::FloatRect nextBtnBounds(500.f, 680.f, 200.f, 50.f);
+        if (nextBtnBounds.contains(mousePos)) {
+            nextQuestion();
+       return true;
+        }
+        return false;  // Bloquer les clics sur les choix après avoir répondu
+    }
+    
+    // Détecter les clics sur les choix (seulement si pas encore répondu)
+  float choiceY = 300.f;
+    float choiceH = 60.f;
+    float spacing = 15.f;
+    
+    for (int i = 0; i < 4; ++i) {
+        sf::FloatRect choiceBounds(250.f, choiceY + i * (choiceH + spacing), 700.f, choiceH);
+  if (choiceBounds.contains(mousePos)) {
+    answerQuestion(i);
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+// ===== QUIZ : DESSIN =====
+void EducationalMode::drawQuiz(sf::RenderWindow& window) {
+    if (!quizActive || currentQuestionIndex >= static_cast<int>(quizQuestions.size())) return;
+    
+// Fond semi-transparent
+    sf::RectangleShape overlay(sf::Vector2f(1200.f, 800.f));
+    overlay.setFillColor(sf::Color(0, 0, 0, 200));
+    window.draw(overlay);
+    
+    // Panneau principal
+    sf::RectangleShape panel(sf::Vector2f(900.f, 700.f));
+    panel.setPosition(150.f, 50.f);
+    panel.setFillColor(sf::Color(20, 30, 50, 240));
+    panel.setOutlineThickness(4.f);
+    panel.setOutlineColor(sf::Color(100, 180, 255));
+    window.draw(panel);
+    
+    // En-tête
+    sf::RectangleShape header(sf::Vector2f(900.f, 80.f));
+    header.setPosition(150.f, 50.f);
+    header.setFillColor(sf::Color(50, 100, 180, 220));
+    window.draw(header);
+    
+    // Titre
+    sf::Text title("QUIZ ASTRONOMIQUE", font, 32);
+    title.setPosition(600.f, 70.f);
+    title.setOrigin(title.getLocalBounds().width / 2.f, 0.f);
+    title.setFillColor(sf::Color::White);
+    title.setStyle(sf::Text::Bold);
+    window.draw(title);
+    
+    drawQuizStats(window);
+    drawQuizQuestion(window);
+    drawQuizChoices(window);
+    
+    if (answerRevealed) {
+        drawQuizFeedback(window);
+    }
+}
+
+// ===== QUIZ : QUESTION =====
+void EducationalMode::drawQuizQuestion(sf::RenderWindow& window) {
+    const auto& q = quizQuestions[currentQuestionIndex];
+    
+ // Numéro de question
+    std::ostringstream oss;
+    oss << "Question " << (currentQuestionIndex + 1) << " / " << quizQuestions.size();
+    sf::Text questionNum(oss.str(), font, 18);
+    questionNum.setPosition(200.f, 150.f);
+    questionNum.setFillColor(sf::Color(150, 200, 255));
+    window.draw(questionNum);
+    
+    // Texte de la question
+    sf::Text questionText(q.question, font, 24);
+    questionText.setPosition(600.f, 220.f);
+    questionText.setOrigin(questionText.getLocalBounds().width / 2.f, 0.f);
+    questionText.setFillColor(sf::Color::White);
+    questionText.setStyle(sf::Text::Bold);
+    window.draw(questionText);
+}
+
+// ===== QUIZ : CHOIX =====
+void EducationalMode::drawQuizChoices(sf::RenderWindow& window) {
+    const auto& q = quizQuestions[currentQuestionIndex];
+    
+    float choiceY = 300.f;  // ? Position de départ
+    float choiceH = 60.f;
+    float spacing = 15.f;
+    
+    for (int i = 0; i < 4; ++i) {
+        sf::RectangleShape choiceBox(sf::Vector2f(700.f, choiceH));
+        choiceBox.setPosition(250.f, choiceY);
+ 
+        // Couleur selon l'état
+        if (answerRevealed) {
+            if (i == q.correctAnswer) {
+              choiceBox.setFillColor(sf::Color(50, 180, 50, 220));  // Vert
+choiceBox.setOutlineColor(sf::Color(0, 255, 0));
+          } else if (i == selectedAnswer) {
+        choiceBox.setFillColor(sf::Color(180, 50, 50, 220));  // Rouge
+         choiceBox.setOutlineColor(sf::Color(255, 0, 0));
+        } else {
+     choiceBox.setFillColor(sf::Color(40, 50, 70, 200));
+                choiceBox.setOutlineColor(sf::Color(80, 100, 130));
+        }
+        } else {
+            choiceBox.setFillColor(sf::Color(40, 60, 90, 220));
+         choiceBox.setOutlineColor(sf::Color(100, 150, 200));
+}
+        
+        choiceBox.setOutlineThickness(3.f);
+        window.draw(choiceBox);
+        
+        // Lettre (A, B, C, D)
+        sf::Text letter(std::string(1, 'A' + i), font, 24);
+ letter.setPosition(270.f, choiceY + 18.f);
+        letter.setFillColor(sf::Color::White);
+    letter.setStyle(sf::Text::Bold);
+   window.draw(letter);
+        
+// Texte du choix
+        sf::Text choiceText(q.choices[i], font, 18);
+      choiceText.setPosition(320.f, choiceY + 20.f);
+   choiceText.setFillColor(sf::Color::White);
+        window.draw(choiceText);
+        
+ choiceY += choiceH + spacing;  // Passer au choix suivant
+    }
+}
+
+// ===== QUIZ : FEEDBACK =====
+void EducationalMode::drawQuizFeedback(sf::RenderWindow& window) {
+    const auto& q = quizQuestions[currentQuestionIndex];
+    bool correct = (selectedAnswer == q.correctAnswer);
+    
+    // Panneau d'explication
+    sf::RectangleShape explPanel(sf::Vector2f(700.f, 120.f));
+    explPanel.setPosition(250.f, 540.f);
+    explPanel.setFillColor(sf::Color(30, 40, 60, 230));
+    explPanel.setOutlineThickness(2.f);
+    explPanel.setOutlineColor(correct ? sf::Color(0, 255, 0) : sf::Color(255, 100, 100));
+    window.draw(explPanel);
+    
+    // Résultat
+    sf::Text result(correct ? "CORRECT !" : "INCORRECT", font, 22);
+    result.setPosition(600.f, 550.f);
+    result.setOrigin(result.getLocalBounds().width / 2.f, 0.f);
+    result.setFillColor(correct ? sf::Color(0, 255, 0) : sf::Color(255, 100, 100));
+    result.setStyle(sf::Text::Bold);
+    window.draw(result);
+    
+    // Explication
+    sf::Text expl(q.explanation, font, 14);
+    expl.setPosition(280.f, 590.f);
+    expl.setFillColor(sf::Color(200, 220, 255));
+    window.draw(expl);
+    
+    // Bouton "Question Suivante"
+    sf::RectangleShape nextBtn(sf::Vector2f(200.f, 50.f));
+  nextBtn.setPosition(500.f, 680.f);
+ nextBtn.setFillColor(sf::Color(50, 150, 255));
+    nextBtn.setOutlineThickness(2.f);
+    nextBtn.setOutlineColor(sf::Color::White);
+    window.draw(nextBtn);
+    
+    sf::Text nextText("SUIVANT", font, 20);
+    nextText.setPosition(600.f, 692.f);
+    nextText.setOrigin(nextText.getLocalBounds().width / 2.f, 0.f);
+    nextText.setFillColor(sf::Color::White);
+    nextText.setStyle(sf::Text::Bold);
+    window.draw(nextText);
+}
+
+// ===== QUIZ : STATISTIQUES =====
+void EducationalMode::drawQuizStats(sf::RenderWindow& window) {
+    std::ostringstream oss;
+    oss << "Score: " << score << " / " << totalAnswered;
+ 
+    sf::Text stats(oss.str(), font, 18);
+    stats.setPosition(900.f, 150.f);
+    stats.setFillColor(sf::Color(255, 255, 100));
+    stats.setStyle(sf::Text::Bold);
+    window.draw(stats);
+    
+    if (totalAnswered > 0) {
+        oss.str("");
+        oss << "Precision: " << std::fixed << std::setprecision(0) 
+            << (getAccuracy() * 100.f) << "%";
+      sf::Text accuracy(oss.str(), font, 16);
+        accuracy.setPosition(900.f, 175.f);
+        accuracy.setFillColor(sf::Color(150, 200, 255));
+        window.draw(accuracy);
+    }
+}
+
+// ===== CARTES : AFFICHER LA SUIVANTE =====
+void EducationalMode::showNextCard() {
+    currentCardIndex = (currentCardIndex + 1) % learningCards.size();
+    cardTimer = 0.f;
+}
+
+// ===== CARTES : DESSIN =====
+void EducationalMode::drawLearningCard(sf::RenderWindow& window, float time) {
+    if (!cardActive || learningCards.empty()) return;
+    
+    const auto& card = learningCards[currentCardIndex];
+    
+    // Animation de pulsation
+    float pulse = 1.f + 0.05f * std::sin(time * 2.f);
+    
+    // Panneau de la carte
+    sf::RectangleShape cardPanel(sf::Vector2f(500.f * pulse, 300.f * pulse));
+    cardPanel.setPosition(350.f, 250.f);
+  cardPanel.setOrigin(250.f * pulse, 150.f * pulse);
+    cardPanel.setFillColor(sf::Color(20, 30, 50, 240));
+    cardPanel.setOutlineThickness(4.f);
+    cardPanel.setOutlineColor(card.accentColor);
+    window.draw(cardPanel);
+    
+  // Barre supérieure
+    sf::RectangleShape topBar(sf::Vector2f(500.f, 50.f));
+    topBar.setPosition(100.f, 100.f);
+    topBar.setFillColor(card.accentColor);
+    window.draw(topBar);
+    
+    // Catégorie
+    sf::Text category(card.category, font, 16);
+    category.setPosition(120.f, 115.f);
+    category.setFillColor(sf::Color::White);
+    category.setStyle(sf::Text::Bold);
+    window.draw(category);
+    
+    // Titre
+ sf::Text title(card.title, font, 22);
+    title.setPosition(350.f, 170.f);
+    title.setOrigin(title.getLocalBounds().width / 2.f, 0.f);
+title.setFillColor(card.accentColor);
+  title.setStyle(sf::Text::Bold);
+    window.draw(title);
+    
+    // Fait (avec retour à la ligne automatique)
+    // TODO: Implémenter le word wrap si nécessaire
+    sf::Text fact(card.fact, font, 14);
+    fact.setPosition(120.f, 220.f);
+    fact.setFillColor(sf::Color(200, 220, 255));
+    window.draw(fact);
+}
+
+// ===== PRÉCISION =====
+float EducationalMode::getAccuracy() const {
+    if (totalAnswered == 0) return 0.f;
+    return static_cast<float>(score) / static_cast<float>(totalAnswered);
+}

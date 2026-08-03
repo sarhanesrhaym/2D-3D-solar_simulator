@@ -1,0 +1,335 @@
+﻿/**
+ * ============================================================================
+ * PANNEAU CIRCULAIRE - STYLE ÉCRAN RADAR/HOLOGRAPHIQUE
+ * ============================================================================
+ * 
+ * Design alternatif : Panneau circulaire qui ressemble à un écran radar futuriste
+ * avec informations disposées en couronne autour du centre.
+ * 
+ * ============================================================================
+ * STRUCTURE VISUELLE
+ * ============================================================================
+ * 
+ *      ?????????????????
+ *           ?     Planet Name    ?
+ *      ?         ?? Type       ?
+ *       ?      ?
+ *     ??????      RADAR SCREEN      ??????
+ *   ?    ??   ?
+ *    ?     ?   ???????????????????    ?    ?
+ *    ?     ?   ?   ???????????   ?    ?    ?
+ *     ?    ?   ?   ? ? ??  ? ?   ?    ?   ?
+ *    ?     ?   ?   ???????????   ?    ?    ?
+ *     ?    ?   ???????????????????    ?   ?
+ *     ?    ?      (Mini Orbite)      ?   ?
+ *     ??????      ??????
+ *          ?   EN HAUT: Distance     ?
+ *      ?  À DROITE: Vitesse   ?
+ *       ?  EN BAS: Orbite ?
+ *                 ? À GAUCHE: Pos ?
+ *       ???????????????????
+ * 
+ * ============================================================================
+ * AMÉLIORATIONS
+ * ============================================================================
+ * 
+ * ?? DESIGN CIRCULAIRE :
+ *  - Corps principal en forme de cercle/anneau
+ *  - Informations disposées aux 4 points cardinaux
+ *  - Écran radar central avec mini-système solaire
+ *  - Grille de coordonnées animée
+ * 
+ * ?? EFFET HOLOGRAPHIQUE :
+ *  - Scan lines verticales animées
+ *  - Glow/lueurs verte/cyan futuristes
+ *  - Effet de "pixelisation" progressive
+ *  - Rasterisation style années 80
+ * 
+ * ?? ANIMATIONS :
+ *  - Rotation de la grille radar
+ *  - Pulsation des données
+ *  - Onde qui traverse les paramètres
+ *  - Scintillement de l'écran
+ * 
+ * ?? DISPOSITION RADIALE :
+ *  - Haut: Distance (DISTANCE_INFO)
+ *  - Droite: Vitesse (VELOCITY_INFO)
+ *  - Bas: Orbite (ORBIT_INFO)
+ *  - Gauche: Position (ANGLE_INFO)
+ *  - Coins: Excentricité, Masse, Satellites, Type
+ * 
+ * ============================================================================
+ */
+
+// ===== CODE ALTERNATIVE 2 : PANNEAU RADAR CIRCULAIRE =====
+
+// À insérer dans drawSimulation() en remplaçant la section du panneau flottant
+
+// ===== PANNEAU RADAR FUTURISTE CIRCULAIRE =====
+if (cameraFollowMode && followedPlanetIndex >= 0 &&
+    followedPlanetIndex < static_cast<int>(planets.size())) {
+
+    const auto& planet = planets[followedPlanetIndex];
+    sf::Vector2f planetPos = planet.shape.getPosition();
+    float planetRadius = planet.shape.getRadius();
+
+    // Calculs en temps réel
+    float distToSun = std::hypot(planetPos.x - Constants::SUN_CENTER.x,
+        planetPos.y - Constants::SUN_CENTER.y);
+    float speed = std::hypot(planet.velocity.x, planet.velocity.y);
+    float angleRad = std::atan2(planetPos.y - Constants::SUN_CENTER.y,
+        planetPos.x - Constants::SUN_CENTER.x);
+    float angleDeg = angleRad * 180.f / 3.14159f;
+    if (angleDeg < 0) angleDeg += 360.f;
+
+    // ===== CERCLE DE SUIVI ANIMÉ (INCHANGÉ) =====
+    float pulseScale = 1.0f + 0.25f * std::sin(time * 5.f);
+    float indicatorRadius = (planetRadius + 25.f) * pulseScale;
+
+    sf::CircleShape followCircle(indicatorRadius);
+    followCircle.setOrigin(indicatorRadius, indicatorRadius);
+    followCircle.setPosition(planetPos);
+  followCircle.setFillColor(sf::Color::Transparent);
+    followCircle.setOutlineThickness(4.f);
+    followCircle.setOutlineColor(sf::Color(0, 255, 100, 255));
+    window.draw(followCircle);
+
+    for (int i = 0; i < 4; ++i) {
+        float angle = (i * 90.f + time * 60.f) * 3.14159f / 180.f;
+    float arrowDist = indicatorRadius + 15.f;
+
+     sf::ConvexShape arrow;
+      arrow.setPointCount(3);
+        arrow.setPoint(0, sf::Vector2f(0, -10));
+  arrow.setPoint(1, sf::Vector2f(-7, 10));
+        arrow.setPoint(2, sf::Vector2f(7, 10));
+     arrow.setPosition(planetPos.x + arrowDist * std::cos(angle),
+       planetPos.y + arrowDist * std::sin(angle));
+        arrow.setRotation(angle * 180.f / 3.14159f + 90.f);
+     arrow.setFillColor(sf::Color(0, 255, 100, 255));
+        window.draw(arrow);
+    }
+
+    // ===== PANNEAU RADAR CIRCULAIRE =====
+    float radarRadius = 150.f;  // Rayon du panneau
+    float radarCenterX = planetPos.x + planetRadius + 200.f;
+ float radarCenterY = planetPos.y;
+
+    // ===== EFFET HOLOGRAPHIQUE - GLOW VERT/CYAN =====
+    for (int glowLayer = 3; glowLayer >= 0; --glowLayer) {
+        sf::CircleShape glowCircle(radarRadius + glowLayer * 10.f);
+     glowCircle.setOrigin(radarRadius + glowLayer * 10.f, radarRadius + glowLayer * 10.f);
+        glowCircle.setPosition(radarCenterX, radarCenterY);
+        glowCircle.setFillColor(sf::Color::Transparent);
+        glowCircle.setOutlineThickness(1.f);
+      float glowAlpha = 50 - glowLayer * 12;
+        glowCircle.setOutlineColor(sf::Color(0, 200 + glowLayer * 20, 255,
+    static_cast<sf::Uint8>(std::max(0, glowAlpha))));
+ window.draw(glowCircle);
+    }
+
+    // ===== CORPS PRINCIPAL CIRCULAIRE =====
+    sf::CircleShape radarBody(radarRadius);
+    radarBody.setOrigin(radarRadius, radarRadius);
+    radarBody.setPosition(radarCenterX, radarCenterY);
+ radarBody.setFillColor(sf::Color(5, 15, 30, 230));
+    radarBody.setOutlineThickness(3.f);
+    radarBody.setOutlineColor(sf::Color(0, 200, 255));
+    window.draw(radarBody);
+
+    // ===== GRILLE RADAR ANIMÉE =====
+  float gridRotation = time * 10.f;
+
+ // Cercles concentriques (3 niveaux)
+    for (int ring = 1; ring <= 3; ++ring) {
+   sf::CircleShape ringCircle(radarRadius * ring / 3.f);
+        ringCircle.setOrigin(radarRadius * ring / 3.f, radarRadius * ring / 3.f);
+        ringCircle.setPosition(radarCenterX, radarCenterY);
+        ringCircle.setFillColor(sf::Color::Transparent);
+        ringCircle.setOutlineThickness(1.f);
+        ringCircle.setOutlineColor(sf::Color(0, 150, 200, 100));
+        window.draw(ringCircle);
+ }
+
+    // Lignes radiales (8 directions)
+    for (int line = 0; line < 8; ++line) {
+        float angle = (line * 45.f + gridRotation) * 3.14159f / 180.f;
+        sf::VertexArray radarLine(sf::Lines, 2);
+ radarLine[0].position = sf::Vector2f(radarCenterX, radarCenterY);
+        radarLine[0].color = sf::Color(0, 150, 200, 80);
+        radarLine[1].position = sf::Vector2f(
+        radarCenterX + radarRadius * std::cos(angle),
+       radarCenterY + radarRadius * std::sin(angle)
+        );
+        radarLine[1].color = sf::Color(0, 200, 255, 60);
+        window.draw(radarLine);
+    }
+
+    // ===== SCAN LINES HOLOGRAPHIQUES =====
+    for (int scanLine = 0; scanLine < 15; ++scanLine) {
+        float scanY = radarCenterY - radarRadius + scanLine * (2.f * radarRadius / 15.f);
+  float scanProgress = std::fmod(time * 100.f + scanLine * 20.f, 200.f);
+        float scanAlpha = (scanProgress < 100.f) ? 
+            (scanProgress) : (200.f - scanProgress);
+
+        sf::RectangleShape scanLine(sf::Vector2f(2.f * radarRadius, 2.f));
+ scanLine.setPosition(radarCenterX - radarRadius, scanY);
+        scanLine.setFillColor(sf::Color(0, 200, 100, 
+          static_cast<sf::Uint8>(scanAlpha * 0.5f)));
+        window.draw(scanLine);
+    }
+
+    // ===== MINI ORBITE CENTRALE =====
+    float miniOrbiteX = radarCenterX;
+    float miniOrbiteY = radarCenterY;
+
+    // Orbite
+    sf::CircleShape miniOrbit(20.f);
+    miniOrbit.setOrigin(20.f, 20.f);
+    miniOrbit.setPosition(miniOrbiteX, miniOrbiteY);
+    miniOrbit.setFillColor(sf::Color::Transparent);
+    miniOrbit.setOutlineThickness(2.f);
+    miniOrbit.setOutlineColor(sf::Color(0, 255, 150, 200));
+    window.draw(miniOrbit);
+
+    // Soleil
+    sf::CircleShape miniSun(3.f);
+    miniSun.setOrigin(3.f, 3.f);
+ miniSun.setPosition(miniOrbiteX, miniOrbiteY);
+    miniSun.setFillColor(sf::Color(255, 200, 50));
+    window.draw(miniSun);
+
+    // Planète
+    sf::CircleShape miniPlanet(4.f);
+    miniPlanet.setOrigin(4.f, 4.f);
+    miniPlanet.setPosition(miniOrbiteX + 20.f * std::cos(angleRad),
+   miniOrbiteY + 20.f * std::sin(angleRad));
+    miniPlanet.setFillColor(planet.color);
+    miniPlanet.setOutlineThickness(2.f);
+    miniPlanet.setOutlineColor(sf::Color::White);
+    window.draw(miniPlanet);
+
+    // ===== INFORMATIONS RADIALES (4 POINTS CARDINAUX) =====
+    struct RadarInfo {
+        float angle;  // 0=top, 90=right, 180=bottom, 270=left
+        std::string label;
+  std::string value;
+        sf::Color color;
+    };
+
+    std::vector<RadarInfo> radarInfos = {
+        {0.f, "DISTANCE", 
+         std::to_string(static_cast<int>(distToSun * 10) / 10.f) + " UA",
+         sf::Color(255, 200, 100)},  // Top - Orange
+        
+  {90.f, "VITESSE",
+         std::to_string(static_cast<int>(speed * 100) / 100.f) + " u/s",
+         (speed > 1.5f ? sf::Color(255, 80, 80) : 
+          speed > 0.8f ? sf::Color(255, 200, 0) :
+      sf::Color(100, 255, 100))},  // Right
+      
+        {180.f, "ORBITE",
+   std::to_string(static_cast<int>(planet.semiMajorAxis * 10) / 10.f) + " u",
+      sf::Color(150, 255, 150)},  // Bottom - Vert
+
+        {270.f, "ANGLE",
+      std::to_string(static_cast<int>(angleDeg)) + "°",
+         sf::Color(100, 220, 255)}  // Left - Cyan
+    };
+
+    for (const auto& info : radarInfos) {
+        float angle = info.angle * 3.14159f / 180.f;
+      float distance = radarRadius + 50.f;
+
+        // Position du texte
+float textX = radarCenterX + distance * std::cos(angle);
+        float textY = radarCenterY + distance * std::sin(angle);
+
+    // Ligne de connexion
+   sf::VertexArray connectionLine(sf::Lines, 2);
+        connectionLine[0].position = sf::Vector2f(
+   radarCenterX + (radarRadius - 5.f) * std::cos(angle),
+            radarCenterY + (radarRadius - 5.f) * std::sin(angle)
+        );
+     connectionLine[0].color = info.color;
+        connectionLine[1].position = sf::Vector2f(textX - 20.f * std::cos(angle), 
+        textY - 20.f * std::sin(angle));
+connectionLine[1].color = sf::Color(info.color.r, info.color.g, info.color.b, 100);
+        window.draw(connectionLine);
+
+        // Label
+        sf::Text labelText(info.label, font, 11);
+        labelText.setPosition(textX, textY - 10.f);
+        labelText.setOrigin(labelText.getLocalBounds().width / 2.f, 0.f);
+     labelText.setFillColor(info.color);
+        labelText.setStyle(sf::Text::Bold);
+        window.draw(labelText);
+
+      // Valeur
+      sf::Text valueText(info.value, font, 13);
+  valueText.setPosition(textX, textY + 5.f);
+        valueText.setOrigin(valueText.getLocalBounds().width / 2.f, 0.f);
+        valueText.setFillColor(sf::Color(200, 220, 255));
+        valueText.setStyle(sf::Text::Bold);
+     window.draw(valueText);
+
+        // Point de connexion animé
+        float pointPulse = 3.f + 2.f * std::sin(time * 3.f);
+        sf::CircleShape connectionPoint(pointPulse);
+        connectionPoint.setOrigin(pointPulse, pointPulse);
+        connectionPoint.setPosition(textX, textY);
+        connectionPoint.setFillColor(info.color);
+  connectionPoint.setOutlineThickness(1.f);
+        connectionPoint.setOutlineColor(sf::Color::White);
+      window.draw(connectionPoint);
+    }
+
+    // ===== EN-TÊTE DU PANNEAU =====
+    sf::Text panelTitle(planet.name, font, 22);
+    panelTitle.setPosition(radarCenterX, radarCenterY - radarRadius - 40.f);
+    panelTitle.setOrigin(panelTitle.getLocalBounds().width / 2.f, 0.f);
+    panelTitle.setFillColor(sf::Color::White);
+    panelTitle.setStyle(sf::Text::Bold);
+    window.draw(panelTitle);
+
+    sf::Text panelSubtitle(planet.planetType, font, 12);
+    panelSubtitle.setPosition(radarCenterX, radarCenterY - radarRadius - 20.f);
+    panelSubtitle.setOrigin(panelSubtitle.getLocalBounds().width / 2.f, 0.f);
+    panelSubtitle.setFillColor(sf::Color(200, 220, 255));
+    panelSubtitle.setStyle(sf::Text::Italic);
+window.draw(panelSubtitle);
+
+    // ===== INFORMATION SUPPLÉMENTAIRE EN BAS =====
+    sf::Text extraInfo("? " + std::to_string(planet.numMoons) + " satellites | Ecc: " +
+   std::to_string(static_cast<int>(planet.eccentricity * 1000) / 1000.f) + " | Mass: " +
+        std::to_string(static_cast<int>(planet.mass * 10) / 10.f), font, 10);
+    extraInfo.setPosition(radarCenterX, radarCenterY + radarRadius + 20.f);
+    extraInfo.setOrigin(extraInfo.getLocalBounds().width / 2.f, 0.f);
+    extraInfo.setFillColor(sf::Color(150, 200, 200));
+    window.draw(extraInfo);
+
+    // ===== LIGNE DE CONNEXION VERS LA PLANÈTE =====
+    sf::VertexArray connectionToPlanet(sf::LineStrip, 4);
+  connectionToPlanet[0].position = sf::Vector2f(planetPos.x + planetRadius + 5.f, planetPos.y);
+    connectionToPlanet[0].color = sf::Color(0, 255, 100, 200);
+
+    connectionToPlanet[1].position = sf::Vector2f(
+ (radarCenterX + planetPos.x) / 2.f,
+        (radarCenterY + planetPos.y) / 2.f - 20.f
+    );
+    connectionToPlanet[1].color = sf::Color(0, 200, 100, 150);
+
+    connectionToPlanet[2].position = sf::Vector2f(
+        (radarCenterX + planetPos.x) / 2.f,
+        (radarCenterY + planetPos.y) / 2.f + 20.f
+    );
+    connectionToPlanet[2].color = sf::Color(0, 150, 100, 100);
+
+    connectionToPlanet[3].position = sf::Vector2f(radarCenterX - radarRadius, radarCenterY);
+    connectionToPlanet[3].color = sf::Color(0, 100, 100, 50);
+    window.draw(connectionToPlanet);
+}
+
+// ============================================================================
+// FIN DU PANNEAU RADAR HOLOGRAPHIQUE
+// ============================================================================

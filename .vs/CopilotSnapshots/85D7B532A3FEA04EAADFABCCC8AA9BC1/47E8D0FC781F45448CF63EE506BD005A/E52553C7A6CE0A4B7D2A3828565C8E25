@@ -1,0 +1,101 @@
+﻿cmake_minimum_required(VERSION 3.10)
+project(CosmoUIT VERSION 1.0 LANGUAGES CXX)
+
+# Standard C++17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# ===== CONFIGURATION WINDOWS GUI =====
+# En Release : pas de console (WIN32)
+# En Debug : garder la console (pas WIN32)
+set(WIN32_FLAG "")
+if(WIN32 AND NOT CMAKE_BUILD_TYPE MATCHES Debug)
+    set(WIN32_FLAG WIN32)
+endif()
+
+# Trouver SFML
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
+# Liste des fichiers sources
+set(SOURCES
+    main.cpp
+    Planet.cpp
+    Comet.cpp
+    Star.cpp
+    MenuPlanet.cpp
+    CosmicButton.cpp
+    UI.cpp
+    Moon.cpp
+    SpaceMission.cpp
+    EducationalMode.cpp
+    PlanetFollowHelper.cpp
+)
+
+# Créer l'exécutable (WIN32_FLAG vide en Debug, "WIN32" en Release)
+add_executable(CosmoUIT ${WIN32_FLAG} ${SOURCES})
+
+# Lier SFML
+target_link_libraries(CosmoUIT 
+    sfml-graphics 
+    sfml-window 
+    sfml-system
+)
+
+# ===== COPIE AUTOMATIQUE DES RESSOURCES =====
+# Copier les textures
+file(COPY ${CMAKE_SOURCE_DIR}/textures 
+     DESTINATION ${CMAKE_BINARY_DIR}/Release)
+file(COPY ${CMAKE_SOURCE_DIR}/textures 
+     DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+file(COPY ${CMAKE_SOURCE_DIR}/textures 
+     DESTINATION ${CMAKE_BINARY_DIR})
+
+# Copier la police
+if(EXISTS ${CMAKE_SOURCE_DIR}/font.ttf)
+    file(COPY ${CMAKE_SOURCE_DIR}/font.ttf 
+         DESTINATION ${CMAKE_BINARY_DIR}/Release)
+    file(COPY ${CMAKE_SOURCE_DIR}/font.ttf 
+       DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+    file(COPY ${CMAKE_SOURCE_DIR}/font.ttf 
+         DESTINATION ${CMAKE_BINARY_DIR})
+endif()
+
+# ===== COPIE AUTOMATIQUE DES DLLs SFML (Windows) =====
+if(WIN32)
+    foreach(LIB graphics window system)
+        # DLL Release
+        if(EXISTS "${SFML_ROOT}/bin/sfml-${LIB}-2.dll")
+            file(COPY "${SFML_ROOT}/bin/sfml-${LIB}-2.dll"
+DESTINATION ${CMAKE_BINARY_DIR}/Release)
+        endif()
+      
+      # DLL Debug
+    if(EXISTS "${SFML_ROOT}/bin/sfml-${LIB}-d-2.dll")
+            file(COPY "${SFML_ROOT}/bin/sfml-${LIB}-d-2.dll"
+        DESTINATION ${CMAKE_BINARY_DIR}/Debug)
+  endif()
+    endforeach()
+endif()
+
+# ===== INSTALLATION =====
+install(TARGETS CosmoUIT
+    RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY textures 
+    DESTINATION bin
+)
+
+if(EXISTS ${CMAKE_SOURCE_DIR}/font.ttf)
+    install(FILES font.ttf 
+     DESTINATION bin)
+endif()
+
+# Message de confirmation
+message(STATUS "========================================")
+message(STATUS "Configuration CosmoUIT Portable")
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "C++ Standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "SFML Version: ${SFML_VERSION}")
+message(STATUS "WIN32 Flag: ${WIN32_FLAG}")
+message(STATUS "========================================")

@@ -1,213 +1,360 @@
-﻿# CosmoUIT - Simulateur de Système Solaire 2D
+﻿# 🌌 CosmoUIT — Simulateur du Système Solaire 2D
 
-Projet universitaire développé à l'Université Ibn Tofail - Faculté des Sciences
+**Projet universitaire — Université Ibn Tofail, Kénitra**  
+**Master Éducatif — Année 2025/2026**
 
-## 📁 Structure du Projet
+> Simulateur interactif du système solaire développé en C++ avec SFML,
+> permettant de visualiser les orbites planétaires, d'explorer chaque
+> planète en détail, et de tester ses connaissances grâce à un quiz intégré.
 
-```
-CosmoUIT/
-├── include/
-│   ├── AppState.h          # États de l'application
-│   ├── Constants.h         # Constantes physiques et graphiques
-│   ├── Planet.h            # Classe Planet
-│   ├── Comet.h             # Classe Comet
-│   ├── Star.h              # Classe Star (étoiles du fond)
-│   ├── MenuPlanet.h        # Planètes du menu principal
-│   ├── CosmicButton.h      # Boutons interactifs
-│   └── UI.h                # Fonctions d'interface utilisateur
-├── src/
-│   ├── main.cpp            # Point d'entrée du programme
-│   ├── Planet.cpp          # Implémentation de Planet
-│   ├── Comet.cpp           # Implémentation de Comet
-│   ├── Star.cpp            # Implémentation de Star
-│   ├── MenuPlanet.cpp      # Implémentation de MenuPlanet
-│   ├── CosmicButton.cpp    # Implémentation de CosmicButton
-│   └── UI.cpp              # Implémentation des fonctions UI
-├── textures/
-│   ├── mercury.jpg
-│   ├── venus.jpg
-│   ├── earth.jpg
-│   ├── mars.jpg
-│   ├── jupiter.jpg
-│   ├── saturn.jpg
-│   ├── uranus.jpg
-│   ├── neptune.jpg
-│   ├── sun.jpg
-│   └── saturn_ring.png
-├── CMakeLists.txt          # Configuration CMake
-└── README.md               # Ce fichier
+**Encadrant :** Pr. Mohamed DAOUDI
 
-```
-
-## 🔧 Prérequis
-
-- **C++17** ou supérieur
-- **SFML 2.5+** (Simple and Fast Multimedia Library)
-- **CMake 3.10+** (optionnel, pour la compilation)
-- Un compilateur C++ (GCC, Clang, MSVC)
-
-## 📥 Installation de SFML
-
-### Windows
-```bash
-# Télécharger depuis https://www.sfml-dev.org/download.php
-# Ou avec vcpkg:
-vcpkg install sfml
-```
-
-### Linux (Ubuntu/Debian)
-```bash
-sudo apt-get install libsfml-dev
-```
-
-### macOS
-```bash
-brew install sfml
-```
-
-## 🚀 Compilation
-
-### Méthode 1 : Avec CMake (Recommandé)
-
-```bash
-# Créer un dossier de build
-mkdir build
-cd build
-
-# Configurer CMake
-cmake ..
-
-# Compiler
-cmake --build .
-
-# Exécuter
-./CosmoUIT
-```
-
-### Méthode 2 : Avec g++ directement
-
-```bash
-# Compiler tous les fichiers
-g++ -std=c++17 -Iinclude \
-    src/main.cpp \
-    src/Planet.cpp \
-    src/Comet.cpp \
-    src/Star.cpp \
-    src/MenuPlanet.cpp \
-    src/CosmicButton.cpp \
-    src/UI.cpp \
-    -o CosmoUIT \
-    -lsfml-graphics -lsfml-window -lsfml-system
-
-# Exécuter
-./CosmoUIT
-```
-
-### Méthode 3 : Visual Studio (Windows)
-
-1. Créer un nouveau projet C++ "Application console"
-2. Ajouter tous les fichiers `.h` et `.cpp`
-3. Configurer les propriétés du projet :
-   - **C/C++ → Général → Répertoires Include supplémentaires** : Ajouter le chemin vers SFML/include
-   - **Éditeur de liens → Général → Répertoires de bibliothèques supplémentaires** : Ajouter SFML/lib
-   - **Éditeur de liens → Entrée → Dépendances supplémentaires** : Ajouter `sfml-graphics.lib sfml-window.lib sfml-system.lib`
-4. Compiler et exécuter
-
-## 🎮 Contrôles
-
-### Menu Principal
-- Clic sur les boutons pour naviguer
-
-### Simulation
-- **Flèches directionnelles** : Déplacer la caméra
-- **Molette souris** : Zoom in/out
-- **Clic gauche sur planète** : Afficher les détails
-- **Clic gauche dans l'espace** : Créer une comète
-- **Espace** : Pause/Reprendre
-- **R** : Réinitialiser la caméra
-- **Échap** : Retour au menu principal
-
-### Boutons Interface
-- **>> / <<** : Accélérer/Ralentir le temps
-- **|| ** : Pause
-- **+ / -** : Zoom
-- **O** : Afficher/Masquer les orbites
-- **~** : Afficher/Masquer les traînées
-- **T** : Afficher/Masquer les labels
-- **i** : Afficher/Masquer les statistiques
-- **#** : Afficher/Masquer la grille
-- **C** : Effacer les traînées
-- **R** : Reset caméra
-- **M** : Retour au menu
+---
 
 ## ✨ Fonctionnalités
 
-- ✅ Simulation réaliste des orbites planétaires basée sur la mécanique céleste
-- ✅ 8 planètes du système solaire avec leurs caractéristiques réelles
-- ✅ Système de comètes interactif avec attraction gravitationnelle
-- ✅ Visualisation des trajectoires orbitales
-- ✅ Zoom et déplacement libre de la caméra
-- ✅ Contrôle de la vitesse de simulation (x0.125 à x64)
-- ✅ Informations détaillées pour chaque planète
-- ✅ Interface utilisateur intuitive avec fond étoilé animé
-- ✅ Anneaux de Saturne avec texture
-- ✅ Panneau de statistiques
+### 🪐 Simulation orbitale
+- 8 planètes avec orbites elliptiques réalistes (lois de Kepler)
+- Données scientifiques réelles (masse, rayon, température, gravité, composition)
+- Contrôle de la vitesse de simulation (x0.125 à x64)
+- Pause / reprise en temps réel
+- Soleil texturé avec halo lumineux
 
-## 📚 Architecture du Code
+### 🧭 Navigation
+- Déplacement libre de la caméra (flèches du clavier)
+- Zoom avant / arrière (molette ou boutons)
+- Suivi automatique d'une planète (touches 1 à 8)
+- Interpolation fluide de la caméra (lerp)
+- Retour au Soleil (touche 0)
+- Panneau d'informations en temps réel pendant le suivi
 
-### Classes Principales
+### ☄️ Comètes interactives
+- Clic gauche dans le vide pour lancer une comète
+- Trajectoire influencée par la gravité du Soleil
+- Traînée lumineuse animée
+- Jusqu'à 50 comètes simultanées
 
-- **Planet** : Gère les propriétés physiques et graphiques d'une planète
-- **Comet** : Représente une comète avec physique gravitationnelle
-- **Star** : Étoiles du fond avec effet de scintillement
-- **MenuPlanet** : Planètes simplifiées pour le menu principal
-- **CosmicButton** : Boutons interactifs avec effets hover
+### 📊 Affichage configurable
+- Orbites elliptiques (toggle)
+- Labels des planètes (toggle)
+- Grille de référence (toggle)
+- Traînées orbitales (toggle)
+- Panneau de statistiques
 
-### Namespaces
+### 🎓 Mode éducatif — Quiz
+- Questions à choix multiples sur le système solaire
+- Score affiché en temps réel
+- Explication détaillée après chaque réponse
+- Bouton retour pour quitter le quiz
 
-- **Constants** : Contient toutes les constantes physiques et graphiques
+### ⚖️ Comparaison de planètes
+- Sélection de 2 planètes via les touches 1-8
+- Tableau comparatif : diamètre, masse, gravité, température, lunes
+- Touche C pour recommencer, ESC pour fermer
 
-### Fonctions UI (UI.cpp)
+### 🔬 Structure interne
+- 8 onglets (un par planète)
+- Visualisation des couches (croûte, manteau, noyau)
+- Textures de structure ou schéma généré automatiquement
+- Données : circonférence, âge, période orbitale, masse, satellites
 
-- `createStarfield()` : Génère le champ d'étoiles
-- `createMenuSolarSystem()` : Crée le système solaire du menu
-- `drawMainMenu()` : Affiche le menu principal
-- `drawSimulation()` : Affiche la simulation
-- `drawPlanetDetails()` : Affiche les détails d'une planète
-- `drawPresentation()` : Affiche la présentation du projet
-- `drawTeamInfo()` : Affiche les informations de l'équipe
+### 🚀 Missions spatiales
+- Timeline des grandes missions historiques (Apollo, Voyager...)
+- Marqueurs visuels sur la carte du système solaire
+- Info-bulle au survol d'une mission
+- Toggle avec la touche H ou le bouton Missions
+
+### 🎨 Interface utilisateur
+- Menu principal avec système solaire animé et interactif
+- Tooltip au survol des planètes du menu
+- Astronaute flottant, vaisseau NASA, météorites décoratives
+- Étoiles filantes aléatoires
+- Effet parallaxe avec la souris
+- Nébuleuses animées
+- Particules solaires avec physique (accélération, traînées)
+- Menu déroulant "OUTILS" avec 16 boutons (palette dégradé bleu)
+- Effets hover, clic, brillance, ombre 3D sur les boutons
+- 6 écrans : Menu, Présentation, Équipe, Simulation, Détails, Structure
+
+---
+
+## 📁 Structure du projet
+
+```
+CosmoUIT/
+│
+├── 📄 main.cpp    # Point d'entrée, boucle principale, gestion des états
+├── 📄 AppState.h             # Énumération des états (MENU, SIMULATION, etc.)
+├── 📄 Constants.h         # Constantes physiques et graphiques
+│
+├──  Planet.cpp / Planet.h       # Classe Planet — physique orbitale + rendu texturé
+├──  Comet.cpp / Comet.h        # Comètes interactives avec gravitation
+├──  Moon.cpp / Moon.h # Satellites naturels des planètes
+├──  Star.cpp / Star.h  # Étoiles de fond avec scintillement
+├──  MenuPlanet.cpp / MenuPlanet.h     # Planètes animées du menu principal
+├──  CosmicButton.cpp / CosmicButton.h # Boutons avec animations (hover/clic)
+│
+├──  UI.cpp / UI.h            # Affichage de tous les écrans
+├──  EducationalMode.cpp / .h          # Quiz éducatif (questions/réponses/score)
+├──  SpaceMission.cpp / SpaceMission.h # Timeline des missions spatiales
+├──  PlanetFollowHelper.cpp / .h       # Suivi caméra fluide (lerp)
+│
+├──  CMakeLists.txt     # Configuration CMake
+├──  README.md        # Ce fichier
+│
+├──  build_GO.ps1   # Script de build principal
+│
+└── textures/    # Ressources graphiques
+    ├── mercury.jpg       # Texture Mercure
+    ├── venus.jpg            # Texture Vénus
+    ├── earth.jpg # Texture Terre
+    ├── mars.jpg# Texture Mars
+    ├── jupiter.jpg              # Texture Jupiter
+    ├── saturn.jpg             # Texture Saturne
+    ├── uranus.jpg   # Texture Uranus
+    ├── neptune.jpg   # Texture Neptune
+    ├── sun.png  # Texture Soleil
+    ├── saturn_ring.png       # Anneaux de Saturne
+    ├── astronaut.png    # Astronaute flottant (menu)
+    ├── spacecraft.png     # Vaisseau NASA (menu)
+    ├── meteorite.png     # Météorite (menu)
+    └── structure/          # Textures structure interne
+      ├── mercury_structure.png
+        ├── venus_structure.png
+        ├── earth_structure.png
+        ├── mars_structure.png
+        ├── jupiter_structure.png
+        ├── saturn_structure.png
+        ├── uranus_structure.png
+        └── neptune_structure.png
+```
+
+---
+
+## 🔧 Prérequis
+
+| Outil | Version minimale |
+|-------|-----------------|
+| C++ | C++14 |
+| SFML | 2.5+ |
+| CMake | 3.10+ |
+| IDE | Visual Studio 2022 (recommandé) |
+| OS | Windows 10 / 11 |
+
+---
+
+## 🚀 Compilation
+
+### Avec CMake (recommandé)
+
+```bash
+mkdir build && cd build
+cmake .. -DSFML_DIR="C:/chemin/vers/SFML/lib/cmake/SFML"
+cmake --build . --config Release
+```
+
+### Avec Visual Studio 2022
+
+1. **Fichier > Ouvrir > CMake...** et sélectionner `CMakeLists.txt`
+2. Configurer la cible `CosmoUIT`
+3. **Ctrl+Shift+B** pour compiler
+4. **F5** pour exécuter
+
+### Avec le script PowerShell
+
+```powershell
+.\build_GO.ps1
+```
+
+### Avec g++ directement
+
+```bash
+g++ -std=c++14 \
+    main.cpp Planet.cpp Comet.cpp Star.cpp MenuPlanet.cpp \
+    CosmicButton.cpp UI.cpp Moon.cpp SpaceMission.cpp \
+    EducationalMode.cpp PlanetFollowHelper.cpp \
+    -o CosmoUIT \
+    -lsfml-graphics -lsfml-window -lsfml-system
+```
+
+> **Important** : les DLLs SFML (`sfml-graphics-2.dll`, `sfml-window-2.dll`,
+> `sfml-system-2.dll`) doivent être dans le même dossier que l'exécutable.
+
+---
+
+## 🎮 Contrôles
+
+### Clavier
+
+| Touche | Action |
+|--------|--------|
+| `Flèches` | Déplacer la caméra |
+| `1` à `8` | Suivre une planète (Mercure → Neptune) |
+| `0` | Retour au Soleil |
+| `F` | Activer / désactiver le suivi |
+| `Espace` | Pause / Reprendre |
+| `R` | Réinitialiser la caméra |
+| `H` | Afficher / masquer les missions spatiales |
+| `Tab` | Ouvrir / fermer le menu Outils |
+| `Échap` | Retour au menu / Quitter |
+
+### Souris
+
+| Action | Effet |
+|--------|-------|
+| Clic gauche sur une planète | Ouvrir la fiche détaillée |
+| Clic gauche dans le vide | Lancer une comète |
+| Molette | Zoom avant / arrière |
+
+### Menu Outils — 16 boutons (palette dégradé bleu)
+
+| # | Icône | Bouton | Fonction |
+|---|-------|--------|----------|
+| 1 | `>>` | Accélérer | Vitesse × 2 |
+| 2 | `<<` | Ralentir | Vitesse ÷ 2 |
+| 3 | `\|\|` | Pause | Pause / Reprendre |
+| 4 | `+` | Zoom + | Zoom avant |
+| 5 | `-` | Zoom - | Zoom arrière |
+| 6 | `O` | Orbites | Toggle orbites |
+| 7 | `~` | Traînées | Toggle traînées |
+| 8 | `T` | Labels | Toggle labels |
+| 9 | `#` | Grille | Toggle grille |
+| 10 | `C` | Effacer | Effacer traînées et comètes |
+| 11 | `R` | Reset | Réinitialiser la vue |
+| 12 | `M` | Menu | Retour au menu principal |
+| 13 | `S` | Suivre | Afficher l'ordre des planètes |
+| 14 | `H` | Missions | Toggle missions spatiales |
+| 15 | `Q` | Quiz | Lancer le quiz éducatif |
+| 16 | `P` | Compare | Mode comparaison de planètes |
+
+---
+
+## 🏗️ Architecture technique
+
+### États de l'application
+
+```
+MAIN_MENU ──► PRESENTATION
+          ──► SIMULATION ──► PLANET_DETAILS
+    ──► TEAM_INFO
+          ──► PLANET_STRUCTURE
+```
+
+### Principes scientifiques
+
+**Lois de Kepler** — orbites elliptiques, vitesse variable :
+```
+r = a × (1 - e²) / (1 + e × cos(θ))
+```
+
+**Gravitation de Newton** — appliquée aux comètes :
+```
+F = G × M × m / r²
+```
+
+**Intégration numérique** — recalcul position/vitesse à chaque frame.
+
+**Données NASA** — masse, rayon, température, composition de chaque planète.
+
+### Classes principales
+
+| Classe | Rôle |
+|--------|------|
+| `Planet` | Physique orbitale, données scientifiques, rendu texturé |
+| `Comet` | Comète interactive avec gravitation et traînée |
+| `Moon` | Satellites naturels en orbite autour des planètes |
+| `Star` | Étoile de fond avec scintillement aléatoire |
+| `MenuPlanet` | Planète animée du menu (tooltip, zoom au survol) |
+| `CosmicButton` | Bouton avec 3 états (normal, hover, clic) + animations |
+| `EducationalMode` | Quiz avec score, explications, bouton retour |
+| `MissionTimeline` | Timeline des missions spatiales avec marqueurs |
+| `PlanetFollowHelper` | Suivi caméra fluide (interpolation lerp) |
+
+### Fonctions UI principales
+
+| Fonction | Écran |
+|----------|-------|
+| `drawMainMenu()` | Menu principal animé |
+| `drawSimulation()` | Vue simulation avec planètes et outils |
+| `drawPlanetDetails()` | Fiche détaillée d'une planète |
+| `drawPresentation()` | Présentation du projet (4 cartes) |
+| `drawTeamInfo()` | Équipe de développement |
+| `drawPlanetStructure()` | Structure interne (8 onglets) |
+| `drawPlanetsOrderMessage()` | Popup ordre des planètes |
+| `drawPlanetComparison()` | Mode comparaison côte à côte |
+
+---
+
+## 🌍 Données des planètes
+
+| Planète | Diamètre (km) | Masse (×10²⁴ kg) | Temp. (°C) | Gravité (m/s²) | Lunes |
+|---------|---------------|-------------------|------------|----------------|-------|
+| Mercure | 4 879 | 0.33 | 167 | 3.7 | 0 |
+| Vénus | 12 104 | 4.87 | 464 | 8.87 | 0 |
+| Terre | 12 756 | 5.97 | 15 | 9.8 | 1 |
+| Mars | 6 792 | 0.642 | -65 | 3.7 | 2 |
+| Jupiter | 142 984 | 1 898 | -108 | 24.8 | 79 |
+| Saturne | 120 536 | 568 | -139 | 10.4 | 82 |
+| Uranus | 51 118 | 86.8 | -197 | 8.9 | 27 |
+| Neptune | 49 528 | 102 | -201 | 11.2 | 14 |
+
+---
 
 ## 🐛 Dépannage
 
-### Erreur : "Police non trouvée"
-Modifiez le chemin dans `Constants.h` :
+### Police non trouvée
+Modifier le chemin dans `Constants.h` :
 ```cpp
-const std::string FONT_PATH = "C:\\Windows\\Fonts\\arial.ttf"; // Windows
-// ou
-const std::string FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"; // Linux
+const std::string FONT_PATH = "C:\\Windows\\Fonts\\arial.ttf";
 ```
 
-### Erreur : "Textures manquantes"
-Assurez-vous que le dossier `textures/` est présent et contient toutes les images nécessaires.
+### Textures manquantes
+Vérifier que `textures/` est à côté de l'exécutable :
+```bash
+xcopy /E /I textures build\Release\textures
+```
 
-### Erreur de compilation SFML
-Vérifiez que SFML est correctement installé et que les chemins sont configurés.
+### DLLs SFML manquantes
+Copier depuis le dossier `bin/` de SFML :
+```
+sfml-graphics-2.dll
+sfml-window-2.dll
+sfml-system-2.dll
+```
 
-## 📝 Licence
+### L'application se ferme immédiatement
+Lancer depuis un terminal pour voir les erreurs :
+```bash
+cd build\Release
+CosmoUIT.exe
+```
 
-Projet académique - Université Ibn Tofail - 2024-2025
+---
 
 ## 👥 Équipe
 
-- [Nom Étudiant 1]
-- [Nom Étudiant 2]
-- [Nom Étudiant 3]
-- [Nom Étudiant 4]
+| Membre | Contribution |
+|--------|-------------|
+| **SARHANE Aymane** | Architecture, développement principal, intégration |
+| **MIDINI Hafsa** | Données scientifiques, fiches planétaires |
+| **EL GHAYATI Sara** | Textures, design visuel, page présentation |
+| **SANGARE Nfaly** | Questions du quiz, données missions, tests |
+| **BAJOUDI Alae** | Capsule vidéo, documentation, tests |
 
-**Encadrant :** [Nom du Professeur]
+**Encadrant :** Pr. Mohamed DAOUDI  
+**Département :** Informatique — Faculté des Sciences — Université Ibn Tofail
+
+---
+
+## 📝 Licence
+
+Projet académique — Université Ibn Tofail — 2025/2026
+
+---
 
 ## 🙏 Remerciements
 
-- Université Ibn Tofail - Faculté des Sciences
-- SFML Community
-- NASA pour les données planétaires
+- **Pr. Mohamed DAOUDI** pour l'encadrement et les conseils
+- **Université Ibn Tofail** — Faculté des Sciences de Kénitra
+- **SFML Community** pour la bibliothèque graphique
+- **NASA** pour les données planétaires publiques

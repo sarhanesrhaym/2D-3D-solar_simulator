@@ -1,0 +1,374 @@
+﻿/**
+ * ============================================================================
+ * OPTION 3 : FICHE TECHNIQUE - STYLE DOCUMENT SCIENTIFIQUE
+ * ============================================================================
+ * 
+ * Design professionnel et moderne : Fiche technique scientifique animée
+ * qui ressemble à un rapport officiel de mission spatiale.
+ * 
+ * ============================================================================
+ * STRUCTURE VISUELLE
+ * ============================================================================
+ * 
+ *  ???????????????????????????????????????????
+ *  ? [NASA LOGO] MISSION REPORT - PLANET NAME?
+ *  ???????????????????????????????????????????
+ *  ?        ?
+ *  ?  STATUS: ? ACTIVE   [????? Signal OK] ?
+ *  ?              ?
+ *  ???????????????????????????????????????????
+ *  ? ORBITAL PARAMETERS          PHYSICAL    ?
+ *  ???????????????????????????????????????????
+ *  ? Distance:  XXX   ? Mass: YYY     ?
+ *  ? Orbite:    XXX   ? Type: YYY     ?
+ *  ? Vitesse:   XXX   ? Sat.: YYY ?
+ *  ? Angle:     XXX   ? Ecc.: YYY     ?
+ *  ???????????????????????????????????????????
+ *  ?           [Mini Orbite]  ?
+ *  ???????????????????????????????????????????
+ *  ? LAST UPDATE: HH:MM:SS | SIGNAL: ?????  ?
+ *  ???????????????????????????????????????????
+ * 
+ * ============================================================================
+ * AMÉLIORATIONS
+ * ============================================================================
+ * 
+ * ?? PRÉSENTATION PROFESSIONNELLE :
+ *  - En-tête style rapport officiel
+ *  - Séparation claire des sections
+ *  - Layout tableau/grille
+ *  - Style "document mission"
+ * 
+ * ?? ORGANISATION DES DONNÉES :
+ *  - Colonne gauche: Paramètres orbitaux
+ *  - Colonne droite: Propriétés physiques
+ *  - Bas: Statut et signal
+ *  - Centre: Visualisation
+ * 
+ * ?? STATUT ANIMÉ :
+ *  - Indicator de signal (bars pulsantes)
+ *  - Statut de la mission
+ *  - Heure de mise à jour
+ *  - Pourcentage de signal
+ * 
+ * ?? STYLE :
+ *  - Couleur grise/blanche classique (papier)
+ *  - Accents de couleur pour chaque section
+ *  - Police monospace pour les données
+ *  - Bordures soignées
+ * 
+ * ============================================================================
+ */
+
+// ===== CODE ALTERNATIVE 3 : FICHE TECHNIQUE SCIENTIFIQUE =====
+
+// À insérer dans drawSimulation() en remplaçant la section du panneau flottant
+
+// ===== FICHE TECHNIQUE MISSION SPATIALE =====
+if (cameraFollowMode && followedPlanetIndex >= 0 &&
+    followedPlanetIndex < static_cast<int>(planets.size())) {
+
+    const auto& planet = planets[followedPlanetIndex];
+    sf::Vector2f planetPos = planet.shape.getPosition();
+    float planetRadius = planet.shape.getRadius();
+
+    // Calculs en temps réel
+    float distToSun = std::hypot(planetPos.x - Constants::SUN_CENTER.x,
+   planetPos.y - Constants::SUN_CENTER.y);
+    float speed = std::hypot(planet.velocity.x, planet.velocity.y);
+   float angleRad = std::atan2(planetPos.y - Constants::SUN_CENTER.y,
+        planetPos.x - Constants::SUN_CENTER.x);
+    float angleDeg = angleRad * 180.f / 3.14159f;
+    if (angleDeg < 0) angleDeg += 360.f;
+
+    // ===== CERCLE DE SUIVI ANIMÉ (INCHANGÉ) =====
+    float pulseScale = 1.0f + 0.25f * std::sin(time * 5.f);
+    float indicatorRadius = (planetRadius + 25.f) * pulseScale;
+
+    sf::CircleShape followCircle(indicatorRadius);
+    followCircle.setOrigin(indicatorRadius, indicatorRadius);
+    followCircle.setPosition(planetPos);
+    followCircle.setFillColor(sf::Color::Transparent);
+    followCircle.setOutlineThickness(4.f);
+    followCircle.setOutlineColor(sf::Color(0, 255, 100, 255));
+    window.draw(followCircle);
+
+    for (int i = 0; i < 4; ++i) {
+        float angle = (i * 90.f + time * 60.f) * 3.14159f / 180.f;
+    float arrowDist = indicatorRadius + 15.f;
+
+        sf::ConvexShape arrow;
+     arrow.setPointCount(3);
+  arrow.setPoint(0, sf::Vector2f(0, -10));
+        arrow.setPoint(1, sf::Vector2f(-7, 10));
+      arrow.setPoint(2, sf::Vector2f(7, 10));
+    arrow.setPosition(planetPos.x + arrowDist * std::cos(angle),
+       planetPos.y + arrowDist * std::sin(angle));
+        arrow.setRotation(angle * 180.f / 3.14159f + 90.f);
+        arrow.setFillColor(sf::Color(0, 255, 100, 255));
+        window.draw(arrow);
+    }
+
+    // ===== FICHE TECHNIQUE MISSION =====
+    float docX = planetPos.x + planetRadius + 80.f;
+    float docY = planetPos.y - 140.f;
+    float docW = 420.f;
+    float docH = 280.f;
+
+    // ===== FOND PRINCIPAL - STYLE PAPIER =====
+    sf::RectangleShape docBg(sf::Vector2f(docW, docH));
+    docBg.setPosition(docX, docY);
+    docBg.setFillColor(sf::Color(240, 240, 245, 250));  // Blanc cassé
+    docBg.setOutlineThickness(2.f);
+    docBg.setOutlineColor(sf::Color(50, 50, 80));
+    window.draw(docBg);
+
+   // ===== EN-TÊTE OFFICIEL =====
+    sf::RectangleShape headerBar(sf::Vector2f(docW, 45.f));
+    headerBar.setPosition(docX, docY);
+    headerBar.setFillColor(sf::Color(20, 30, 60, 240));
+    window.draw(headerBar);
+
+   // Titre en-tête
+    sf::Text headerTitle("MISSION REPORT - " + planet.name, font, 16);
+    headerTitle.setPosition(docX + 10.f, docY + 8.f);
+    headerTitle.setFillColor(sf::Color(0, 255, 150));
+    headerTitle.setStyle(sf::Text::Bold);
+    window.draw(headerTitle);
+
+   // Timestamp
+sf::Text timestamp("REAL-TIME MONITORING", font, 11);
+    timestamp.setPosition(docX + docW - 120.f, docY + 10.f);
+    timestamp.setFillColor(sf::Color(200, 200, 200));
+   window.draw(timestamp);
+
+    // ===== BARRE STATUT =====
+sf::RectangleShape statusBar(sf::Vector2f(docW - 20.f, 28.f));
+statusBar.setPosition(docX + 10.f, docY + 50.f);
+    statusBar.setFillColor(sf::Color(250, 250, 250, 200));
+    statusBar.setOutlineThickness(1.f);
+    statusBar.setOutlineColor(sf::Color(100, 150, 200));
+    window.draw(statusBar);
+
+    // Indicateur statut
+    sf::Text statusText("STATUS: ? ACTIVE", font, 12);
+    statusText.setPosition(docX + 15.f, docY + 53.f);
+    statusText.setFillColor(sf::Color(0, 150, 100));
+    statusText.setStyle(sf::Text::Bold);
+    window.draw(statusText);
+
+    // Barre de signal
+    float signalStrength = 0.7f + 0.2f * std::sin(time * 2.f);
+    for (int bar = 0; bar < 5; ++bar) {
+  sf::RectangleShape signalBar(sf::Vector2f(6.f, 15.f));
+  signalBar.setPosition(docX + docW - 40.f + bar * 7.f, docY + 56.f);
+        
+        float barAlpha = (bar < signalStrength * 5.f) ? 200 : 80;
+        signalBar.setFillColor(sf::Color(0, 200, 100, static_cast<sf::Uint8>(barAlpha)));
+        signalBar.setOutlineThickness(1.f);
+        signalBar.setOutlineColor(sf::Color(0, 100, 50));
+        window.draw(signalBar);
+  }
+
+    // ===== TABLEAU DE DONNÉES =====
+  float tableX = docX + 10.f;
+    float tableY = docY + 85.f;
+    float col1Width = 200.f;
+    float col2Width = 190.f;
+    float rowHeight = 38.f;
+
+    // Titre colonne 1
+    sf::Text col1Title("ORBITAL PARAMETERS", font, 12);
+    col1Title.setPosition(tableX, tableY);
+ col1Title.setFillColor(sf::Color(255, 150, 0));
+    col1Title.setStyle(sf::Text::Bold);
+    window.draw(col1Title);
+
+    // Titre colonne 2
+    sf::Text col2Title("PHYSICAL PROPERTIES", font, 12);
+    col2Title.setPosition(tableX + col1Width + 10.f, tableY);
+    col2Title.setFillColor(sf::Color(100, 150, 255));
+    col2Title.setStyle(sf::Text::Bold);
+    window.draw(col2Title);
+
+    // Séparation entête
+    sf::RectangleShape sepTop(sf::Vector2f(docW - 20.f, 1.f));
+    sepTop.setPosition(tableX, tableY + 18.f);
+sepTop.setFillColor(sf::Color(100, 100, 100, 150));
+    window.draw(sepTop);
+
+    // ===== LIGNE 1 : DISTANCE / MASSE =====
+    tableY += 25.f;
+  
+    // Colonne 1
+    sf::Text label1("Distance:", font, 11);
+    label1.setPosition(tableX, tableY);
+    label1.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label1);
+
+    sf::Text value1(std::to_string(static_cast<int>(distToSun * 10) / 10.f) + " UA", font, 12);
+    value1.setPosition(tableX + 80.f, tableY);
+    value1.setFillColor(sf::Color(0, 0, 0));
+    value1.setStyle(sf::Text::Bold);
+    window.draw(value1);
+
+    // Colonne 2
+    sf::Text label2("Mass:", font, 11);
+    label2.setPosition(tableX + col1Width + 10.f, tableY);
+    label2.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label2);
+
+    sf::Text value2(std::to_string(static_cast<int>(planet.mass * 10) / 10.f), font, 12);
+    value2.setPosition(tableX + col1Width + 90.f, tableY);
+    value2.setFillColor(sf::Color(0, 0, 0));
+    value2.setStyle(sf::Text::Bold);
+    window.draw(value2);
+
+    // ===== LIGNE 2 : ORBITE / TYPE =====
+    tableY += rowHeight - 20.f;
+
+    sf::Text label3("Orbit:", font, 11);
+    label3.setPosition(tableX, tableY);
+    label3.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label3);
+
+    sf::Text value3(std::to_string(static_cast<int>(planet.semiMajorAxis * 10) / 10.f) + " u", font, 12);
+    value3.setPosition(tableX + 80.f, tableY);
+    value3.setFillColor(sf::Color(0, 0, 0));
+    value3.setStyle(sf::Text::Bold);
+    window.draw(value3);
+
+    sf::Text label4("Type:", font, 11);
+    label4.setPosition(tableX + col1Width + 10.f, tableY);
+    label4.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label4);
+
+    sf::Text value4(planet.planetType, font, 12);
+    value4.setPosition(tableX + col1Width + 90.f, tableY);
+value4.setFillColor(sf::Color(0, 0, 0));
+    value4.setStyle(sf::Text::Bold);
+    window.draw(value4);
+
+    // ===== LIGNE 3 : VITESSE / SATELLITES =====
+    tableY += rowHeight - 20.f;
+
+    sf::Text label5("Velocity:", font, 11);
+    label5.setPosition(tableX, tableY);
+    label5.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label5);
+
+    std::string speedStr = std::to_string(static_cast<int>(speed * 100) / 100.f) + " u/s";
+    sf::Text value5(speedStr, font, 12);
+    value5.setPosition(tableX + 80.f, tableY);
+    value5.setFillColor(
+        (speed > 1.5f ? sf::Color(200, 0, 0) :
+  speed > 0.8f ? sf::Color(200, 150, 0) :
+        sf::Color(0, 150, 0)));
+    value5.setStyle(sf::Text::Bold);
+    window.draw(value5);
+
+  sf::Text label6("Satellites:", font, 11);
+    label6.setPosition(tableX + col1Width + 10.f, tableY);
+    label6.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label6);
+
+sf::Text value6(std::to_string(planet.numMoons), font, 12);
+    value6.setPosition(tableX + col1Width + 90.f, tableY);
+    value6.setFillColor(sf::Color(0, 0, 0));
+    value6.setStyle(sf::Text::Bold);
+    window.draw(value6);
+
+    // ===== LIGNE 4 : ANGLE / EXCENTRICITÉ =====
+    tableY += rowHeight - 20.f;
+
+    sf::Text label7("Position:", font, 11);
+    label7.setPosition(tableX, tableY);
+    label7.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label7);
+
+    sf::Text value7(std::to_string(static_cast<int>(angleDeg)) + "°", font, 12);
+    value7.setPosition(tableX + 80.f, tableY);
+ value7.setFillColor(sf::Color(0, 0, 0));
+    value7.setStyle(sf::Text::Bold);
+    window.draw(value7);
+
+    sf::Text label8("Eccentricity:", font, 11);
+    label8.setPosition(tableX + col1Width + 10.f, tableY);
+    label8.setFillColor(sf::Color(50, 50, 50));
+    window.draw(label8);
+
+    sf::Text value8(std::to_string(static_cast<int>(planet.eccentricity * 1000) / 1000.f), font, 12);
+    value8.setPosition(tableX + col1Width + 90.f, tableY);
+    value8.setFillColor(sf::Color(0, 0, 0));
+    value8.setStyle(sf::Text::Bold);
+    window.draw(value8);
+
+    // ===== MINI ORBITE CENTRALE =====
+    tableY += 50.f;
+    
+    float miniX = docX + docW / 2.f;
+    float miniY = tableY;
+
+    // Mini orbite
+    sf::CircleShape miniOrbit(22.f);
+ miniOrbit.setOrigin(22.f, 22.f);
+    miniOrbit.setPosition(miniX, miniY);
+    miniOrbit.setFillColor(sf::Color::Transparent);
+    miniOrbit.setOutlineThickness(1.f);
+    miniOrbit.setOutlineColor(sf::Color(100, 150, 200));
+    window.draw(miniOrbit);
+
+    // Soleil
+    sf::CircleShape miniSun(3.f);
+    miniSun.setOrigin(3.f, 3.f);
+    miniSun.setPosition(miniX, miniY);
+    miniSun.setFillColor(sf::Color(255, 200, 50));
+    window.draw(miniSun);
+
+   // Planète
+    sf::CircleShape miniPlanet(4.f);
+  miniPlanet.setOrigin(4.f, 4.f);
+    miniPlanet.setPosition(miniX + 22.f * std::cos(angleRad), miniY + 22.f * std::sin(angleRad));
+    miniPlanet.setFillColor(planet.color);
+    miniPlanet.setOutlineThickness(1.f);
+  miniPlanet.setOutlineColor(sf::Color::White);
+    window.draw(miniPlanet);
+
+    // ===== PIED DE PAGE =====
+    sf::RectangleShape footerBar(sf::Vector2f(docW, 30.f));
+ footerBar.setPosition(docX, docY + docH - 30.f);
+    footerBar.setFillColor(sf::Color(240, 240, 245, 200));
+    footerBar.setOutlineThickness(1.f);
+    footerBar.setOutlineColor(sf::Color(100, 100, 100, 150));
+    window.draw(footerBar);
+
+    // Info pied de page
+    int hours = static_cast<int>(time) / 3600;
+    int minutes = (static_cast<int>(time) % 3600) / 60;
+    int seconds = static_cast<int>(time) % 60;
+    
+    char timeStr[20];
+    sprintf_s(timeStr, "%02d:%02d:%02d", hours % 24, minutes, seconds);
+    
+    sf::Text footerLeft("LAST UPDATE: " + std::string(timeStr), font, 10);
+    footerLeft.setPosition(docX + 10.f, docY + docH - 22.f);
+    footerLeft.setFillColor(sf::Color(100, 100, 100));
+    window.draw(footerLeft);
+
+    sf::Text footerRight("SIGNAL: OK ?????", font, 10);
+    footerRight.setPosition(docX + docW - 100.f, docY + docH - 22.f);
+ footerRight.setFillColor(sf::Color(0, 150, 100));
+    window.draw(footerRight);
+
+    // ===== LIGNE DE CONNEXION VERS LA PLANÈTE =====
+sf::VertexArray docConnection(sf::Lines, 2);
+    docConnection[0].position = sf::Vector2f(planetPos.x + planetRadius + 5.f, planetPos.y);
+    docConnection[0].color = sf::Color(100, 100, 100, 150);
+    docConnection[1].position = sf::Vector2f(docX, docY + docH / 2.f);
+    docConnection[1].color = sf::Color(100, 100, 100, 100);
+window.draw(docConnection);
+}
+
+// ============================================================================
+// FIN DE LA FICHE TECHNIQUE MISSION
+// ============================================================================

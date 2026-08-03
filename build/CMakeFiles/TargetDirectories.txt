@@ -1,0 +1,4 @@
+C:/Users/hp/source/repos/SSS2DPOO/build/CMakeFiles/CosmoUIT.dir
+C:/Users/hp/source/repos/SSS2DPOO/build/CMakeFiles/INSTALL.dir
+C:/Users/hp/source/repos/SSS2DPOO/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/hp/source/repos/SSS2DPOO/build/CMakeFiles/ZERO_CHECK.dir

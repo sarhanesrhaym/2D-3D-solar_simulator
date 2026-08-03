@@ -1,0 +1,254 @@
+﻿// ===== NOUVELLE VERSION AMÉLIORÉE DE drawPresentation() =====
+// À remplacer dans UI.cpp
+
+void drawPresentation(sf::RenderWindow& window, const sf::Font& font,
+    std::vector<CosmicButton>& backButtons,
+    std::vector<Star>& stars, float time) {
+
+    // ===== FOND ANIMÉ =====
+    static float presentationBg = 0.f;
+  presentationBg += 0.003f;
+    window.clear(sf::Color(12, 25, 50));
+
+    // ===== FOND ÉTOILÉ =====
+    for (auto& s : stars) {
+     s.draw(window);
+    }
+
+    // ===== NÉBULEUSES DE FOND ANIMÉES =====
+    static float nebulaAlpha = 0.f;
+    nebulaAlpha += 0.015f;
+    
+    sf::CircleShape nebula1(500.f);
+    nebula1.setPosition(-100.f, -150.f);
+    nebula1.setFillColor(sf::Color(100, 150, 255, static_cast<sf::Uint8>(15 + 5 * std::sin(nebulaAlpha))));
+    window.draw(nebula1);
+    
+    sf::CircleShape nebula2(450.f);
+    nebula2.setPosition(1000.f, 300.f);
+    nebula2.setFillColor(sf::Color(200, 100, 255, static_cast<sf::Uint8>(12 + 4 * std::sin(nebulaAlpha + 1.57f))));
+    window.draw(nebula2);
+
+    // ===== PANNEAU PRINCIPAL MODERNE =====
+    sf::RectangleShape mainPanel(sf::Vector2f(1100.f, 700.f));
+    mainPanel.setPosition(50.f, 40.f);
+    mainPanel.setFillColor(sf::Color(20, 35, 70, 220));
+    mainPanel.setOutlineThickness(3);
+    mainPanel.setOutlineColor(sf::Color(100, 200, 255, 200));
+    window.draw(mainPanel);
+
+    // ===== EN-TÊTE DÉGRADÉ LUMINEUX =====
+    static float headerGlow = 0.f;
+    headerGlow += 0.025f;
+
+    sf::RectangleShape header(sf::Vector2f(1100.f, 90.f));
+    header.setPosition(50.f, 40.f);
+    float headerAlpha = 180 + 40 * std::sin(headerGlow);
+    header.setFillColor(sf::Color(50, 120, 200, static_cast<sf::Uint8>(headerAlpha)));
+    window.draw(header);
+
+    // ===== LIGNE BRILLANTE SUPÉRIEURE =====
+    sf::RectangleShape headerGlowLine(sf::Vector2f(1100.f, 4.f));
+    headerGlowLine.setPosition(50.f, 40.f);
+    float glowLineAlpha = 150 + 100 * std::sin(headerGlow + 1.57f);
+    headerGlowLine.setFillColor(sf::Color(100, 255, 255, static_cast<sf::Uint8>(glowLineAlpha)));
+    window.draw(headerGlowLine);
+
+    // ===== TITRE PRINCIPAL ANIMÉ =====
+    static float titlePulse = 0.f;
+    titlePulse += 0.02f;
+    
+    sf::Text title("CADRE DU PROJET", font, 48);
+    title.setPosition(600.f, 65.f);
+  title.setOrigin(title.getLocalBounds().width / 2.f, title.getLocalBounds().height / 2.f);
+    
+    // Animation couleur : blanc → cyan
+    float titleColorShift = std::sin(titlePulse);
+    sf::Uint8 titleR = static_cast<sf::Uint8>(240 - 20 * titleColorShift);
+    sf::Uint8 titleG = static_cast<sf::Uint8>(245 + 10 * titleColorShift);
+    sf::Uint8 titleB = 255;
+    
+    title.setFillColor(sf::Color(titleR, titleG, titleB, 255));
+    title.setStyle(sf::Text::Bold);
+    title.setOutlineThickness(2);
+    title.setOutlineColor(sf::Color(100, 200, 255, 200));
+    window.draw(title);
+
+    // ===== SOUS-TITRE =====
+ sf::Text subtitle("Simulateur Solaire 2D - Université Ibn Tofail", font, 18);
+    subtitle.setPosition(600.f, 100.f);
+    subtitle.setOrigin(subtitle.getLocalBounds().width / 2.f, 0);
+    subtitle.setFillColor(sf::Color(180, 220, 255, 255));
+    subtitle.setStyle(sf::Text::Italic);
+    window.draw(subtitle);
+
+    // ===== COLONNE GAUCHE : DESCRIPTION & CARACTÉRISTIQUES =====
+    float leftX = 80.f;
+    float rightX = 620.f;
+    float currentY = 160.f;
+    float colWidth = 500.f;
+
+    // Titre section
+    sf::Text sectionTitle1("OBJECTIFS & DESCRIPTION", font, 20);
+    sectionTitle1.setPosition(leftX, currentY);
+    sectionTitle1.setFillColor(sf::Color(100, 255, 200));
+    sectionTitle1.setStyle(sf::Text::Bold);
+    window.draw(sectionTitle1);
+    
+    currentY += 35.f;
+
+ // Boîte description
+    sf::RectangleShape descBox(sf::Vector2f(colWidth - 20.f, 120.f));
+descBox.setPosition(leftX + 10.f, currentY);
+    descBox.setFillColor(sf::Color(30, 50, 90, 200));
+    descBox.setOutlineThickness(2);
+    descBox.setOutlineColor(sf::Color(100, 200, 255, 150));
+    window.draw(descBox);
+
+    sf::Text description(
+        "CosmoUIT est un simulateur éducatif 2D du système solaire.\n"
+      "Il offre une visualisation immersive basée sur les lois de Kepler\n"
+        "et permet l'exploration interactive du cosmos.",
+   font, 14);
+    description.setPosition(leftX + 15.f, currentY + 10.f);
+    description.setFillColor(sf::Color(220, 240, 255));
+    window.draw(description);
+
+    currentY += 140.f;
+
+    // ===== CARACTÉRISTIQUES PRINCIPALES =====
+    sf::Text featuresTitle("CARACTÉRISTIQUES", font, 20);
+    featuresTitle.setPosition(leftX, currentY);
+    featuresTitle.setFillColor(sf::Color(100, 220, 150));
+ featuresTitle.setStyle(sf::Text::Bold);
+    window.draw(featuresTitle);
+
+    currentY += 30.f;
+
+    std::vector<std::pair<std::string, sf::Color>> features = {
+   {"✓ 8 Planètes avec orbites réalistes", sf::Color(100, 255, 150)},
+        {"✓ Lunes et satellites naturels", sf::Color(150, 200, 255)},
+        {"✓ Comètes interactives", sf::Color(255, 200, 100)},
+        {"✓ Zoom dynamique x0.1 à x50", sf::Color(255, 150, 150)},
+     {"✓ Contrôle de vitesse simulation", sf::Color(200, 150, 255)},
+        {"✓ Informations détaillées", sf::Color(100, 200, 255)}
+    };
+
+    for (const auto& feature : features) {
+        sf::Text featureText(feature.first, font, 14);
+        featureText.setPosition(leftX + 15.f, currentY);
+   featureText.setFillColor(feature.second);
+        window.draw(featureText);
+        currentY += 22.f;
+    }
+
+    // ===== COLONNE DROITE : TECHNOLOGIES & INFOS =====
+    currentY = 160.f;
+
+    // ===== TECHNOLOGIES =====
+    sf::Text techTitle("TECHNOLOGIES", font, 20);
+ techTitle.setPosition(rightX, currentY);
+    techTitle.setFillColor(sf::Color(255, 180, 100));
+  techTitle.setStyle(sf::Text::Bold);
+    window.draw(techTitle);
+
+    currentY += 30.f;
+
+    std::vector<std::pair<std::string, std::string>> technologies = {
+        {"C++ 17", "Langage moderne haute performance"},
+        {"SFML 2.6.1", "Moteur graphique Windows"},
+        {"CMake 3.x", "Gestion de build multi-plateforme"},
+        {"OpenGL", "Accélération graphique GPU"}
+    };
+
+    for (const auto& tech : technologies) {
+        // Fond tech
+      sf::RectangleShape techBox(sf::Vector2f(colWidth - 20.f, 40.f));
+        techBox.setPosition(rightX + 10.f, currentY);
+        techBox.setFillColor(sf::Color(25, 45, 80, 180));
+        techBox.setOutlineThickness(1);
+        techBox.setOutlineColor(sf::Color(255, 180, 100, 120));
+   window.draw(techBox);
+
+        // Nom tech
+        sf::Text techName(tech.first, font, 16);
+        techName.setPosition(rightX + 20.f, currentY + 5.f);
+        techName.setFillColor(sf::Color(255, 200, 120));
+        techName.setStyle(sf::Text::Bold);
+        window.draw(techName);
+
+        // Description
+        sf::Text techDesc(tech.second, font, 12);
+        techDesc.setPosition(rightX + 120.f, currentY + 8.f);
+        techDesc.setFillColor(sf::Color(180, 220, 255));
+        window.draw(techDesc);
+
+        currentY += 45.f;
+    }
+
+    // ===== INFORMATIONS PROJET =====
+    currentY += 10.f;
+    sf::Text infoTitle("INFORMATIONS PROJET", font, 20);
+    infoTitle.setPosition(rightX, currentY);
+    infoTitle.setFillColor(sf::Color(255, 150, 100));
+    infoTitle.setStyle(sf::Text::Bold);
+    window.draw(infoTitle);
+
+    currentY += 30.f;
+
+    std::vector<std::pair<std::string, std::string>> projectInfo = {
+ {"Université", "Ibn Tofail, Maroc"},
+        {"Équipe", "5 développeurs"},
+        {"Durée", "2 mois de développement"},
+        {"Plateforme", "Windows 10/11"}
+    };
+
+    for (const auto& info : projectInfo) {
+ sf::Text label(info.first + ":", font, 14);
+        label.setPosition(rightX + 15.f, currentY);
+        label.setFillColor(sf::Color(200, 220, 255));
+        label.setStyle(sf::Text::Bold);
+        window.draw(label);
+
+  sf::Text value(info.second, font, 14);
+        value.setPosition(rightX + 150.f, currentY);
+        value.setFillColor(sf::Color(255, 200, 100));
+        window.draw(value);
+
+        currentY += 25.f;
+    }
+
+    // ===== LIGNE DÉCORA TIVE INFÉRIEURE =====
+    static float linePulse = 0.f;
+    linePulse += 0.025f;
+    
+    float lineAlpha = 100 + 100 * std::sin(linePulse);
+    sf::RectangleShape bottomLine(sf::Vector2f(1000.f, 2.f));
+    bottomLine.setPosition(100.f, 710.f);
+    bottomLine.setFillColor(sf::Color(100, 200, 255, static_cast<sf::Uint8>(lineAlpha)));
+    window.draw(bottomLine);
+
+    // ===== PIED DE PAGE =====
+    sf::Text footer("Projet éducatif | Simulation réaliste du système solaire | 2025/2026", font, 13);
+    footer.setPosition(600.f, 720.f);
+    footer.setOrigin(footer.getLocalBounds().width / 2.f, 0);
+footer.setFillColor(sf::Color(150, 180, 220));
+    footer.setStyle(sf::Text::Italic);
+    window.draw(footer);
+
+    // ===== BOUTON RETOUR AVEC EFFET LUMINEUX =====
+    for (auto& b : backButtons) {
+        if (b.hover) {
+            // Lueur de survol
+            sf::CircleShape hoverGlow(b.base.getSize().x / 2.f + 15.f);
+            hoverGlow.setOrigin(hoverGlow.getRadius(), hoverGlow.getRadius());
+            hoverGlow.setPosition(
+      b.base.getPosition().x + b.base.getSize().x / 2.f,
+          b.base.getPosition().y + b.base.getSize().y / 2.f
+    );
+ hoverGlow.setFillColor(sf::Color(255, 100, 100, 60));
+         window.draw(hoverGlow);
+        }
+   b.draw(window);
+    }
+}

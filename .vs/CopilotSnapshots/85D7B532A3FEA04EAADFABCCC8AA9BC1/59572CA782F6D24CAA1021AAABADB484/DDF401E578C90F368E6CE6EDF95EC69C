@@ -1,0 +1,291 @@
+﻿/**
+ * ============================================================================
+ * PANNEAU D'INFORMATIONS ÉVOLUTIF - STYLE FUTURISTE COSMIQUE
+ * ============================================================================
+ * 
+ * À ajouter dans UI.cpp - fonction drawSimulation()
+ * Remplace le système d'affichage des informations actuelles
+ * 
+ * ============================================================================
+ */
+
+// ===== PANNEAU D'INFORMATIONS FUTURISTE - VERSION AMÉLIORÉE =====
+
+void drawAdvancedInfoPanel(sf::RenderWindow& window, const sf::Font& font,
+    const Planet& planet, float time) {
+    
+    // ===== POSITION ET DIMENSIONS =====
+    float panelX = 20.f;
+    float panelY = 80.f;
+    float panelWidth = 380.f;
+    float panelHeight = 280.f;
+  
+    // ===== PALETTE DE COULEURS COSMIQUES =====
+    struct InfoPalette {
+        sf::Color mainBorder{0, 200, 255};    // Cyan lumineux
+        sf::Color accentColor{planet.color};    // Couleur planète
+    sf::Color glowColor{50, 150, 200};      // Glow bleu
+        sf::Color textPrimary{255, 255, 255};    // Blanc pur
+  sf::Color textSecondary{180, 200, 255};      // Bleu clair
+        sf::Color panelBg{8, 15, 35, 240};           // Fond bleu nuit
+     sf::Color iconColor{100, 220, 255};          // Cyan icône
+    } palette;
+    
+    // ===== EFFET GLOW EXTERNE =====
+    for (int glowLayer = 4; glowLayer >= 1; --glowLayer) {
+        sf::RectangleShape glowBox(sf::Vector2f(panelWidth + glowLayer * 6.f, 
+    panelHeight + glowLayer * 6.f));
+        glowBox.setPosition(panelX - glowLayer * 3.f, panelY - glowLayer * 3.f);
+        glowBox.setFillColor(sf::Color::Transparent);
+        glowBox.setOutlineThickness(1.f);
+        float glowAlpha = 40 - glowLayer * 8;
+        glowBox.setOutlineColor(sf::Color(palette.mainBorder.r, palette.mainBorder.g, 
+              palette.mainBorder.b, glowAlpha));
+      window.draw(glowBox);
+    }
+    
+    // ===== PANNEAU PRINCIPAL =====
+    sf::RectangleShape mainPanel(sf::Vector2f(panelWidth, panelHeight));
+    mainPanel.setPosition(panelX, panelY);
+    mainPanel.setFillColor(palette.panelBg);
+    mainPanel.setOutlineThickness(2.f);
+    mainPanel.setOutlineColor(palette.mainBorder);
+    window.draw(mainPanel);
+    
+    // ===== BANDE COLORÉE GAUCHE (ACCENT) =====
+    sf::RectangleShape leftAccent(sf::Vector2f(4.f, panelHeight));
+    leftAccent.setPosition(panelX, panelY);
+    
+    // Animation de la couleur d'accent
+    float accentPulse = 0.7f + 0.3f * std::sin(time * 3.f);
+    sf::Color accentAnimated(
+        static_cast<sf::Uint8>(palette.accentColor.r * accentPulse),
+        static_cast<sf::Uint8>(palette.accentColor.g * accentPulse),
+   static_cast<sf::Uint8>(palette.accentColor.b * accentPulse),
+        255
+    );
+    leftAccent.setFillColor(accentAnimated);
+    window.draw(leftAccent);
+ 
+    // ===== EN-TÊTE DU PANNEAU =====
+    float headerY = panelY + 10.f;
+    
+    // Barre supérieure brillante
+    sf::RectangleShape headerBar(sf::Vector2f(panelWidth - 4.f, 2.f));
+    headerBar.setPosition(panelX + 2.f, headerY);
+    float headerGlowAlpha = 100 + 50 * std::sin(time * 2.f);
+    headerBar.setFillColor(sf::Color(palette.mainBorder.r, palette.mainBorder.g, 
+   palette.mainBorder.b, 
+    static_cast<sf::Uint8>(headerGlowAlpha)));
+    window.draw(headerBar);
+    
+    // Titre planète
+    sf::Text planetTitle(planet.name, font, 24);
+    planetTitle.setPosition(panelX + 15.f, headerY + 8.f);
+    planetTitle.setFillColor(palette.textPrimary);
+    planetTitle.setStyle(sf::Text::Bold);
+ window.draw(planetTitle);
+  
+    // Type de planète (sous-titre)
+    sf::Text planetType(planet.planetType, font, 11);
+    planetType.setPosition(panelX + 15.f, headerY + 32.f);
+    planetType.setFillColor(palette.textSecondary);
+    planetType.setStyle(sf::Text::Italic);
+    window.draw(planetType);
+    
+    // ===== LIGNE SÉPARATRICE =====
+    sf::RectangleShape separatorLine(sf::Vector2f(panelWidth - 8.f, 1.f));
+    separatorLine.setPosition(panelX + 4.f, panelY + 50.f);
+    separatorLine.setFillColor(sf::Color(palette.mainBorder.r, palette.mainBorder.g, 
+     palette.mainBorder.b, 80));
+    window.draw(separatorLine);
+    
+    // ===== SECTION INFORMATIONS =====
+  float contentY = panelY + 60.f;
+    float lineSpacing = 28.f;
+    int infoCount = 0;
+    
+    // Fonction helper pour ajouter une info
+    auto addInfo = [&](const std::string& label, const std::string& value, 
+           const std::string& icon = "") {
+        if (infoCount >= 7) return;  // Max 7 infos
+        
+        float yPos = contentY + infoCount * lineSpacing;
+ 
+        // Icône
+        if (!icon.empty()) {
+            sf::Text iconText(icon, font, 14);
+   iconText.setPosition(panelX + 12.f, yPos);
+            iconText.setFillColor(palette.iconColor);
+      window.draw(iconText);
+    }
+        
+        // Label
+        sf::Text labelText(label + ":", font, 12);
+  labelText.setPosition(panelX + 32.f, yPos);
+        labelText.setFillColor(palette.textSecondary);
+        labelText.setStyle(sf::Text::Bold);
+        window.draw(labelText);
+    
+    // Valeur
+        sf::Text valueText(value, font, 12);
+        valueText.setPosition(panelX + 160.f, yPos);
+        valueText.setFillColor(palette.textPrimary);
+      window.draw(valueText);
+        
+        infoCount++;
+    };
+    
+    // Remplir les informations
+    addInfo("Masse", std::to_string(static_cast<int>(planet.mass)) + " x10²⁴ kg", "⚖");
+    addInfo("Rayon", std::to_string(static_cast<int>(planet.realDiameterKm/2)) + " km", "◯");
+    addInfo("Temp.", std::to_string(static_cast<int>(planet.temperature)) + "°C", "🌡");
+    addInfo("Gravité", std::to_string(static_cast<int>(planet.gravity * 10) / 10.f) + " m/s²", "↓");
+ addInfo("Lunes", std::to_string(planet.numMoons), "◉");
+    addInfo("Période", std::to_string(static_cast<int>(planet.orbitalPeriod)) + " jours", "⟲");
+    addInfo("Découv.", planet.discovery, "🔭");
+    
+    // ===== FAIT MARQUANT (BAS DU PANNEAU) =====
+    sf::RectangleShape factBox(sf::Vector2f(panelWidth - 8.f, 30.f));
+    factBox.setPosition(panelX + 4.f, panelY + panelHeight - 40.f);
+    factBox.setFillColor(sf::Color(planet.color.r / 3, planet.color.g / 3, 
+  planet.color.b / 3, 100));
+    factBox.setOutlineThickness(1.f);
+    factBox.setOutlineColor(sf::Color(planet.color.r, planet.color.g, 
+          planet.color.b, 150));
+    window.draw(factBox);
+  
+  sf::Text factText(planet.fact, font, 10);
+    factText.setPosition(panelX + 8.f, panelY + panelHeight - 37.f);
+    factText.setFillColor(palette.textSecondary);
+  factText.setStyle(sf::Text::Italic);
+    window.draw(factText);
+}
+
+// ===== VERSION ALTERNATIVE : PANNEAU RADAR COMPACT =====
+
+void drawCompactRadarInfo(sf::RenderWindow& window, const sf::Font& font,
+ const Planet& planet, const sf::Vector2f& sunCenter, float time) {
+    
+    // Position : haut-droite
+    float panelX = 1200.f - 320.f;
+    float panelY = 20.f;
+    float panelSize = 150.f;
+    
+    // ===== CADRE CIRCULAIRE EXTERNE =====
+    sf::CircleShape outerCircle(panelSize);
+    outerCircle.setOrigin(panelSize, panelSize);
+    outerCircle.setPosition(panelX + panelSize, panelY + panelSize);
+    outerCircle.setFillColor(sf::Color::Transparent);
+    outerCircle.setOutlineThickness(2.f);
+    outerCircle.setOutlineColor(sf::Color(0, 200, 255, 150));
+    window.draw(outerCircle);
+    
+    // ===== PANNEAU PRINCIPAL CIRCULAIRE =====
+    sf::CircleShape mainCircle(panelSize - 4.f);
+    mainCircle.setOrigin(panelSize - 4.f, panelSize - 4.f);
+    mainCircle.setPosition(panelX + panelSize, panelY + panelSize);
+    mainCircle.setFillColor(sf::Color(8, 15, 35, 230));
+    mainCircle.setOutlineThickness(1.f);
+    mainCircle.setOutlineColor(sf::Color(planet.color.r / 2, planet.color.g / 2, 
+       planet.color.b / 2, 100));
+    window.draw(mainCircle);
+    
+    // ===== NOM PLANÈTE (HAUT) =====
+    sf::Text titleText(planet.name, font, 16);
+    titleText.setOrigin(titleText.getLocalBounds().width / 2.f, 0.f);
+    titleText.setPosition(panelX + panelSize, panelY + 20.f);
+    titleText.setFillColor(sf::Color::White);
+    titleText.setStyle(sf::Text::Bold);
+    window.draw(titleText);
+    
+    // ===== MINI ORBITE ANIMÉE AU CENTRE =====
+    float miniOrbitRadius = 25.f;
+    sf::CircleShape miniOrbit(miniOrbitRadius);
+    miniOrbit.setOrigin(miniOrbitRadius, miniOrbitRadius);
+    miniOrbit.setPosition(panelX + panelSize, panelY + panelSize);
+    miniOrbit.setFillColor(sf::Color::Transparent);
+    miniOrbit.setOutlineThickness(1.f);
+    miniOrbit.setOutlineColor(sf::Color(0, 255, 150, 100));
+    window.draw(miniOrbit);
+    
+    // Soleil central
+    sf::CircleShape miniSun(2.f);
+ miniSun.setOrigin(2.f, 2.f);
+    miniSun.setPosition(panelX + panelSize, panelY + panelSize);
+    miniSun.setFillColor(sf::Color(255, 200, 50));
+    window.draw(miniSun);
+
+    // Planète sur orbite
+    float angleRad = std::atan2(planet.getPosition().y - sunCenter.y,
+        planet.getPosition().x - sunCenter.x);
+    sf::CircleShape miniPlanet(3.f);
+    miniPlanet.setOrigin(3.f, 3.f);
+miniPlanet.setPosition(
+    panelX + panelSize + miniOrbitRadius * std::cos(angleRad),
+     panelY + panelSize + miniOrbitRadius * std::sin(angleRad)
+    );
+    miniPlanet.setFillColor(planet.color);
+    window.draw(miniPlanet);
+    
+    // ===== INFORMATIONS RADIALES =====
+    struct RadarData {
+    float angle;
+        std::string text;
+        sf::Color color;
+ };
+    
+    float distToSun = std::hypot(planet.getPosition().x - sunCenter.x,
+            planet.getPosition().y - sunCenter.y);
+    float speed = std::hypot(planet.velocity.x, planet.velocity.y);
+ 
+    std::vector<RadarData> radarData = {
+        {90.f, "D: " + std::to_string(static_cast<int>(distToSun)), 
+     sf::Color(255, 200, 100)},
+      {180.f, "V: " + std::to_string(static_cast<int>(speed)), 
+         sf::Color(150, 255, 150)},
+        {270.f, "M: " + std::to_string(planet.numMoons), 
+         sf::Color(100, 220, 255)},
+    };
+    
+    for (const auto& data : radarData) {
+     float angle = data.angle * 3.14159f / 180.f;
+        float distance = panelSize + 15.f;
+   
+        float textX = panelX + panelSize + distance * std::cos(angle);
+   float textY = panelY + panelSize + distance * std::sin(angle);
+  
+        sf::Text radarText(data.text, font, 10);
+    radarText.setOrigin(radarText.getLocalBounds().width / 2.f, 
+         radarText.getLocalBounds().height / 2.f);
+      radarText.setPosition(textX, textY);
+        radarText.setFillColor(data.color);
+    window.draw(radarText);
+    }
+}
+
+// ===== UTILISATION DANS drawSimulation() =====
+// À ajouter dans la fonction drawSimulation(), section UI VIEW :
+
+/*
+    // ===== AFFICHAGE INFORMATIONS AMÉLIORÉ =====
+    
+    // Afficher le panneau d'infos pour la planète suivie
+    if (cameraFollowMode && followedPlanetIndex >= 0 && 
+  followedPlanetIndex < static_cast<int>(planets.size())) {
+     
+  const auto& p = planets[followedPlanetIndex];
+     drawAdvancedInfoPanel(window, font, p, time);
+        drawCompactRadarInfo(window, font, p, Constants::SUN_CENTER, time);
+    }
+    
+    // OU afficher le panneau pour la planète sélectionnée
+    if (focusedPlanet >= 0 && focusedPlanet < static_cast<int>(planets.size())) {
+        const auto& p = planets[focusedPlanet];
+ drawAdvancedInfoPanel(window, font, p, time);
+    }
+*/
+
+// ============================================================================
+// FIN DES PANNEAUX D'INFORMATIONS AMÉLIORÉS
+// ============================================================================

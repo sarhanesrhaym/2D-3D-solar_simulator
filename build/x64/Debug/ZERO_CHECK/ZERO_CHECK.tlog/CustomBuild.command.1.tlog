@@ -1,0 +1,10 @@
+^C:\USERS\HP\SOURCE\REPOS\SSS2DPOO\BUILD\CMAKEFILES\892694F81A28C8BBCAA9FB2BB4CBB685\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/hp/source/repos/SSS2DPOO -BC:/Users/hp/source/repos/SSS2DPOO/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/hp/source/repos/SSS2DPOO/build/CosmoUIT.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

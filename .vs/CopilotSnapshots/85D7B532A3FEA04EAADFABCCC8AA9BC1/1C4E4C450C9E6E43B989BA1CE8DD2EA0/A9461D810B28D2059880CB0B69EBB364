@@ -1,0 +1,130 @@
+﻿@echo off
+REM ============================================================
+REM  SCRIPT DE BUILD PORTABLE - COSMOUIT SIMULATEUR SOLAIRE
+REM  Génère une application standalone prête à distribuer
+REM ============================================================
+
+echo.
+echo ========================================
+echo  BUILD PORTABLE - CosmoUIT
+echo ========================================
+echo.
+
+REM Détection du chemin SFML
+set SFML_ROOT=C:\SFML-2.5.1
+if not exist "%SFML_ROOT%" (
+    echo [ERREUR] SFML non trouve a : %SFML_ROOT%
+    echo.
+    echo Veuillez modifier SFML_ROOT dans ce script.
+    pause
+    exit /b 1
+)
+
+echo [1/6] Nettoyage des anciens builds...
+if exist build rmdir /s /q build
+if exist SimulateurSolaire2D_Portable rmdir /s /q SimulateurSolaire2D_Portable
+mkdir build
+cd build
+
+echo.
+echo [2/6] Configuration CMake...
+cmake .. -DSFML_ROOT="%SFML_ROOT%" -DCMAKE_BUILD_TYPE=Release
+if errorlevel 1 (
+  echo [ERREUR] Echec de la configuration CMake
+    cd ..
+    pause
+    exit /b 1
+)
+
+echo.
+echo [3/6] Compilation Release...
+cmake --build . --config Release
+if errorlevel 1 (
+    echo [ERREUR] Echec de la compilation
+    cd ..
+    pause
+    exit /b 1
+)
+
+cd ..
+
+echo.
+echo [4/6] Creation du dossier portable...
+mkdir SimulateurSolaire2D_Portable
+
+REM Copier l'exécutable
+echo [5/6] Copie de l'executable...
+copy build\Release\CosmoUIT.exe SimulateurSolaire2D_Portable\
+
+REM Copier les DLLs SFML
+echo Copie des DLLs SFML...
+copy "%SFML_ROOT%\bin\sfml-graphics-2.dll" SimulateurSolaire2D_Portable\
+copy "%SFML_ROOT%\bin\sfml-window-2.dll" SimulateurSolaire2D_Portable\
+copy "%SFML_ROOT%\bin\sfml-system-2.dll" SimulateurSolaire2D_Portable\
+
+REM Copier les ressources
+echo Copie des ressources...
+xcopy /E /I /Y textures SimulateurSolaire2D_Portable\textures
+if exist font.ttf copy font.ttf SimulateurSolaire2D_Portable\
+
+REM Créer un fichier README
+echo [6/6] Creation du README...
+(
+echo ========================================
+echo  COSMOUIT - SIMULATEUR SOLAIRE 2D
+echo ========================================
+echo.
+echo LANCEMENT :
+echo   Double-cliquez sur CosmoUIT.exe
+echo.
+echo CONFIGURATION REQUISE :
+echo   - Windows 7/8/10/11
+echo   - 512 MB RAM minimum
+echo   - Carte graphique compatible OpenGL 2.0+
+echo.
+echo CONTROLES :
+echo   - Fleches directionnelles : Deplacer la camera
+echo   - Molette souris : Zoom
+echo   - Espace : Pause
+echo   - Tab : Menu outils
+echo   - Echap : Retour
+echo   - 1-8 : Suivre une planete
+echo   - 0 : Centrer sur le Soleil
+echo   - H : Afficher les missions spatiales
+echo   - Q : Quiz educatif
+echo.
+echo DEVELOPPEURS :
+echo   - Universite Ibn Tofail
+echo - Equipe CosmoUIT 2025
+echo.
+echo VERSION : 2.0 Portable
+echo ========================================
+) > SimulateurSolaire2D_Portable\README.txt
+
+REM Créer un lanceur avec icône (optionnel)
+echo @echo off > SimulateurSolaire2D_Portable\Lancer_CosmoUIT.bat
+echo start CosmoUIT.exe >> SimulateurSolaire2D_Portable\Lancer_CosmoUIT.bat
+echo exit >> SimulateurSolaire2D_Portable\Lancer_CosmoUIT.bat
+
+echo.
+echo ========================================
+echo  BUILD TERMINE AVEC SUCCES !
+echo ========================================
+echo.
+echo Le dossier portable est pret :
+echo   SimulateurSolaire2D_Portable\
+echo.
+echo Contenu :
+echo   - CosmoUIT.exe (Application principale)
+echo   - sfml-*.dll  (Bibliotheques SFML)
+echo   - textures\   (Ressources graphiques)
+echo   - font.ttf     (Police)
+echo   - README.txt            (Instructions)
+echo   - Lancer_CosmoUIT.bat   (Lanceur optionnel)
+echo.
+echo Pour distribuer :
+echo   1. Testez en lançant CosmoUIT.exe
+echo 2. Compressez le dossier en .zip
+echo   3. Distribuez le fichier .zip
+echo.
+pause

@@ -1,0 +1,34 @@
+﻿cmake_minimum_required(VERSION 3.10)
+project(CosmoUIT)
+
+# C++17 standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Trouver SFML
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
+# Inclure les headers
+include_directories(include)
+
+# Liste des fichiers sources
+set(SOURCES
+    src/main.cpp
+    src/Planet.cpp
+    src/Comet.cpp
+    src/Star.cpp
+    src/MenuPlanet.cpp
+    src/CosmicButton.cpp
+    src/UI.cpp
+    PlanetFollowHelper.cpp
+    ShootingStars.cpp
+)
+
+# Créer l'exécutable
+add_executable(CosmoUIT_V2 ${SOURCES})
+
+# Lier SFML
+target_link_libraries(CosmoUIT sfml-graphics sfml-window sfml-system)
+
+# Copier les ressources (textures) dans le dossier de build
+file(COPY ${CMAKE_SOURCE_DIR}/textures DESTINATION ${CMAKE_BINARY_DIR})

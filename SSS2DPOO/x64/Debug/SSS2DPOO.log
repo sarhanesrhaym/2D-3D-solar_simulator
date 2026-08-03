@@ -1,0 +1,29 @@
+﻿  UI_Presentation_CORRECTED.cpp
+  UI_Presentation_ENHANCED.cpp
+  UI_Presentation_Final_FIXED.cpp
+  UI_PRESENTATION_FINAL_ULTRA_LISIBLE.cpp
+  UI_Presentation_Fixed.cpp
+  UI_Presentation_Professional.cpp
+  UI_Presentation_ULTRA_BRIGHT.cpp
+  Generating Code...
+\UI_Presentation_CORRECTED.cpp(1,1): error C1083: Cannot open source file: 'UI_Presentation_CORRECTED.cpp': No such file or directory
+  (compiling source file '/UI_Presentation_CORRECTED.cpp')
+  
+\UI_Presentation_ENHANCED.cpp(1,1): error C1083: Cannot open source file: 'UI_Presentation_ENHANCED.cpp': No such file or directory
+  (compiling source file '/UI_Presentation_ENHANCED.cpp')
+  
+\UI_Presentation_Final_FIXED.cpp(1,1): error C1083: Cannot open source file: 'UI_Presentation_Final_FIXED.cpp': No such file or directory
+  (compiling source file '/UI_Presentation_Final_FIXED.cpp')
+  
+\UI_PRESENTATION_FINAL_ULTRA_LISIBLE.cpp(1,1): error C1083: Cannot open source file: 'UI_PRESENTATION_FINAL_ULTRA_LISIBLE.cpp': No such file or directory
+  (compiling source file '/UI_PRESENTATION_FINAL_ULTRA_LISIBLE.cpp')
+  
+\UI_Presentation_Fixed.cpp(1,1): error C1083: Cannot open source file: 'UI_Presentation_Fixed.cpp': No such file or directory
+  (compiling source file '/UI_Presentation_Fixed.cpp')
+  
+\UI_Presentation_Professional.cpp(1,1): error C1083: Cannot open source file: 'UI_Presentation_Professional.cpp': No such file or directory
+  (compiling source file '/UI_Presentation_Professional.cpp')
+  
+\UI_Presentation_ULTRA_BRIGHT.cpp(1,1): error C1083: Cannot open source file: 'UI_Presentation_ULTRA_BRIGHT.cpp': No such file or directory
+  (compiling source file '/UI_Presentation_ULTRA_BRIGHT.cpp')
+  
